@@ -21,9 +21,13 @@ export default function Hero() {
         </p>
       </div>
 
+      {/* Green glow — bottom right, bleeds out from behind everything */}
+      <div className="hero__powered-glow" aria-hidden="true" />
+
+      {/* Floating label — drifts above the logo */}
+      <p className="hero__powered-label">Kysymyksiä?<br />AI agentti vastaa</p>
+
       <div className="hero__powered-group">
-        <div className="hero__powered-glow" aria-hidden="true" />
-        <p className="hero__powered-label">Kysymyksiä? AI agentti vastaa</p>
         <img src="/synabs.png" alt="Synabs" className="hero__powered-logo" />
         <div className="hero__powered">
           <span>Powered by <a href="https://synabs.fi" target="_blank" rel="noopener noreferrer">Synabs.fi</a></span>
