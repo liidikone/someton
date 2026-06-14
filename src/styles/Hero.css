@@ -67,7 +67,7 @@
 .hero__title-glow {
   display: block;
   font-size: 0.65em;
-  margin-top: 0.1em;
+  margin-top: 0.07em;
   color: #4ade80;
   animation: hero-glow-pulse 4s ease-in-out infinite alternate;
 }
