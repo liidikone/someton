@@ -227,7 +227,7 @@
    ============================================================ */
 .hero__powered-label {
   position: absolute;
-  bottom: calc(100% + 0.6rem);
+  bottom: calc(100% + 1.8rem);
   left: 50%;
   transform: translateX(-50%) rotate(-5deg);
   z-index: 3;
@@ -297,7 +297,7 @@
   padding: 0.55rem 1.32rem;
   font-size: calc(var(--text-sm) * 1.1);
   font-weight: var(--font-medium);
-  color: rgba(255, 255, 255, 0.7);
+  color: rgba(255, 255, 255, 0.92);
   letter-spacing: 0.03em;
   transition:
     background 0.2s ease,
