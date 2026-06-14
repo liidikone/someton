@@ -60,6 +60,24 @@
   gap: var(--space-4);
   flex-wrap: wrap;
 }
+.hero__title-glow {
+  color: #4ade80;
+  animation: hero-glow-pulse 4s ease-in-out infinite alternate;
+}
+@keyframes hero-glow-pulse {
+  0% {
+    text-shadow:
+      0 0 6px rgba(74, 222, 128, 0.35),
+      0 0 14px rgba(74, 222, 128, 0.18),
+      0 0 28px rgba(74, 222, 128, 0.08);
+  }
+  100% {
+    text-shadow:
+      0 0 14px rgba(74, 222, 128, 0.75),
+      0 0 34px rgba(74, 222, 128, 0.4),
+      0 0 60px rgba(74, 222, 128, 0.2);
+  }
+}
 @media (max-width: 768px) {
   .hero__title { font-size: clamp(3.5rem, 18vw, 7rem); }
   .hero__content { padding-inline: var(--space-6); }
