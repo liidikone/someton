@@ -35,16 +35,10 @@
   flex-shrink: 0;
 }
 .navbar__logo-text {
-  font-size: var(--text-sm);
-  font-weight: var(--font-medium);
-  font-style: italic;
-  letter-spacing: 0.01em;
-  color: rgba(255, 255, 255, 0.8);
-  max-width: 400px;
-  line-height: 1.35;
-  white-space: nowrap;
-  overflow: hidden;
-  text-overflow: ellipsis;
+  font-size: var(--text-xl);
+  font-weight: var(--font-bold);
+  letter-spacing: 0.04em;
+  color: var(--color-white);
 }
 
 /* Right-side wrapper: nav links + CTAs */
