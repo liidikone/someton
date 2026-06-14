@@ -111,6 +111,13 @@
 .hero__lead-row .hero__lead {
   margin-bottom: 0;
 }
+.hero__cta-btn {
+  height: 64px !important;
+  padding-inline: 3rem !important;
+  font-size: var(--text-lg) !important;
+  font-weight: var(--font-bold) !important;
+  letter-spacing: 0.06em !important;
+}
 
 .hero__title-glow {
   display: block;
