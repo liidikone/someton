@@ -21,10 +21,12 @@ export default function Hero() {
         </p>
       </div>
 
+      <div className="hero__powered-glow" aria-hidden="true" />
+      <p className="hero__powered-label">Kysymyksiä? AI agentti vastaa</p>
       <div className="hero__powered-group">
         <img src="/synabs.png" alt="Synabs" className="hero__powered-logo" />
         <div className="hero__powered">
-          <span>Powered by <a href="https://synabs.fi" target="_blank" rel="noopener noreferrer">synabs.fi</a></span>
+          <span>Powered by <a href="https://synabs.fi" target="_blank" rel="noopener noreferrer">Synabs.fi</a></span>
         </div>
       </div>
     </section>
