@@ -39,7 +39,7 @@ export default function Navbar() {
             </nav>
 
             <div className="navbar__ctas">
-              <button className="navbar__link navbar__link--cta" onClick={() => setCallOpen(true)}>
+              <button className="navbar__cta-btn" onClick={() => setCallOpen(true)}>
                 Soita
               </button>
             </div>
