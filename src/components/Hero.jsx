@@ -20,10 +20,12 @@ export default function Hero() {
           <span className="hero__title-glow">→LIIDIKONE</span>
         </h1>
         <div className="hero__lead-row">
-          <p className="hero__lead">
+        <p className="hero__lead">
             Muuta vierailijat ja näyttökerrat rahaksi.
           </p>
-          <button className="btn btn--white" onClick={() => setCallOpen(true)}>Soita</button>
+          <div className="hero__buttons">
+            <button className="btn btn--white" onClick={() => setCallOpen(true)}>Soita</button>
+          </div>
         </div>
       </div>
 
