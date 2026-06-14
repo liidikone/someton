@@ -34,9 +34,11 @@ export default function Hero() {
       </div>
 
       <div className="hero__powered-group">
-        <p className={`hero__powered-logo hero__powered-tagline${open ? ' is-open' : ''}`}>
-          <em>Yhteistyössä SYNABS.fi:n seuraavan sukupolven tuloksia tuottavien tekoälyagenttien kanssa.</em>
-        </p>
+        <img
+          src="/synabs.png"
+          alt="Synabs"
+          className={`hero__powered-logo${open ? ' is-open' : ''}`}
+        />
         <div className="hero__powered-btn-wrap">
           <p className={`hero__powered-label${open ? ' is-hidden' : ''}`}>
             Kysymyksiä?<br />AI agentti vastaa
