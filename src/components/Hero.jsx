@@ -13,12 +13,11 @@ export default function Hero() {
       </div>
       <div className="hero__content">
         <h1 className="hero__title">
-          Heading<br />
-          Line<br />
-          Here
+          SOMESANKARIT<br />
+          →Liidikone<br />
         </h1>
         <p className="hero__lead">
-          Placeholder text for the hero description goes here.
+          Muuta näyttökerrat rahaksi.
         </p>
         <div className="hero__buttons">
           <a href="#" className="btn btn--white">Button 1</a>
