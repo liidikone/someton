@@ -14,7 +14,7 @@ export default function Hero() {
       <div className="hero__content">
         <h1 className="hero__title">
           SOMESANKARIT<br />
-          →LIIDIKONE<br />
+          <span className="hero__title-glow">→LIIDIKONE</span><br />
         </h1>
         <p className="hero__lead">
           Muuta näyttökerrat rahaksi.
