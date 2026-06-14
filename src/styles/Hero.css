@@ -159,21 +159,21 @@
   object-fit: contain;
 }
 
-/* Floating label — drifting over hero center/left */
+/* Floating label — drifting over dark area, top right of hero */
 .hero__powered-label {
   position: absolute;
-  top: 55%;
-  left: 30%;
-  transform: translateX(-50%) rotate(-5deg);
+  top: 30%;
+  right: 420px;
   z-index: 3;
   margin: 0;
-  font-size: clamp(1.6rem, 3.5vw, 2.4rem);
+  font-size: clamp(1.6rem, 3vw, 2.2rem);
   font-weight: var(--font-bold);
   color: #ffffff;
   letter-spacing: 0.02em;
   text-align: center;
   line-height: 1.25;
   pointer-events: none;
+  transform: rotate(-5deg);
   text-shadow:
     0 0 14px rgba(255, 255, 255, 0.95),
     0 0 35px rgba(255, 255, 255, 0.5),
