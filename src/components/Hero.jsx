@@ -22,8 +22,8 @@ export default function Hero() {
       </div>
 
       <div className="hero__powered">
-        <img src="/synabs.png" alt="Synaps" className="hero__powered-logo" />
-        <span>Powered by <a href="https://synabs.fi" target="_blank" rel="noopener noreferrer">Synabs.fi</a></span>
+        <img src="/synabs.png" alt="Synabs" className="hero__powered-logo" />
+        <span>Powered by <a href="https://synabs.fi" target="_blank" rel="noopener noreferrer">synabs.fi</a></span>
       </div>
     </section>
   )
