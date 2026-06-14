@@ -19,10 +19,10 @@ export default function Hero() {
           SOMESANKARIT<br />
           <span className="hero__title-glow">→LIIDIKONE</span>
         </h1>
-        <p className="hero__lead">
-          Muuta näyttökerrat rahaksi.
-        </p>
-        <div className="hero__buttons">
+        <div className="hero__lead-row">
+          <p className="hero__lead">
+            Muuta vierailijat ja näyttökerrat rahaksi.
+          </p>
           <button className="btn btn--white" onClick={() => setCallOpen(true)}>Soita</button>
         </div>
       </div>
