@@ -155,6 +155,7 @@
 html {
   scroll-behavior: smooth;
   -webkit-text-size-adjust: 100%;
+  zoom: 1.1;
 }
 
 body {
@@ -178,7 +179,7 @@ button { font-family: inherit; cursor: pointer; border: none; background: none; 
 .btn {
   display: inline-flex;
   align-items: center;
-  justify-content: center;
+    justify-content: center;
   height: var(--btn-height);
   padding-inline: var(--btn-padding-x);
   border-radius: var(--radius-md);
