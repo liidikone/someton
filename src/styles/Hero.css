@@ -159,41 +159,25 @@
   object-fit: contain;
 }
 
-/* Green glow — large, bottom right corner, bleeds from behind */
-.hero__powered-glow {
-  position: absolute;
-  bottom: -120px;
-  right: -80px;
-  width: 700px;
-  height: 500px;
-  background: radial-gradient(ellipse at 60% 80%, rgba(74, 222, 128, 0.35) 0%, rgba(74, 222, 128, 0.15) 40%, transparent 70%);
-  border-radius: 50%;
-  pointer-events: none;
-  filter: blur(40px);
-  z-index: 0;
-  animation: logo-glow-breathe 7s ease-in-out infinite alternate;
-}
-
-/* Floating label — tilted, above the logo */
+/* Floating label — drifting over hero center/left */
 .hero__powered-label {
   position: absolute;
-  bottom: 240px;
-  right: 20px;
+  top: 55%;
+  left: 30%;
+  transform: translateX(-50%) rotate(-5deg);
   z-index: 3;
   margin: 0;
-  font-size: clamp(1.1rem, 2vw, 1.5rem);
+  font-size: clamp(1.6rem, 3.5vw, 2.4rem);
   font-weight: var(--font-bold);
   color: #ffffff;
-  letter-spacing: 0.03em;
+  letter-spacing: 0.02em;
   text-align: center;
-  line-height: 1.3;
+  line-height: 1.25;
   pointer-events: none;
-  transform: rotate(-6deg);
-  transform-origin: center center;
   text-shadow:
-    0 0 12px rgba(255, 255, 255, 0.9),
-    0 0 30px rgba(255, 255, 255, 0.5),
-    0 2px 4px rgba(0, 0, 0, 0.4);
+    0 0 14px rgba(255, 255, 255, 0.95),
+    0 0 35px rgba(255, 255, 255, 0.5),
+    0 2px 6px rgba(0, 0, 0, 0.5);
   animation: label-cloud 11s ease-in-out infinite alternate;
 }
 
