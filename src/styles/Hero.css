@@ -164,13 +164,27 @@
   flex-direction: column;
   align-items: center;
   gap: 0.5rem;
-  animation: logo-float 9s ease-in-out infinite alternate;
+  animation:
+    powered-slide-in 0.9s cubic-bezier(0.22, 1, 0.36, 1) 0.5s both,
+    logo-float 9s ease-in-out 1.4s infinite alternate;
 }
 .hero__powered-logo {
   display: block;
   width: 320px;
   height: auto;
   object-fit: contain;
+}
+@keyframes powered-slide-in {
+  from {
+    opacity: 0;
+    transform: translateX(140px);
+    filter: blur(4px);
+  }
+  to {
+    opacity: 1;
+    transform: translateX(0);
+    filter: blur(0);
+  }
 }
 
 /* Floating label — drifting over dark area, top right of hero */
@@ -192,7 +206,13 @@
     0 0 14px rgba(255, 255, 255, 0.95),
     0 0 35px rgba(255, 255, 255, 0.5),
     0 2px 6px rgba(0, 0, 0, 0.5);
-  animation: label-cloud 11s ease-in-out infinite alternate;
+  animation:
+    label-fade-in 1s ease 2s both,
+    label-cloud 11s ease-in-out 3s infinite alternate;
+}
+@keyframes label-fade-in {
+  from { opacity: 0; }
+  to   { opacity: 1; }
 }
 
 @keyframes logo-float {
