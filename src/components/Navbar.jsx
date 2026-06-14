@@ -24,7 +24,7 @@ export default function Navbar() {
         <div className="navbar__inner">
 
           <a href="/" className="navbar__logo" aria-label="Home">
-            <span className="navbar__logo-text">LOGO</span>
+            <span className="navbar__logo-text"><em>Yhteistyössä SYNABS.fi:n seuraavan sukupolven tuloksia tuottavien tekoälyagenttien kanssa.</em></span>
           </a>
 
           <div className="navbar__right">
