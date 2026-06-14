@@ -21,10 +21,10 @@ export default function Hero() {
         </h1>
         <div className="hero__lead-row">
         <p className="hero__lead">
-            Muuta vierailijat ja näyttökerrat rahaksi.
+            Muuta näyttökerrat rahaksi.
           </p>
           <div className="hero__buttons">
-            <button className="btn btn--white" onClick={() => setCallOpen(true)}>Soita</button>
+            <button className="btn btn--white hero__cta-btn" onClick={() => setCallOpen(true)}>Soita</button>
           </div>
         </div>
       </div>
