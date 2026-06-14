@@ -126,7 +126,7 @@
   /* Buttons */
   --btn-height:         48px;
   --btn-padding-x:      var(--space-4);
-  --btn-radius:         var(--radius-md);
+  --btn-radius:         var(--radius-full);
   --btn-font-size:      var(--text-sm);
   --btn-font-weight:    var(--font-medium);
   --btn-letter-spacing: 0.04em;
