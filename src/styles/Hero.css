@@ -164,15 +164,14 @@
   flex-direction: column;
   align-items: center;
   gap: 0.5rem;
-  animation:
-    powered-slide-in 0.9s cubic-bezier(0.22, 1, 0.36, 1) 0.5s both,
-    logo-float 9s ease-in-out 1.4s infinite alternate;
+  animation: powered-slide-in 0.9s cubic-bezier(0.22, 1, 0.36, 1) 0.5s both;
 }
 .hero__powered-logo {
   display: block;
   width: 320px;
   height: auto;
   object-fit: contain;
+  animation: logo-float 9s ease-in-out 1.4s infinite alternate;
 }
 @keyframes powered-slide-in {
   from {
