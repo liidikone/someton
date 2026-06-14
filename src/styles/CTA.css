@@ -1,0 +1,72 @@
+/* ============================================================
+   CTA.CSS
+   ============================================================ */
+.cta {
+  position: relative;
+  width: 100%;
+  aspect-ratio: 16/7;
+  overflow: hidden;
+}
+.cta__bg {
+  position: absolute;
+  inset: 0;
+  background: var(--color-black);
+}
+.cta__overlay {
+  position: absolute;
+  inset: 0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding-inline: var(--gutter);
+}
+.cta__content {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  text-align: center;
+  gap: var(--space-10);
+  max-width: none;
+}
+.cta__title {
+  font-size: clamp(4.2rem, 12vw, 10.5rem);
+  line-height: 0.88;
+  letter-spacing: -0.04em;
+  font-weight: var(--font-bold);
+  color: var(--color-white);
+}
+.cta__quote {
+  font-size: clamp(var(--text-lg), 1.8vw, var(--text-3xl));
+  font-weight: var(--font-light);
+  color: var(--color-white);
+  letter-spacing: 0.01em;
+  line-height: var(--leading-relaxed);
+  max-width: 700px;
+  margin: 0;
+}
+.cta__buttons {
+  display: flex;
+  gap: var(--space-4);
+  flex-wrap: wrap;
+  justify-content: center;
+}
+/* ============================================================
+   RESPONSIVE
+   ============================================================ */
+@media (max-width: 1024px) {
+  .cta__overlay {
+    padding-inline: 80px;
+  }
+}
+@media (max-width: 768px) {
+  .cta {
+    aspect-ratio: 4/5;
+  }
+  .cta__overlay {
+    padding: 32px 24px;
+    align-items: center;
+  }
+  .cta__quote {
+    font-size: clamp(var(--text-lg), 4vw, var(--text-2xl));
+  }
+}
