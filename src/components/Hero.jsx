@@ -11,7 +11,6 @@ export default function Hero() {
       script.src = 'https://synabs-admin.vercel.app/widget.js'
       script.setAttribute('data-api-base', 'https://synabs-admin.vercel.app')
       script.setAttribute('data-bot-slug', 'liidikone')
-      script.setAttribute('data-synabs-widget-slug', 'liidikone')
       script.async = true
       document.body.appendChild(script)
     }
