@@ -1,17 +1,27 @@
+"use client"
 import { useEffect } from 'react'
 import '../styles/Hero.css'
 
 export default function Hero() {
   useEffect(() => {
-    // Ladataan AI agentti -widget vain kerran, vaikka Hero rendertyisi useasti
-    if (document.querySelector('[data-synabs-widget-slug="liidikone"]')) return
+    function loadSynabsWidget() {
+      if (document.querySelector('[data-synabs-widget-slug="liidikone"]')) return
 
-    const script = document.createElement('script')
-    script.src = 'https://synabs-admin.vercel.app/widget.js'
-    script.setAttribute('data-api-base', 'https://synabs-admin.vercel.app')
-    script.setAttribute('data-bot-slug', 'liidikone')
-    script.async = true
-    document.body.appendChild(script)
+      const script = document.createElement('script')
+      script.src = 'https://synabs-admin.vercel.app/widget.js'
+      script.setAttribute('data-api-base', 'https://synabs-admin.vercel.app')
+      script.setAttribute('data-bot-slug', 'liidikone')
+      script.setAttribute('data-synabs-widget-slug', 'liidikone')
+      script.async = true
+      document.body.appendChild(script)
+    }
+
+    if (document.readyState === 'complete' || document.readyState === 'interactive') {
+      loadSynabsWidget()
+    } else {
+      document.addEventListener('DOMContentLoaded', loadSynabsWidget)
+      return () => document.removeEventListener('DOMContentLoaded', loadSynabsWidget)
+    }
   }, [])
 
   return (
