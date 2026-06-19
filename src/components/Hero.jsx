@@ -1,24 +1,18 @@
-import { useState, useEffect, useRef } from 'react'
+import { useEffect } from 'react'
 import '../styles/Hero.css'
 
 export default function Hero() {
-  const [open, setOpen] = useState(false)
-  const [badge, setBadge] = useState(false)
-  const timerRef = useRef(null)
-
   useEffect(() => {
-    timerRef.current = setTimeout(() => setBadge(true), 6000)
-    return () => clearTimeout(timerRef.current)
-  }, [])
+    // Ladataan AI agentti -widget vain kerran, vaikka Hero rendertyisi useasti
+    if (document.querySelector('[data-synabs-widget-slug="liidikone"]')) return
 
-  function handleOpen() {
-    const next = !open
-    setOpen(next)
-    if (next) {
-      setBadge(false)
-      clearTimeout(timerRef.current)
-    }
-  }
+    const script = document.createElement('script')
+    script.src = 'https://synabs-admin.vercel.app/widget.js'
+    script.setAttribute('data-api-base', 'https://synabs-admin.vercel.app')
+    script.setAttribute('data-bot-slug', 'liidikone')
+    script.async = true
+    document.body.appendChild(script)
+  }, [])
 
   return (
     <section className="hero">
@@ -34,24 +28,10 @@ export default function Hero() {
       </div>
 
       <div className="hero__powered-group">
-        <img
-          src="/synabs.png"
-          alt="Synabs"
-          className={`hero__powered-logo${open ? ' is-open' : ''}`}
-        />
-        <div className="hero__powered-btn-wrap">
-          <p className={`hero__powered-label${open ? ' is-hidden' : ''}`}>
-            Kysymyksiä?<br />AI agentti vastaa
-          </p>
-          <button
-            className={`hero__powered${open ? ' is-open' : ''}`}
-            onClick={handleOpen}
-          >
-            <span className="hero__powered-arrow">{open ? '▼' : '▲'}</span>
-            {open ? 'Sulje' : 'Juttele itsestään kehittyvän AI agentin kanssa'}
-            {badge && !open && <span className="hero__powered-badge">1</span>}
-          </button>
-        </div>
+        <img src="/synabs.png" alt="Synabs" className="hero__powered-logo" />
+        <p className="hero__powered-label">
+          Kysymyksiä?<br />AI agentti vastaa
+        </p>
       </div>
     </section>
   )
