@@ -461,9 +461,8 @@
 .hero__ref-wheel {
   position: absolute;
   bottom: var(--space-8);
-  left: 50%;
-  transform: translateX(-50%);
-  width: 55%;
+  left: 0;
+  width: 77.5%;
   z-index: 2;
   overflow: hidden;
   -webkit-mask-image: linear-gradient(
@@ -484,8 +483,8 @@
 }
 
 @keyframes ref-wheel-appear {
-  from { opacity: 0; transform: translateX(-50%) translateY(10px); }
-  to   { opacity: 1; transform: translateX(-50%) translateY(0); }
+  from { opacity: 0; transform: translateY(10px); }
+  to   { opacity: 1; transform: translateY(0); }
 }
 
 .hero__ref-track {
