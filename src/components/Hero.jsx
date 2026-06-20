@@ -37,10 +37,13 @@ export default function Hero() {
     }
   }, [])
 
-  // ref_01.avif … ref_10.avif
-  const logos = Array.from({ length: 10 }, (_, i) =>
-    `/ref_${String(i + 1).padStart(2, '0')}.avif`
-  )
+  const logos = [
+    '/ilona_tampere_500px.avif',
+    '/suomen_terassilasitus_500px.avif',
+    '/synabs_500px.avif',
+    '/verkkopantteri_500px.avif',
+    '/xpower_membership_egym_500px.avif',
+  ]
 
   return (
     <section className="hero">
