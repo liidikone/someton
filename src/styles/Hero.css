@@ -485,7 +485,7 @@
   align-items: center;
   gap: 6rem;
   width: max-content;
-  animation: ref-scroll 10s linear infinite;
+  animation: ref-scroll 40s linear infinite;
   will-change: transform;
   backface-visibility: hidden;
   -webkit-backface-visibility: hidden;
@@ -496,9 +496,11 @@
   animation-play-state: paused;
 }
 
+/* Track sisältää nyt vain 2x logosetin (ei 8x), joten
+   saumaton loppu on -50%, ei -12.5% */
 @keyframes ref-scroll {
   from { transform: translate3d(0, 0, 0); }
-  to   { transform: translate3d(-12.5%, 0, 0); }
+  to   { transform: translate3d(-50%, 0, 0); }
 }
 
 .hero__ref-logo {
@@ -509,6 +511,7 @@
   filter: grayscale(100%);
   opacity: 0.7;
   transition: opacity 0.25s ease;
+  contain: layout style paint;
 }
 
 .hero__ref-logo:hover {
