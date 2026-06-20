@@ -45,6 +45,10 @@ export default function Hero() {
     '/xpower_membership_egym_500px.avif',
   ]
 
+  // Vain 2x toisto: riittää saumattomaan -50% looppiin,
+  // mutta DOM:ssa 10 imgiä 40:n sijaan -> huomattavasti kevyempi.
+  const trackLogos = [...logos, ...logos]
+
   return (
     <section className="hero">
       <div className="hero__bg" aria-hidden="true">
@@ -59,11 +63,18 @@ export default function Hero() {
         <p className="hero__lead">Muuta näyttökerrat rahaksi</p>
       </div>
 
-      {/* Referenssilogo-wheel — vasemmalta, 70% leveyttä */}
+      {/* Referenssilogo-wheel — vasemmalta, 70% leveyttä, infinite loop */}
       <div className="hero__ref-wheel" aria-hidden="true">
         <div className="hero__ref-track">
-          {[...logos, ...logos, ...logos, ...logos, ...logos, ...logos, ...logos, ...logos].map((src, i) => (
-            <img key={i} src={src} alt="" className="hero__ref-logo" loading="lazy" />
+          {trackLogos.map((src, i) => (
+            <img
+              key={i}
+              src={src}
+              alt=""
+              className="hero__ref-logo"
+              loading="eager"
+              decoding="async"
+            />
           ))}
         </div>
       </div>
