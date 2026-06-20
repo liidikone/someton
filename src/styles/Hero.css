@@ -502,7 +502,7 @@
   width: auto;
   object-fit: contain;
   flex-shrink: 0;
-  filter: brightness(0) invert(1);
+  filter: grayscale(100%);
   opacity: 0.5;
   transition: opacity 0.25s ease;
 }
