@@ -101,7 +101,7 @@
   letter-spacing: 0.06em;
   font-weight: var(--font-bold);
   color: var(--color-white);
-  margin-bottom: var(--space-10);
+  margin-bottom: var(--space-16);
   max-width: none;
   text-align: left;
 }
