@@ -1,10 +1,9 @@
 "use client"
-import { useEffect, useRef, useState } from 'react'
+import { useEffect, useState } from 'react'
 import '../styles/Hero.css'
 
 export default function Hero() {
   const [chatOpen, setChatOpen] = useState(false)
-  const observerRef = useRef(null)
 
   useEffect(() => {
     function loadSynabsWidget() {
@@ -26,42 +25,29 @@ export default function Hero() {
     }
   }, [])
 
-  // Tarkkaile chat-widgetin avaus/sulkeminen Shadow DOM:ista
+  // Kuuntele chat-widgetin avaus/sulkeminen
   useEffect(() => {
-    // Pollaa DOM:ia — widget asettuu Shadow DOM:iin, joten MutationObserver
-    // ei näe sisäisiä muutoksia. Tarkistetaan body-luokka tai data-attribuutti.
-    const interval = setInterval(() => {
-      const widgetHost = document.querySelector('synabs-widget, [data-synabs-open], .synabs-widget-host')
-      if (widgetHost) {
-        const isOpen =
-          widgetHost.getAttribute('data-open') === 'true' ||
-          widgetHost.classList.contains('open') ||
-          document.body.classList.contains('synabs-open')
-        setChatOpen(isOpen)
-      }
-    }, 200)
-
-    // Kuuntele myös custom event jota widget saattaa lähettää
-    const handleOpen = () => setChatOpen(true)
+    const handleOpen  = () => setChatOpen(true)
     const handleClose = () => setChatOpen(false)
-    window.addEventListener('synabs:open', handleOpen)
+    window.addEventListener('synabs:open',  handleOpen)
     window.addEventListener('synabs:close', handleClose)
-
     return () => {
-      clearInterval(interval)
-      window.removeEventListener('synabs:open', handleOpen)
+      window.removeEventListener('synabs:open',  handleOpen)
       window.removeEventListener('synabs:close', handleClose)
     }
   }, [])
 
-  // Logo-lista ref_01 → ref_10
-  const refs = Array.from({ length: 10 }, (_, i) => `/ref_0${i + 1}.avif`.replace('ref_010', 'ref_10'))
+  // ref_01.avif … ref_10.avif
+  const logos = Array.from({ length: 10 }, (_, i) =>
+    `/ref_${String(i + 1).padStart(2, '0')}.avif`
+  )
 
   return (
     <section className="hero">
       <div className="hero__bg" aria-hidden="true">
         <img src="/leadikone-bg.avif" alt="" loading="eager" fetchPriority="high" />
       </div>
+
       <div className="hero__content">
         <h1 className="hero__title">
           SOMESANKARIT<br />
@@ -70,31 +56,20 @@ export default function Hero() {
         <p className="hero__lead">Muuta näyttökerrat rahaksi</p>
       </div>
 
-      {/* Referenssi-wheel */}
+      {/* Referenssilogo-wheel — vasemmalta, 70% leveyttä */}
       <div className="hero__ref-wheel" aria-hidden="true">
         <div className="hero__ref-track">
-          {/* Tuplaa logot saumattomaan looppiin */}
-          {[...refs, ...refs].map((src, i) => (
-            <img
-              key={i}
-              src={src}
-              alt=""
-              className="hero__ref-logo"
-              loading="lazy"
-            />
+          {[...logos, ...logos].map((src, i) => (
+            <img key={i} src={src} alt="" className="hero__ref-logo" loading="lazy" />
           ))}
         </div>
       </div>
 
       <div className="hero__powered-group">
         <img src="/synabs.png" alt="Synabs" className="hero__powered-logo" />
-
-        <div className="hero__powered-btn-wrap">
-          {/* Label napin vieressä (ei enää absoluuttisesti yllä) */}
-          <p className={`hero__powered-label${chatOpen ? ' is-hidden' : ''}`}>
-            Kysymyksiä?<br />Kysy AI agentilta
-          </p>
-        </div>
+        <p className={`hero__powered-label${chatOpen ? ' is-hidden' : ''}`}>
+          Kysymyksiä?<br />Kysy AI agentilta
+        </p>
       </div>
     </section>
   )
