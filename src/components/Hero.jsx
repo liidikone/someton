@@ -31,10 +31,45 @@ export default function Hero() {
     const handleClose = () => setChatOpen(false)
     window.addEventListener('synabs:open',  handleOpen)
     window.addEventListener('synabs:close', handleClose)
+
+    // FALLBACK 1: jos widget.js ei lähetä custom eventtejä,
+    // tunnistetaan avaus klikkaamalla launcher-nappia (id/class
+    // jossa "synabs" tai "widget" — laajenna tarvittaessa)
+    const handleDocClick = (e) => {
+      const launcher = e.target.closest('[id*="synabs" i], [class*="synabs" i], [id*="widget" i], [class*="chat-launcher" i], [class*="chat-bubble" i]')
+      if (launcher) {
+        setChatOpen((prev) => !prev)
+      }
+    }
+    document.addEventListener('click', handleDocClick, true)
+
+    // FALLBACK 2: tarkkaile kun widget lisää/poistaa paneelin DOM:iin
+    const observer = new MutationObserver(() => {
+      const panel = document.querySelector(
+        '[id*="synabs" i] [class*="panel" i], [class*="synabs" i][class*="panel" i], [class*="synabs" i][class*="open" i]'
+      )
+      if (panel) setChatOpen(true)
+    })
+    observer.observe(document.body, { childList: true, subtree: true })
+
     return () => {
       window.removeEventListener('synabs:open',  handleOpen)
       window.removeEventListener('synabs:close', handleClose)
+      document.removeEventListener('click', handleDocClick, true)
+      observer.disconnect()
     }
+  }, [])
+
+  // Varmuuden vuoksi: jos widget ei lähetä synabs:open-eventtiä
+  // (tai lähettää sen viiveellä), piilotetaan teksti heti kun
+  // käyttäjä klikkaa itse widget-nappia.
+  useEffect(() => {
+    function handleDocClick(e) {
+      const target = e.target.closest('[id*="synabs" i], [class*="synabs" i]')
+      if (target) setChatOpen(true)
+    }
+    document.addEventListener('click', handleDocClick, true)
+    return () => document.removeEventListener('click', handleDocClick, true)
   }, [])
 
   const logos = [
