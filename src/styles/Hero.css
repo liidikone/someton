@@ -485,7 +485,7 @@
   align-items: center;
   gap: 6rem;
   width: max-content;
-  animation: ref-scroll 10s linear infinite;
+  animation: ref-scroll 20s linear infinite;
   will-change: transform;
   backface-visibility: hidden;
   -webkit-backface-visibility: hidden;
@@ -496,11 +496,12 @@
   animation-play-state: paused;
 }
 
-/* Track sisältää nyt vain 2x logosetin (ei 8x), joten
-   saumaton loppu on -50%, ei -12.5% */
+/* Track sisältää nyt 4x logosetin (ei 8x eikä 2x), joten
+   saumaton loppu on -25% — riittää myös täyttämään koko
+   leveyden ilman tyhjää kohtaa loopin lopussa */
 @keyframes ref-scroll {
   from { transform: translate3d(0, 0, 0); }
-  to   { transform: translate3d(-50%, 0, 0); }
+  to   { transform: translate3d(-25%, 0, 0); }
 }
 
 .hero__ref-logo {
