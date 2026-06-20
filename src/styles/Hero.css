@@ -272,9 +272,12 @@
 
 @media (max-width: 768px) {
   .hero__chat-label {
-    bottom: 90px;
-    right: 16px;
-    font-size: 1rem;
+    bottom: 18px;
+    right: 70px;
+    left: auto;
+    font-size: 0.85rem;
+    text-align: right;
+    white-space: nowrap;
   }
 }
 
@@ -530,6 +533,9 @@
   .hero__ref-wheel {
     width: 100%;
     bottom: calc(var(--space-6) + 70px);
+  }
+  .hero__ref-track {
+    gap: 2rem;
   }
   .hero__ref-logo {
     height: 80px;
