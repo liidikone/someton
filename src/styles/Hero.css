@@ -101,7 +101,7 @@
   letter-spacing: 0.06em;
   font-weight: var(--font-bold);
   color: var(--color-white);
-  margin-bottom: var(--space-16);
+  margin-bottom: var(--space-10);
   max-width: none;
   text-align: left;
 }
@@ -453,23 +453,23 @@
    ============================================================ */
 .hero__ref-wheel {
   position: absolute;
-  bottom: var(--space-6);
+  bottom: var(--space-8);
   left: 0;
-  width: 70%;
+  width: 100%;
   z-index: 2;
   overflow: hidden;
   -webkit-mask-image: linear-gradient(
     to right,
     transparent 0%,
-    black 8%,
-    black 82%,
+    black 5%,
+    black 95%,
     transparent 100%
   );
   mask-image: linear-gradient(
     to right,
     transparent 0%,
-    black 8%,
-    black 82%,
+    black 5%,
+    black 95%,
     transparent 100%
   );
   animation: ref-wheel-appear 1s ease 1s both;
@@ -483,9 +483,9 @@
 .hero__ref-track {
   display: flex;
   align-items: center;
-  gap: 3.5rem;
+  gap: 6rem;
   width: max-content;
-  animation: ref-scroll 30s linear infinite;
+  animation: ref-scroll 10s linear infinite;
 }
 
 .hero__ref-wheel:hover .hero__ref-track {
@@ -498,22 +498,25 @@
 }
 
 .hero__ref-logo {
-  height: 40px;
+  height: 120px;
   width: auto;
   object-fit: contain;
   flex-shrink: 0;
   filter: grayscale(100%);
-  opacity: 0.5;
+  opacity: 0.7;
   transition: opacity 0.25s ease;
 }
 
 .hero__ref-logo:hover {
-  opacity: 0.85;
+  opacity: 1;
 }
 
 @media (max-width: 768px) {
   .hero__ref-wheel {
     width: 100%;
     bottom: calc(var(--space-6) + 70px);
+  }
+  .hero__ref-logo {
+    height: 80px;
   }
 }
