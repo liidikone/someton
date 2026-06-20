@@ -272,8 +272,8 @@
 
 @media (max-width: 768px) {
   .hero__chat-label {
-    bottom: 18px;
-    right: 70px;
+    bottom: 58px;
+    right: 85px;
     left: auto;
     font-size: 0.85rem;
     text-align: right;
