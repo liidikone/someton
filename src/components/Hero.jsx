@@ -62,7 +62,7 @@ export default function Hero() {
       {/* Referenssilogo-wheel — vasemmalta, 70% leveyttä */}
       <div className="hero__ref-wheel" aria-hidden="true">
         <div className="hero__ref-track">
-          {[...logos, ...logos].map((src, i) => (
+          {[...logos, ...logos, ...logos, ...logos, ...logos, ...logos, ...logos, ...logos].map((src, i) => (
             <img key={i} src={src} alt="" className="hero__ref-logo" loading="lazy" />
           ))}
         </div>
