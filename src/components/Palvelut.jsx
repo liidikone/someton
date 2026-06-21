@@ -1,9 +1,9 @@
 import '../styles/Palvelut.css'
 
 const services = [
-  { id: 1, title: 'Lyhytvideot',            text: 'lisäävät näkyvyyttä ja kasvattavat liidien määrää' },
-  { id: 2, title: 'Verkkosivut',            text: 'rakennettu tuottamaan liidejä funnelien avulla' },
-  { id: 3, title: 'Kehyttävät AI Agentit',  text: 'automatisoivat asiakaspalvelua ja liidien keruuta' },
+  { id: 1, title: 'Lyhytvideot',            text: 'Lisäävät näkyvyyttä ja kasvattavat liidien määrää' },
+  { id: 2, title: 'Verkkosivut',            text: 'Rakennettu tuottamaan liidejä funnelien avulla' },
+  { id: 3, title: 'Kehyttävät AI Agentit',  text: 'Automatisoivat asiakaspalvelua ja liidien keruuta' },
 ]
 
 function ServiceCard({ title, text }) {
@@ -13,7 +13,7 @@ function ServiceCard({ title, text }) {
       <div className="ps-card__overlay" />
       <div className="ps-card__body">
         <h3 className="ps-card__title">{title}</h3>
-        <p className="ps-card__text">→ {text}</p>
+        <p className="ps-card__text">{text}</p>
       </div>
     </div>
   )
