@@ -2,8 +2,8 @@ import '../styles/Palvelut.css'
 
 const services = [
   { id: 1, title: 'Lyhytvideot',            text: 'Lisäävät näkyvyyttä ja kasvattavat liidien määrää',   image: '/video.avif', bgPosition: 'center center'          },
-  { id: 2, title: 'Verkkosivut',            text: 'Rakennettu tuottamaan liidejä funnelien avulla',        image: '/www.avif',   bgPosition: 'center calc(50% - 2px)', modifier: 'ps-card--violet' },
-  { id: 3, title: 'Kehyttävät AI agentit',  text: 'Automatisoivat asiakaspalvelua ja liidien keruuta',    image: '/ai.avif',    bgPosition: 'center center'          },
+  { id: 2, title: 'Verkkosivut',            text: 'Rakennettu tuottamaan liidejä funnelien avulla',        image: '/www.avif',   bgPosition: 'center calc(50% - 1px)', modifier: 'ps-card--violet' },
+  { id: 3, title: 'Kehittyvät AI agentit',  text: 'Automatisoivat asiakaspalvelua ja liidien keruuta',    image: '/ai.avif',    bgPosition: 'center center'          },
 ]
 
 function ServiceCard({ title, text, image, bgPosition, modifier }) {
