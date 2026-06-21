@@ -41,7 +41,7 @@
     gap: 0;
     display: grid;
     grid-template-columns: 1.05fr 0.95fr;
-    grid-template-rows: auto 1fr auto auto;
+    grid-template-rows: auto 0.6fr auto auto;
     column-gap: clamp(2rem, 4vw, 4rem);
     row-gap: 1.1rem;
     grid-template-areas:
@@ -62,7 +62,7 @@
 
   .tiimi-page__title { font-size: clamp(1.8rem, 4vw, 3.4rem); white-space: normal; }
   .tiimi-page__mission-text { font-size: clamp(0.95rem, 1.3vw, 1.1rem); }
-  .tiimi-page__cards-title { font-size: clamp(1.4rem, 2.2vw, 2rem); margin-bottom: 0.5rem; margin-left: 35px; }
+  .tiimi-page__cards-title { font-size: clamp(1.4rem, 2.2vw, 2rem); margin-bottom: 0.5rem; margin-left: 100px; }
 
   .tc-scene { transform: scale(0.78); transform-origin: top center; }
 
