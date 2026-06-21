@@ -3,7 +3,7 @@ import '../styles/Palvelut.css'
 const services = [
   { id: 1, title: 'Lyhytvideot',            text: 'Lisäävät näkyvyyttä ja kasvattavat liidien määrää',   image: '/video.avif' },
   { id: 2, title: 'Verkkosivut',            text: 'Rakennettu tuottamaan liidejä funnelien avulla',        image: '/www.avif'   },
-  { id: 3, title: 'Kehyttävät AI Agentit',  text: 'Automatisoivat asiakaspalvelua ja liidien keruuta',    image: '/ai.avif'    },
+  { id: 3, title: 'Kehyttävät AI agentit',  text: 'Automatisoivat asiakaspalvelua ja liidien keruuta',    image: '/ai.avif'    },
 ]
 
 function ServiceCard({ title, text, image }) {
