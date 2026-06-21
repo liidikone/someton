@@ -1,162 +1,282 @@
-import { useRef, useState } from 'react'
-import '../styles/Tiimi.css'
+/* ============================================================
+   TIIMI PAGE — unique prefixes to avoid collisions
+   ============================================================ */
 
-const teamMembers = [
-  { id: 1, tag: 'FOUNDER',    name: 'Placeholder' },
-  { id: 2, tag: 'CO-FOUNDER', name: 'Placeholder' },
-  { id: 3, tag: 'MYYJÄ',      name: 'Placeholder' },
-  { id: 4, tag: 'MYYJÄ',      name: 'Placeholder' },
-]
+.tiimi-page {
+  background: #ffffff;
+  min-height: 100vh;
+  padding-top: 80px; /* nav height */
+  padding-bottom: 6rem;
+  border-top: 1px solid #e8e8e8;
+}
 
-const cards = [
-  { id: 1, label: 'sisallontuottaja_01', img: '/sisallontuottaja_01.avif' },
-  { id: 2, label: 'sisallontuottaja_02', img: '/sisallontuottaja_02.avif' },
-  { id: 3, label: 'sisallontuottaja_03', img: '/sisallontuottaja_03.avif' },
-  { id: 4, label: 'sisallontuottaja_04', img: '/sisallontuottaja_04.avif' },
-]
+.tiimi-page__inner {
+  max-width: 1200px;
+  margin-left: auto;
+  margin-right: auto;
+  padding-left: clamp(1.5rem, 4vw, 5rem);
+  padding-right: clamp(1.5rem, 4vw, 5rem);
+  display: flex;
+  flex-direction: column;
+  gap: 4rem;
+  padding-top: 4rem;
+}
 
-function useTickSound() {
-  const audioCtx = useRef(null)
-  return function playTick() {
-    try {
-      if (!audioCtx.current) audioCtx.current = new (window.AudioContext || window.webkitAudioContext)()
-      const ctx = audioCtx.current
-      const osc = ctx.createOscillator()
-      const gain = ctx.createGain()
-      osc.connect(gain)
-      gain.connect(ctx.destination)
-      osc.type = 'sine'
-      osc.frequency.setValueAtTime(920, ctx.currentTime)
-      osc.frequency.exponentialRampToValueAtTime(460, ctx.currentTime + 0.07)
-      gain.gain.setValueAtTime(0.15, ctx.currentTime)
-      gain.gain.exponentialRampToValueAtTime(0.001, ctx.currentTime + 0.1)
-      osc.start(ctx.currentTime)
-      osc.stop(ctx.currentTime + 0.11)
-    } catch (_) {}
+/* ============================================================
+   HEADER
+   ============================================================ */
+.tiimi-page__header {
+  display: flex;
+  flex-direction: column;
+  gap: 1rem;
+  max-width: 720px;
+}
+
+.tiimi-page__eyebrow {
+  font-size: 0.75rem;
+  font-weight: 700;
+  letter-spacing: 0.2em;
+  text-transform: uppercase;
+  color: #000000;
+  opacity: 0.35;
+  margin: 0;
+}
+
+.tiimi-page__title {
+  font-family: 'Falzon', 'Oxanium', sans-serif;
+  font-style: italic;
+  font-size: clamp(2.8rem, 6vw, 6rem);
+  font-weight: 700;
+  line-height: 0.92;
+  letter-spacing: 0.04em;
+  color: #000000;
+  margin: 0;
+}
+
+/* ============================================================
+   MISSION
+   ============================================================ */
+.tiimi-page__mission {
+  max-width: 680px;
+  border-left: 2px solid #000000;
+  padding-left: 1.5rem;
+}
+
+.tiimi-page__mission-text {
+  font-size: clamp(1.05rem, 1.8vw, 1.35rem);
+  font-weight: 300;
+  line-height: 1.6;
+  color: #555555;
+  margin: 0;
+}
+
+/* ============================================================
+   TEAM GRIDS
+   ============================================================ */
+.tiimi-page__grid {
+  display: grid;
+  gap: 2rem;
+  grid-template-columns: 1fr 1fr;
+}
+
+/* ============================================================
+   MEMBER CARD
+   ============================================================ */
+.tm-card {
+  display: flex;
+  flex-direction: column;
+  gap: 0.75rem;
+  padding: 2rem;
+  border: 1px solid #e8e8e8;
+  border-radius: 16px;
+  background: #ffffff;
+  transition: border-color 0.2s ease, box-shadow 0.2s ease;
+}
+
+.tm-card:hover {
+  border-color: #cccccc;
+  box-shadow: 0 4px 16px rgba(0,0,0,0.08);
+}
+
+.tm-avatar {
+  width: 80px;
+  height: 80px;
+  border-radius: 9999px;
+  background: #e8e8e8;
+  border: 1px solid #e8e8e8;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-shrink: 0;
+}
+
+.tm-role {
+  font-size: 0.7rem;
+  font-weight: 700;
+  letter-spacing: 0.18em;
+  text-transform: uppercase;
+  color: #4ade80;
+  margin: 0.5rem 0 0;
+}
+
+.tm-name {
+  font-size: clamp(1.1rem, 1.8vw, 1.4rem);
+  font-weight: 700;
+  color: #000000;
+  letter-spacing: -0.01em;
+  margin: 0;
+}
+
+.tm-bio {
+  font-size: 0.95rem;
+  font-weight: 300;
+  line-height: 1.6;
+  color: #777777;
+  margin: 0;
+}
+
+/* ============================================================
+   DIVIDER
+   ============================================================ */
+.tiimi-page__hr {
+  border: none;
+  border-top: 1px solid #e8e8e8;
+  margin: 0;
+}
+
+/* ============================================================
+   CARDS SECTION
+   ============================================================ */
+.tiimi-page__cards-section {
+  display: flex;
+  flex-direction: column;
+  gap: 1rem;
+}
+
+.tiimi-page__cards-title {
+  font-family: 'Falzon', 'Oxanium', sans-serif;
+  font-style: italic;
+  font-size: clamp(1.8rem, 3.5vw, 3.2rem);
+  font-weight: 700;
+  letter-spacing: 0.04em;
+  color: #000000;
+  line-height: 0.95;
+  margin: 0 0 1rem;
+}
+
+/* ============================================================
+   STACKED CARDS
+   ============================================================ */
+.tc-scene {
+  position: relative;
+  /* width + height set inline */
+}
+
+.tc-card {
+  position: absolute;
+  top: 0;
+  width: 260px;
+  height: 380px;
+  border-radius: 16px;
+  overflow: hidden;
+  cursor: pointer;
+  box-shadow: 0 4px 16px rgba(0,0,0,0.12), 0 0 0 1px #e8e8e8;
+  transition:
+    transform 0.35s cubic-bezier(0.22, 1, 0.36, 1),
+    filter 0.28s ease,
+    box-shadow 0.3s ease;
+  will-change: transform, filter;
+}
+
+.tc-card--active {
+  transform: translateY(-22px) scale(1.04);
+  box-shadow: 0 20px 48px rgba(0,0,0,0.18), 0 0 0 2px #4ade80;
+  filter: brightness(1.05);
+}
+
+.tc-card--dim {
+  filter: brightness(0.55) saturate(0.5);
+}
+
+.tc-card__bg {
+  position: absolute;
+  inset: 0;
+  background-size: cover;
+  background-position: center top;
+  background-color: #d0d0d0;
+  transition: transform 0.4s ease;
+}
+
+.tc-card--active .tc-card__bg {
+  transform: scale(1.04);
+}
+
+.tc-card__overlay {
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(
+    to bottom,
+    rgba(0,0,0,0.05) 0%,
+    rgba(0,0,0,0.0) 20%,
+    rgba(0,0,0,0.4) 70%,
+    rgba(0,0,0,0.7) 100%
+  );
+  z-index: 1;
+}
+
+/* Label at ~1/3 from top */
+.tc-card__body {
+  position: absolute;
+  z-index: 2;
+  left: 1.2rem;
+  right: 1.2rem;
+  top: calc(380px * 0.33);
+}
+
+.tc-card__label {
+  font-size: 0.72rem;
+  font-weight: 700;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  color: rgba(255,255,255,0.92);
+  text-shadow: 0 1px 6px rgba(0,0,0,0.8);
+}
+
+.tc-card__accent {
+  position: absolute;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  height: 3px;
+  z-index: 3;
+  background: linear-gradient(to right, #4ade80, rgba(74,222,128,0.2));
+  transform: scaleX(0);
+  transform-origin: left;
+  transition: transform 0.35s cubic-bezier(0.22, 1, 0.36, 1);
+}
+
+.tc-card--active .tc-card__accent {
+  transform: scaleX(1);
+}
+
+/* ============================================================
+   MOBILE
+   ============================================================ */
+@media (max-width: 768px) {
+  .tiimi-page__grid {
+    grid-template-columns: 1fr;
   }
-}
 
-const CARD_W = 260
-const PEEK   = CARD_W * 0.40 // 40%
-
-function StackedCards() {
-  const [activeCard, setActiveCard] = useState(null)
-  const playTick = useTickSound()
-
-  function handleEnter(id) {
-    if (id !== activeCard) {
-      setActiveCard(id)
-      playTick()
-    }
+  .tc-scene {
+    overflow-x: auto;
   }
 
-  return (
-    <div
-      className="tiimi__stack-scene"
-      onMouseLeave={() => setActiveCard(null)}
-      style={{ width: `${CARD_W + (cards.length - 1) * PEEK}px` }}
-    >
-      {cards.map((card, i) => {
-        const isActive   = activeCard === card.id
-        const isInactive = activeCard !== null && !isActive
-        return (
-          <div
-            key={card.id}
-            className={[
-              'tiimi__card',
-              isActive   ? 'tiimi__card--active'   : '',
-              isInactive ? 'tiimi__card--dim' : '',
-            ].filter(Boolean).join(' ')}
-            style={{
-              left:   `${i * PEEK}px`,
-              zIndex: isActive ? 50 : cards.length - i,
-            }}
-            onMouseEnter={() => handleEnter(card.id)}
-          >
-            {/* Background image */}
-            <div
-              className="tiimi__card-bg"
-              style={{ backgroundImage: `url('${card.img}')` }}
-            />
+  .tc-card {
+    width: 200px;
+    height: 300px;
+  }
 
-            {/* Dark overlay */}
-            <div className="tiimi__card-overlay" />
-
-            {/* Label at 1/3 from top */}
-            <div className="tiimi__card-inner">
-              <span className="tiimi__card-label">{card.label}</span>
-            </div>
-
-            {/* Green accent bottom */}
-            <div className="tiimi__card-accent" />
-          </div>
-        )
-      })}
-    </div>
-  )
-}
-
-function Avatar({ tag, name }) {
-  return (
-    <div className="tiimi__member">
-      <div className="tiimi__photo">
-        <svg width="40" height="40" viewBox="0 0 48 48" fill="none" aria-hidden="true">
-          <circle cx="24" cy="18" r="10" stroke="#e8e8e8" strokeWidth="2" />
-          <path d="M4 44c0-11 8.954-20 20-20s20 8.954 20 20" stroke="#e8e8e8" strokeWidth="2" strokeLinecap="round" />
-        </svg>
-      </div>
-      <div className="tiimi__member-info">
-        <p className="tiimi__member-role">{tag}</p>
-        <p className="tiimi__member-name">{name}</p>
-        <p className="tiimi__member-bio">Placeholder bio text goes here.</p>
-      </div>
-    </div>
-  )
-}
-
-export default function Tiimi() {
-  const founders = teamMembers.slice(0, 2)
-  const sellers  = teamMembers.slice(2, 4)
-
-  return (
-    <section className="tiimi" id="tiimi">
-      <div className="tiimi__inner">
-
-        {/* Header */}
-        <div className="tiimi__header">
-          <p className="tiimi__label">TIIMI</p>
-          <h1 className="tiimi__title">Ihmiset<br />tuloksien takana</h1>
-        </div>
-
-        {/* Mission */}
-        <div className="tiimi__mission">
-          <p className="tiimi__mission-text">
-            Somesankarit on tiimi, joka muuttaa some-näkyvyyden mitattavaksi liiketoiminnaksi.
-            Jokainen meistä tuo pöytään oman erikoisosaamisensa — yhdessä teemme tulosta.
-          </p>
-        </div>
-
-        {/* Row 1: Founder + Co-Founder */}
-        <div className="tiimi__team tiimi__team--founders">
-          {founders.map(m => <Avatar key={m.id} {...m} />)}
-        </div>
-
-        {/* Row 2: Myyjä + Myyjä */}
-        <div className="tiimi__team tiimi__team--sellers">
-          {sellers.map(m => <Avatar key={m.id} {...m} />)}
-        </div>
-
-        {/* Divider */}
-        <div className="tiimi__divider" />
-
-        {/* Stacked cards */}
-        <div className="tiimi__cards-section">
-          <p className="tiimi__label">SISÄLLÖNTUOTTAJAT</p>
-          <h2 className="tiimi__cards-title">Sisältö, joka myy</h2>
-          <StackedCards />
-        </div>
-
-      </div>
-    </section>
-  )
+  .tc-card__body {
+    top: calc(300px * 0.33);
+  }
 }
