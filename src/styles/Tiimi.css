@@ -3,7 +3,7 @@
    ============================================================ */
 
 .tiimi-page {
-  background: #ffffff;
+  background: #ffffff url('/tiimi-bg.avif') center top / cover no-repeat fixed;
   min-height: 100vh;
   padding-top: 80px; /* nav height */
   padding-bottom: 6rem;
