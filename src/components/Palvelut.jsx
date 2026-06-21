@@ -30,10 +30,7 @@ export default function Palvelut() {
 
         <div className="palvelut-page__mission">
           <p className="palvelut-page__mission-text">
-            Et voi välttää digitaalista muutosta, jossa ihmiset kohtaavat jatkuvasti sisältöjä eri kanavissa,
-            kuten hakukoneissa, sosiaalisessa mediassa, verkkosivuilla ja mainonnassa. Autamme sinua olemaan
-            mukana juuri siellä, missä asiakkaiden kiinnostus syntyy. Liidikone pitää huolen siitä, että
-            markkinointisi, materiaalisi ja työkalusi pysyvät ajan tasalla, jotta tavoitat oikeat ihmiset oikeaan aikaan.
+Et voi välttää digitaalista muutosta, jossa ihmiset kohtaavat sisältöjä hakukoneissa, sosiaalisessa mediassa, verkkosivuilla ja mainonnassa. Autamme sinua olemaan mukana siellä, missä asiakkaiden kiinnostus syntyy. Liidikone huolehtii, että markkinointisi, materiaalisi ja työkalusi pysyvät ajan tasalla, jotta tavoitat oikeat ihmiset oikeaan aikaan.
           </p>
         </div>
 
