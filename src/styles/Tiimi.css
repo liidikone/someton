@@ -44,7 +44,7 @@
     grid-template-columns: 1.05fr 0.95fr;
     grid-template-rows: auto 0.6fr auto auto;
     column-gap: clamp(2rem, 4vw, 4rem);
-    row-gap: 1.1rem;
+    row-gap: 4rem;
     grid-template-areas:
       "header   cards"
       "mission  cards"
@@ -58,7 +58,7 @@
   .tiimi-page__cards-section { grid-area: cards; align-self: center; justify-self: center; }
   .tiimi-page__hr       { display: none; }
 
-  .tiimi-page__grid--sellers  { grid-area: sellers; margin-top: 30px; padding-bottom: 0.75rem; border-bottom: 1px solid rgba(255,255,255,0.15); }
+  .tiimi-page__grid--sellers  { grid-area: sellers; padding-bottom: 0.75rem; border-bottom: 1px solid rgba(255,255,255,0.15); }
   .tiimi-page__grid--founders { grid-area: founders; }
 
   .tiimi-page__title { font-size: clamp(1.8rem, 4vw, 3.4rem); white-space: normal; }
