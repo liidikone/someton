@@ -1,5 +1,5 @@
 import { useState } from 'react'
-import { Link } from 'react-router-dom'
+import { Link, useLocation } from 'react-router-dom'
 import '../styles/Navbar.css'
 
 const navLinks = [
@@ -10,12 +10,15 @@ const navLinks = [
 export default function Navbar() {
   const [menuOpen, setMenuOpen] = useState(false)
   const [callOpen, setCallOpen] = useState(false)
+  const { pathname } = useLocation()
+  const isLight = pathname === '/tiimi'
 
   const toggleMenu = () => setMenuOpen(prev => !prev)
   const closeMenu  = () => setMenuOpen(false)
 
   const navClass = [
     'navbar',
+    isLight ? 'navbar--light' : '',
     menuOpen ? 'navbar--menu-open' : '',
   ].filter(Boolean).join(' ')
 
