@@ -83,6 +83,10 @@
   box-shadow: 0 20px 48px rgba(0,0,0,0.22), 0 0 0 2px #4ade80;
 }
 
+.ps-card--violet:hover {
+  box-shadow: 0 20px 48px rgba(0,0,0,0.22), 0 0 0 2px #a855f7;
+}
+
 .ps-card__bg {
   position: absolute;
   inset: 0;
