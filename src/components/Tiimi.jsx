@@ -1,6 +1,6 @@
 "use client"
 import { useEffect, useRef, useState } from 'react'
-import './Tiimi.css'
+import '../styles/Tiimi.css'
 
 const teamMembers = [
   {
