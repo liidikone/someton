@@ -2,8 +2,8 @@ import { useRef, useState } from 'react'
 import '../styles/Tiimi.css'
 
 const teamMembers = [
-  { id: 1, tag: 'FOUNDER',          name: 'Santeri Koskinen' },
-  { id: 2, tag: 'CO-FOUNDER',       name: 'Jani Karkulahti' },
+  { id: 1, tag: 'FOUNDER',          name: 'Santeri Koskinen', img: '/santeri.avif' },
+  { id: 2, tag: 'CO-FOUNDER',       name: 'Jani Karkulahti',  img: '/jani.avif' },
   { id: 3, tag: 'ASIAKASPÄÄLLIKKÖ', name: 'Placeholder' },
   { id: 4, tag: 'ASIAKASPÄÄLLIKKÖ', name: 'Placeholder' },
 ]
@@ -108,14 +108,18 @@ function StackedCards() {
   )
 }
 
-function Member({ tag, name }) {
+function Member({ tag, name, img }) {
   return (
     <div className="tm-card">
       <div className="tm-avatar">
-        <svg width="36" height="36" viewBox="0 0 48 48" fill="none" aria-hidden="true">
-          <circle cx="24" cy="18" r="10" stroke="#cccccc" strokeWidth="2" />
-          <path d="M4 44c0-11 8.954-20 20-20s20 8.954 20 20" stroke="#cccccc" strokeWidth="2" strokeLinecap="round" />
-        </svg>
+        {img ? (
+          <img src={img} alt={name} className="tm-avatar__img" />
+        ) : (
+          <svg width="36" height="36" viewBox="0 0 48 48" fill="none" aria-hidden="true">
+            <circle cx="24" cy="18" r="10" stroke="#cccccc" strokeWidth="2" />
+            <path d="M4 44c0-11 8.954-20 20-20s20 8.954 20 20" stroke="#cccccc" strokeWidth="2" strokeLinecap="round" />
+          </svg>
+        )}
       </div>
       <p className="tm-role">{tag}</p>
       <p className="tm-name">{name}</p>
