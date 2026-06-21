@@ -23,17 +23,17 @@
 }
 
 /* ============================================================
-   DESKTOP — two-column layout (header/mission/sellers/founders
-   left, content-creator cards right). Sizing/spacing falls back
-   to the default values below — same as Palvelut.
+   DESKTOP — header + mission span the full width, then
+   sellers/founders (left) and content-creator cards (right)
+   form a two-column block below.
    ============================================================ */
 @media (min-width: 769px) {
   .tiimi-page__inner {
     display: grid;
     grid-template-columns: 1.05fr 0.95fr;
     grid-template-areas:
-      "header   cards"
-      "mission  cards"
+      "header   header"
+      "mission  mission"
       "sellers  cards"
       "founders cards";
     column-gap: clamp(2rem, 4vw, 4rem);
@@ -42,12 +42,15 @@
   }
 
   .tiimi-page__header   { grid-area: header; }
-  .tiimi-page__mission  { grid-area: mission; align-self: start; }
+  .tiimi-page__title    { white-space: nowrap; }
+  .tiimi-page__mission  { grid-area: mission; align-self: start; max-width: none; }
   .tiimi-page__cards-section { grid-area: cards; align-self: center; justify-self: center; }
   .tiimi-page__hr       { display: none; }
 
   .tiimi-page__grid--sellers  { grid-area: sellers; padding-bottom: 0.75rem; border-bottom: 1px solid rgba(255,255,255,0.15); }
   .tiimi-page__grid--founders { grid-area: founders; }
+
+  .tc-scene { zoom: 0.75; }
 }
 
 /* ============================================================
