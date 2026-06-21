@@ -8,17 +8,11 @@ const teamMembers = [
   { id: 4, tag: 'MYYJÄ',      name: 'Placeholder' },
 ]
 
-const contentTeam = [
-  { id: 5, tag: 'SISÄLLÖNTUOTTAJA', name: 'Placeholder' },
-  { id: 6, tag: 'SISÄLLÖNTUOTTAJA', name: 'Placeholder' },
-  { id: 7, tag: 'SISÄLLÖNTUOTTAJA', name: 'Placeholder' },
-]
-
 const cards = [
-  { id: 1, label: 'sisallontuottaja_01', img: '/sisallontuottaja_01.avif' },
-  { id: 2, label: 'sisallontuottaja_02', img: '/sisallontuottaja_02.avif' },
-  { id: 3, label: 'sisallontuottaja_03', img: '/sisallontuottaja_03.avif' },
-  { id: 4, label: 'sisallontuottaja_04', img: '/sisallontuottaja_04.avif' },
+  { id: 1, label: 'Anniina',  img: '/sisallontuottaja_01.avif' },
+  { id: 2, label: 'Pauliina', img: '/sisallontuottaja_02.avif' },
+  { id: 3, label: 'Santeri',  img: '/sisallontuottaja_03.avif' },
+  { id: 4, label: 'Veera',    img: '/sisallontuottaja_04.avif' },
 ]
 
 const CARD_W = 260
@@ -124,15 +118,10 @@ export default function Tiimi() {
           {teamMembers.slice(2, 4).map(m => <Member key={m.id} {...m} />)}
         </div>
 
-        <div className="tiimi-page__grid tiimi-page__grid--creators">
-          {contentTeam.map(m => <Member key={m.id} {...m} />)}
-        </div>
-
         <hr className="tiimi-page__hr" />
 
         <div className="tiimi-page__cards-section">
-          <p className="tiimi-page__eyebrow">SISÄLLÖNTUOTTAJAT</p>
-          <h2 className="tiimi-page__cards-title">Sisältö, joka myy</h2>
+          <h2 className="tiimi-page__cards-title">SISÄLLÖNTUOTTAJAT</h2>
           <StackedCards />
         </div>
 
