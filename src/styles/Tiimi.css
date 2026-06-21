@@ -41,21 +41,20 @@
     gap: 0;
     display: grid;
     grid-template-columns: 1.05fr 0.95fr;
-    grid-template-rows: auto auto auto auto 1fr;
+    grid-template-rows: auto 1fr auto auto;
     column-gap: clamp(2rem, 4vw, 4rem);
     row-gap: 1.1rem;
     grid-template-areas:
       "header   cards"
       "mission  cards"
       "sellers  cards"
-      "founders cards"
-      "spacer   cards";
+      "founders cards";
     align-items: start;
   }
 
   .tiimi-page__header   { grid-area: header; }
   .tiimi-page__mission  { grid-area: mission; align-self: start; }
-  .tiimi-page__cards-section { grid-area: cards; align-self: start; justify-self: center; }
+  .tiimi-page__cards-section { grid-area: cards; align-self: center; justify-self: center; }
   .tiimi-page__hr       { display: none; }
 
   .tiimi-page__grid--sellers  { grid-area: sellers;  padding-bottom: 0.75rem; border-bottom: 1px solid rgba(255,255,255,0.15); }
@@ -63,7 +62,7 @@
 
   .tiimi-page__title { font-size: clamp(1.8rem, 4vw, 3.4rem); white-space: normal; }
   .tiimi-page__mission-text { font-size: clamp(0.95rem, 1.3vw, 1.1rem); }
-  .tiimi-page__cards-title { font-size: clamp(1.4rem, 2.2vw, 2rem); margin-bottom: 0.5rem; }
+  .tiimi-page__cards-title { font-size: clamp(1.4rem, 2.2vw, 2rem); margin-bottom: 0.5rem; margin-left: 35px; }
 
   .tc-scene { transform: scale(0.78); transform-origin: top center; }
 
