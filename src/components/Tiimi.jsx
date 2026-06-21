@@ -2,10 +2,10 @@ import { useRef, useState } from 'react'
 import '../styles/Tiimi.css'
 
 const teamMembers = [
-  { id: 1, tag: 'FOUNDER',    name: 'Placeholder' },
-  { id: 2, tag: 'CO-FOUNDER', name: 'Placeholder' },
-  { id: 3, tag: 'MYYJÄ',      name: 'Placeholder' },
-  { id: 4, tag: 'MYYJÄ',      name: 'Placeholder' },
+  { id: 1, tag: 'FOUNDER',          name: 'Santeri Koskinen' },
+  { id: 2, tag: 'CO-FOUNDER',       name: 'Jani Karkulahti' },
+  { id: 3, tag: 'ASIAKASPÄÄLLIKKÖ', name: 'Placeholder' },
+  { id: 4, tag: 'ASIAKASPÄÄLLIKKÖ', name: 'Placeholder' },
 ]
 
 const cards = [
@@ -130,14 +130,13 @@ export default function Tiimi() {
       <div className="tiimi-page__inner">
 
         <div className="tiimi-page__header">
-          <p className="tiimi-page__eyebrow">TIIMI</p>
-          <h1 className="tiimi-page__title">Ihmiset<br />tuloksien takana</h1>
+          <h1 className="tiimi-page__title">Ihmiset kasvun takana</h1>
         </div>
 
         <div className="tiimi-page__mission">
           <p className="tiimi-page__mission-text">
-            Somesankarit on tiimi, joka muuttaa some-näkyvyyden mitattavaksi liiketoiminnaksi.
-            Jokainen meistä tuo pöytään oman erikoisosaamisensa — yhdessä teemme tulosta.
+            Liidikone ei arvaile algoritmeja, me ymmärrämme niitä. Yhdistämme datan, luovuuden,
+            rohkeuden ja oivallukset sisällöksi, joka erottuu, tavoittaa oikean yleisön ja muuttaa näkyvyyden kasvuksi.
           </p>
         </div>
 
