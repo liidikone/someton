@@ -1,15 +1,15 @@
 import '../styles/Palvelut.css'
 
 const services = [
-  { id: 1, title: 'Lyhytvideot',            text: 'Lisäävät näkyvyyttä ja kasvattavat liidien määrää' },
-  { id: 2, title: 'Verkkosivut',            text: 'Rakennettu tuottamaan liidejä funnelien avulla' },
-  { id: 3, title: 'Kehyttävät AI Agentit',  text: 'Automatisoivat asiakaspalvelua ja liidien keruuta' },
+  { id: 1, title: 'Lyhytvideot',            text: 'Lisäävät näkyvyyttä ja kasvattavat liidien määrää',   image: '/video.avif' },
+  { id: 2, title: 'Verkkosivut',            text: 'Rakennettu tuottamaan liidejä funnelien avulla',        image: '/www.avif'   },
+  { id: 3, title: 'Kehyttävät AI Agentit',  text: 'Automatisoivat asiakaspalvelua ja liidien keruuta',    image: '/ai.avif'    },
 ]
 
-function ServiceCard({ title, text }) {
+function ServiceCard({ title, text, image }) {
   return (
     <div className="ps-card">
-      <div className="ps-card__bg" />
+      <div className="ps-card__bg" style={{ backgroundImage: `url('${image}')` }} />
       <div className="ps-card__overlay" />
       <div className="ps-card__body">
         <h3 className="ps-card__title">{title}</h3>
