@@ -8,6 +8,12 @@ const teamMembers = [
   { id: 4, tag: 'MYYJÄ',      name: 'Placeholder' },
 ]
 
+const contentTeam = [
+  { id: 5, tag: 'SISÄLLÖNTUOTTAJA', name: 'Placeholder' },
+  { id: 6, tag: 'SISÄLLÖNTUOTTAJA', name: 'Placeholder' },
+  { id: 7, tag: 'SISÄLLÖNTUOTTAJA', name: 'Placeholder' },
+]
+
 const cards = [
   { id: 1, label: 'sisallontuottaja_01', img: '/sisallontuottaja_01.avif' },
   { id: 2, label: 'sisallontuottaja_02', img: '/sisallontuottaja_02.avif' },
@@ -116,6 +122,10 @@ export default function Tiimi() {
 
         <div className="tiimi-page__grid tiimi-page__grid--sellers">
           {teamMembers.slice(2, 4).map(m => <Member key={m.id} {...m} />)}
+        </div>
+
+        <div className="tiimi-page__grid tiimi-page__grid--creators">
+          {contentTeam.map(m => <Member key={m.id} {...m} />)}
         </div>
 
         <hr className="tiimi-page__hr" />
