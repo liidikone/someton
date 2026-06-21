@@ -29,7 +29,7 @@
   display: flex;
   flex-direction: column;
   gap: 1rem;
-  max-width: 720px;
+  max-width: 100%;
 }
 
 .tiimi-page__eyebrow {
@@ -45,12 +45,13 @@
 .tiimi-page__title {
   font-family: 'Falzon', 'Oxanium', sans-serif;
   font-style: italic;
-  font-size: clamp(2.8rem, 6vw, 6rem);
+  font-size: clamp(1.8rem, 5vw, 5rem);
   font-weight: 700;
   line-height: 0.92;
   letter-spacing: 0.04em;
   color: #ffffff;
   margin: 0;
+  white-space: nowrap;
 }
 
 /* ============================================================
@@ -255,6 +256,10 @@
    MOBILE
    ============================================================ */
 @media (max-width: 768px) {
+  .tiimi-page__title {
+    font-size: clamp(1.4rem, 7vw, 2.2rem);
+  }
+
   .tiimi-page__grid {
     grid-template-columns: 1fr;
   }
