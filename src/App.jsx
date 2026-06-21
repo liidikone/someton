@@ -1,5 +1,5 @@
 import { useEffect, useRef, useState } from 'react'
-import { BrowserRouter, Routes, Route, useLocation } from 'react-router-dom'
+import { BrowserRouter, Routes, Route, useLocation, useNavigate } from 'react-router-dom'
 import './styles/globals.css'
 import Navbar from './components/Navbar'
 import Hero from './components/Hero'
@@ -16,40 +16,57 @@ function RouteBackground() {
   return null
 }
 
+function PageComponent({ path }) {
+  if (path === '/')         return <Hero />
+  if (path === '/tiimi')    return <Tiimi />
+  if (path === '/palvelut') return <Palvelut />
+  return null
+}
+
 function AnimatedRoutes() {
   const location = useLocation()
-  const prevPathRef = useRef(location.pathname)
-  const [displayLocation, setDisplayLocation] = useState(location)
-  const [animating, setAnimating] = useState(false)
+  const [current, setCurrent]   = useState(location.pathname)
+  const [previous, setPrevious] = useState(null)
+  const [direction, setDirection] = useState('forward')
+  const [transitioning, setTransitioning] = useState(false)
+  const timerRef = useRef(null)
 
   useEffect(() => {
-    if (location.pathname === displayLocation.pathname) return
+    if (location.pathname === current) return
 
-    const prevIndex = ROUTE_ORDER.indexOf(prevPathRef.current)
+    const prevIndex = ROUTE_ORDER.indexOf(current)
     const nextIndex = ROUTE_ORDER.indexOf(location.pathname)
-    const direction = nextIndex > prevIndex ? 'forward' : 'backward'
+    const dir = nextIndex > prevIndex ? 'forward' : 'backward'
 
-    document.documentElement.setAttribute('data-direction', direction)
-    setAnimating(true)
-    setDisplayLocation(location)
-    prevPathRef.current = location.pathname
+    clearTimeout(timerRef.current)
+    setPrevious(current)
+    setCurrent(location.pathname)
+    setDirection(dir)
+    setTransitioning(true)
 
-    const timer = setTimeout(() => {
-      setAnimating(false)
-      document.documentElement.removeAttribute('data-direction')
+    timerRef.current = setTimeout(() => {
+      setPrevious(null)
+      setTransitioning(false)
     }, 420)
-
-    return () => clearTimeout(timer)
-  }, [location])
+  }, [location.pathname])
 
   return (
-    <div className="page-wrapper">
-      <div className={animating ? 'page-enter' : undefined} key={displayLocation.key}>
-        <Routes location={displayLocation}>
-          <Route path="/" element={<Hero />} />
-          <Route path="/tiimi" element={<Tiimi />} />
-          <Route path="/palvelut" element={<Palvelut />} />
-        </Routes>
+    <div className="slide-container">
+      {/* Vanha sivu — lähtee ulos */}
+      {transitioning && previous && (
+        <div
+          key={previous}
+          className={`slide-page slide-exit slide-exit--${direction}`}
+        >
+          <PageComponent path={previous} />
+        </div>
+      )}
+      {/* Uusi sivu — tulee sisään */}
+      <div
+        key={current}
+        className={`slide-page${transitioning ? ` slide-enter slide-enter--${direction}` : ''}`}
+      >
+        <PageComponent path={current} />
       </div>
     </div>
   )
