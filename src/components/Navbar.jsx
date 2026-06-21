@@ -3,8 +3,8 @@ import { Link } from 'react-router-dom'
 import '../styles/Navbar.css'
 
 const navLinks = [
-  { href: '/tiimi', label: 'Tiimi' },
-  { href: 'https://synabs.fi', label: 'Palvelut' },
+  { href: '/tiimi', label: 'Tiimi', external: false },
+  { href: 'https://synabs.fi', label: 'Palvelut', external: true },
 ]
 
 export default function Navbar() {
@@ -24,16 +24,19 @@ export default function Navbar() {
       <nav className={navClass} id="navbar">
         <div className="navbar__inner">
 
-          <a href="/" className="navbar__logo" aria-label="Home">
+          <Link to="/" className="navbar__logo" aria-label="Home">
             <span className="navbar__logo-text">LOGO</span>
-          </a>
+          </Link>
 
           <div className="navbar__right">
             <nav className="navbar__nav" aria-label="Päävalikko">
               <ul className="navbar__list">
-                {navLinks.map(({ href, label }) => (
+                {navLinks.map(({ href, label, external }) => (
                   <li key={href}>
-                    <a href={href} className="navbar__link" target="_blank" rel="noopener noreferrer">{label}</a>
+                    {external
+                      ? <a href={href} className="navbar__link" target="_blank" rel="noopener noreferrer">{label}</a>
+                      : <Link to={href} className="navbar__link">{label}</Link>
+                    }
                   </li>
                 ))}
               </ul>
@@ -66,9 +69,12 @@ export default function Navbar() {
           aria-label="Mobiilinavigaatio"
         >
           <ul className="navbar__mobile-list">
-            {navLinks.map(({ href, label }) => (
+            {navLinks.map(({ href, label, external }) => (
               <li key={href}>
-                <a href={href} className="navbar__mobile-link" target="_blank" rel="noopener noreferrer" onClick={closeMenu}>{label}</a>
+                {external
+                  ? <a href={href} className="navbar__mobile-link" target="_blank" rel="noopener noreferrer" onClick={closeMenu}>{label}</a>
+                  : <Link to={href} className="navbar__mobile-link" onClick={closeMenu}>{label}</Link>
+                }
               </li>
             ))}
             <li>
