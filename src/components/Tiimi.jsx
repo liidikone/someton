@@ -10,42 +10,85 @@ const teamMembers = [
 
 const cards = [
   { id: 1, label: 'Anniina',  img: '/sisallontuottaja_01.avif' },
-  { id: 2, label: 'Pauliina', img: '/sisallontuottaja_01.avif' },
-  { id: 3, label: 'Santeri',  img: '/sisallontuottaja_01.avif' },
-  { id: 4, label: 'Veera',    img: '/sisallontuottaja_01.avif' },
+  { id: 2, label: 'Pauliina', img: '/sisallontuottaja_02.avif' },
+  { id: 3, label: 'Santeri',  img: '/sisallontuottaja_03.avif' },
+  { id: 4, label: 'Veera',    img: '/sisallontuottaja_04.avif' },
 ]
 
 const CARD_W = 260
 const PEEK   = Math.round(CARD_W * 0.40)
 
-function useTickSound() {
+function useCardSound() {
   const audioCtx = useRef(null)
-  return function playTick() {
+
+  function getCtx() {
+    if (!audioCtx.current) {
+      audioCtx.current = new (window.AudioContext || window.webkitAudioContext)()
+    }
+    // Selaimet luovat AudioContextin "suspended"-tilassa: ilman resume()-kutsua
+    // sen kello ei etene, äänet jonottuvat ja purkautuvat myöhemmin yhtenä
+    // kovana ryöppynä. Herätetään konteksti aina ennen soittoa.
+    if (audioCtx.current.state === 'suspended') {
+      audioCtx.current.resume()
+    }
+    return audioCtx.current
+  }
+
+  return function playCardSound() {
     try {
-      if (!audioCtx.current) audioCtx.current = new (window.AudioContext || window.webkitAudioContext)()
-      const ctx = audioCtx.current
-      const osc = ctx.createOscillator()
-      const gain = ctx.createGain()
-      osc.connect(gain)
-      gain.connect(ctx.destination)
-      osc.type = 'sine'
-      osc.frequency.setValueAtTime(920, ctx.currentTime)
-      osc.frequency.exponentialRampToValueAtTime(460, ctx.currentTime + 0.07)
-      gain.gain.setValueAtTime(0.15, ctx.currentTime)
-      gain.gain.exponentialRampToValueAtTime(0.001, ctx.currentTime + 0.1)
-      osc.start(ctx.currentTime)
-      osc.stop(ctx.currentTime + 0.11)
+      const ctx = getCtx()
+      const now = ctx.currentTime
+
+      // Lyhyt kohinapyrähdys = kortin "swish/whoosh" -tekstuuri
+      const dur = 0.12
+      const bufferSize = Math.floor(ctx.sampleRate * dur)
+      const buffer = ctx.createBuffer(1, bufferSize, ctx.sampleRate)
+      const data = buffer.getChannelData(0)
+      for (let i = 0; i < bufferSize; i++) {
+        data[i] = (Math.random() * 2 - 1) * (1 - i / bufferSize)
+      }
+      const noise = ctx.createBufferSource()
+      noise.buffer = buffer
+
+      const bandpass = ctx.createBiquadFilter()
+      bandpass.type = 'bandpass'
+      bandpass.Q.value = 0.7
+      bandpass.frequency.setValueAtTime(3400, now)
+      bandpass.frequency.exponentialRampToValueAtTime(1000, now + dur)
+
+      const noiseGain = ctx.createGain()
+      noiseGain.gain.setValueAtTime(0.22, now)
+      noiseGain.gain.exponentialRampToValueAtTime(0.001, now + dur)
+
+      noise.connect(bandpass)
+      bandpass.connect(noiseGain)
+      noiseGain.connect(ctx.destination)
+      noise.start(now)
+      noise.stop(now + dur)
+
+      // Pieni matala "thump" antamaan kortille painoa
+      const thump = ctx.createOscillator()
+      thump.type = 'sine'
+      thump.frequency.setValueAtTime(170, now)
+      thump.frequency.exponentialRampToValueAtTime(65, now + 0.08)
+      const thumpGain = ctx.createGain()
+      thumpGain.gain.setValueAtTime(0.1, now)
+      thumpGain.gain.exponentialRampToValueAtTime(0.001, now + 0.09)
+      thump.connect(thumpGain)
+      thumpGain.connect(ctx.destination)
+      thump.start(now)
+      thump.stop(now + 0.1)
     } catch (_) {}
   }
 }
 
 function StackedCards() {
   const [activeCard, setActiveCard] = useState(null)
-  const playTick = useTickSound()
+  const playCardSound = useCardSound()
   const stackWidth = CARD_W + (cards.length - 1) * PEEK
 
   function handleEnter(id) {
-    if (id !== activeCard) { setActiveCard(id); playTick() }
+    if (id !== activeCard) { setActiveCard(id); playCardSound() }
   }
 
   return (
