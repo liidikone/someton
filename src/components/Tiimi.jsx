@@ -10,9 +10,9 @@ const teamMembers = [
 
 const cards = [
   { id: 1, label: 'Anniina',  img: '/sisallontuottaja_01.avif' },
-  { id: 2, label: 'Pauliina', img: '/sisallontuottaja_02.avif' },
-  { id: 3, label: 'Santeri',  img: '/sisallontuottaja_03.avif' },
-  { id: 4, label: 'Veera',    img: '/sisallontuottaja_04.avif' },
+  { id: 2, label: 'Pauliina', img: '/sisallontuottaja_01.avif' },
+  { id: 3, label: 'Santeri',  img: '/sisallontuottaja_01.avif' },
+  { id: 4, label: 'Veera',    img: '/sisallontuottaja_01.avif' },
 ]
 
 const CARD_W = 260
