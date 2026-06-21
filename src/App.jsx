@@ -4,6 +4,7 @@ import './styles/globals.css'
 import Navbar from './components/Navbar'
 import Hero from './components/Hero'
 import Tiimi from './components/Tiimi'
+import Palvelut from './components/Palvelut'
 
 function RouteBackground() {
   const { pathname } = useLocation()
@@ -21,6 +22,7 @@ export default function App() {
       <Routes>
         <Route path="/" element={<Hero />} />
         <Route path="/tiimi" element={<Tiimi />} />
+        <Route path="/palvelut" element={<Palvelut />} />
       </Routes>
     </BrowserRouter>
   )
