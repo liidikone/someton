@@ -2,7 +2,7 @@ import { useState } from 'react'
 import '../styles/Navbar.css'
 
 const navLinks = [
-  { href: 'https://somesankarit.fi/', label: 'Tiimi' },
+  { href: '/tiimi', label: 'Tiimi' },
   { href: 'https://synabs.fi', label: 'Palvelut' },
 ]
 
