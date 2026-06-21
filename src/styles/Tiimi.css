@@ -224,9 +224,11 @@
 }
 
 .tc-card__label {
-  font-size: 1.05rem;
+  font-size: 2.4rem;
   font-weight: 700;
   letter-spacing: 0.01em;
+  text-transform: uppercase;
+  line-height: 1.05;
   color: rgba(255,255,255,0.7);
   text-shadow: 0 1px 6px rgba(0,0,0,0.8);
 }
@@ -267,5 +269,9 @@
 
   .tc-card__body {
     top: calc(300px * 0.33);
+  }
+
+  .tc-card__label {
+    font-size: 1.7rem;
   }
 }
