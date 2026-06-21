@@ -61,10 +61,82 @@
 }
 
 /* ============================================================
+   SERVICE CARDS
+   ============================================================ */
+.palvelut-page__services {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 2rem;
+}
+
+.ps-card {
+  position: relative;
+  height: 340px;
+  border-radius: 16px;
+  overflow: hidden;
+  box-shadow: 0 4px 16px rgba(0,0,0,0.12), 0 0 0 1px rgba(255,255,255,0.15);
+  transition: transform 0.3s ease, box-shadow 0.3s ease;
+}
+
+.ps-card:hover {
+  transform: translateY(-6px);
+  box-shadow: 0 20px 48px rgba(0,0,0,0.22), 0 0 0 2px #4ade80;
+}
+
+.ps-card__bg {
+  position: absolute;
+  inset: 0;
+  background: url('/placeholder.avif') center / cover no-repeat;
+  opacity: 0.7;
+}
+
+.ps-card__overlay {
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(
+    to bottom,
+    rgba(0,0,0,0.15) 0%,
+    rgba(0,0,0,0.25) 40%,
+    rgba(0,0,0,0.75) 100%
+  );
+}
+
+.ps-card__body {
+  position: absolute;
+  z-index: 2;
+  left: 1.5rem;
+  right: 1.5rem;
+  bottom: 1.5rem;
+}
+
+.ps-card__title {
+  font-family: 'Falzon', 'Oxanium', sans-serif;
+  font-style: italic;
+  font-size: 1.7rem;
+  font-weight: 700;
+  letter-spacing: 0.02em;
+  color: #ffffff;
+  text-shadow: 0 1px 6px rgba(0,0,0,0.8);
+  margin: 0 0 0.5rem;
+}
+
+.ps-card__text {
+  font-size: 0.95rem;
+  font-weight: 300;
+  line-height: 1.5;
+  color: rgba(255,255,255,0.85);
+  margin: 0;
+}
+
+/* ============================================================
    MOBILE
    ============================================================ */
 @media (max-width: 768px) {
   .palvelut-page__title {
     font-size: clamp(1.6rem, 7vw, 2.4rem);
+  }
+
+  .palvelut-page__services {
+    grid-template-columns: 1fr;
   }
 }
