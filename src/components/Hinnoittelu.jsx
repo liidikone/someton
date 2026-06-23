@@ -105,7 +105,7 @@ function VideoPackage() {
         </div>
 
         <div className="hp-config-group">
-          <label className="hp-label">Alustat</label>
+          <label className="hp-label">Valitse alustasi</label>
           <div className="hp-some-icons">
             {platformList.map(p => (
               <button
@@ -127,7 +127,7 @@ function VideoPackage() {
               className={`hp-toggle${wantInfluencer ? ' hp-toggle--active' : ''}`}
               onClick={() => setWantInfluencer(v => !v)}
             >
-              <span className="hp-toggle__check">{wantInfluencer ? '✓' : '+'}</span>
+              <span className="hp-toggle__check" style={wantInfluencer ? { background: '#00ff88', borderColor: '#00ff88', color: '#000000' } : {}}>{wantInfluencer ? '✓' : '+'}</span>
               <span className="hp-toggle__text">
                 Haluan teiltä vaikuttajan videoille
               </span>
@@ -137,9 +137,9 @@ function VideoPackage() {
               className={`hp-toggle${wantManagement ? ' hp-toggle--active' : ''}`}
               onClick={() => setWantManagement(v => !v)}
             >
-              <span className="hp-toggle__check">{wantManagement ? '✓' : '+'}</span>
+              <span className="hp-toggle__check" style={wantManagement ? { background: '#00ff88', borderColor: '#00ff88', color: '#000000' } : {}}>{wantManagement ? '✓' : '+'}</span>
               <span className="hp-toggle__text">
-                SOMETON ylläpitää tiliäni ja postaa videot
+                SOMETON lisää videot
               </span>
               <span className="hp-toggle__price">100€/kk</span>
             </button>
@@ -324,7 +324,7 @@ function WebsitePackage() {
           <label className="hp-label">
             Ylläpito <span className="hp-label-note">49€/kk</span>
           </label>
-          <div className="hp-included-tag">
+          <div className="hp-included-tag" style={{ color: '#00ff88', borderColor: '#00ff88', background: '#000000' }}>
             ✓ Sisältyy — tekninen tuki, päivitykset ja ylläpito
           </div>
         </div>
@@ -370,13 +370,13 @@ function WebsitePackage() {
           </div>
         </div>
         <div className="hp-summary__total">
-          <span>Kertamaksu yhteensä</span>
+          <span>Yhteensä</span>
           <div className="hp-summary__price-wrap">
-            <span className="hp-summary__price">{pagePrices[pages] + analytics.length * 100}€</span>
+            <span className="hp-summary__price">
+              {pagePrices[pages] + analytics.length * 100}€
+              <span style={{ fontSize: '0.55em', fontStyle: 'normal', fontWeight: 400, marginLeft: '0.2em', opacity: 0.7 }}>+ 49€/kk</span>
+            </span>
           </div>
-        </div>
-        <div className="hp-summary__monthly-note">
-          + 49€/kk ylläpito
         </div>
       </div>
     </div>
@@ -414,7 +414,6 @@ export default function Hinnoittelu() {
       <div className="hinnoittelu__inner">
 
         <div className="hinnoittelu__header">
-          <span className="hinnoittelu__eyebrow">Palvelupaketit</span>
           <h2 className="hinnoittelu__title">
             Rakenna{' '}
             <span className="hinnoittelu__title-accent">liidikoneesi</span>
