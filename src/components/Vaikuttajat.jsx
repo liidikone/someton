@@ -165,45 +165,7 @@ function StackedCards() {
         </div>
       </div>
 
-      {/* Bottom glass nav */}
-      <div className="vi-nav">
-        <button
-          className="vi-arrow"
-          onClick={() => goTo(-1)}
-          disabled={page === 0}
-          aria-label="Edellinen sivu"
-        >
-          <svg width="18" height="18" viewBox="0 0 18 18" fill="none">
-            <path d="M11 4L6 9L11 14" stroke="currentColor" strokeWidth="1.8" strokeLinecap="round" strokeLinejoin="round"/>
-          </svg>
-        </button>
 
-        <div className="vi-track">
-          <div className="vi-track__fill" style={{ width: `${((page + 1) / TOTAL_PAGES) * 100}%` }} />
-          {Array.from({ length: TOTAL_PAGES }).map((_, i) => (
-            <button
-              key={i}
-              className={'vi-pip' + (i === page ? ' vi-pip--active' : '')}
-              style={{ left: `${(i / (TOTAL_PAGES - 1)) * 100}%` }}
-              onClick={() => { setActiveCard(null); setPage(i) }}
-              aria-label={`Sivu ${i + 1}`}
-            />
-          ))}
-        </div>
-
-        <button
-          className="vi-arrow"
-          onClick={() => goTo(1)}
-          disabled={page === TOTAL_PAGES - 1}
-          aria-label="Seuraava sivu"
-        >
-          <svg width="18" height="18" viewBox="0 0 18 18" fill="none">
-            <path d="M7 4L12 9L7 14" stroke="currentColor" strokeWidth="1.8" strokeLinecap="round" strokeLinejoin="round"/>
-          </svg>
-        </button>
-
-        <span className="vi-page-label">{page + 1} / {TOTAL_PAGES}</span>
-      </div>
     </div>
   )
 }
