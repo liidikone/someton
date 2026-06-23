@@ -324,8 +324,8 @@ function WebsitePackage() {
           <label className="hp-label">
             Ylläpito <span className="hp-label-note">49€/kk</span>
           </label>
-          <div className="hp-included-tag" style={{ color: '#00ff88', borderColor: '#00ff88', background: '#000000' }}>
-            ✓ Sisältyy — tekninen tuki, päivitykset ja ylläpito
+          <div className="hp-included-tag">
+            <span style={{ color: '#00ff88', fontWeight: 700 }}>✓</span> Sisältyy — tekninen tuki, päivitykset ja ylläpito
           </div>
         </div>
 
