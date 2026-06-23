@@ -211,17 +211,14 @@ function VideoPackage() {
           )}
         </div>
 
-        {/* Total — always /kk, green when discounted */}
+        {/* Total — always /kk, always black */}
         <div className="hp-summary__total">
           <span>Yhteensä</span>
           <div className="hp-summary__price-wrap">
             {hasDiscount && (
               <span className="hp-summary__price-original">{totalPerMonthBase.toFixed(0)}€</span>
             )}
-            <span
-              className="hp-summary__price"
-              style={hasDiscount ? { color: '#00ff88' } : {}}
-            >
+            <span className="hp-summary__price">
               {totalPerMonth.toFixed(0)}€<span style={{ fontSize: '0.55em', fontStyle: 'normal', fontWeight: 400, marginLeft: '0.2em', opacity: 0.7 }}>/kk</span>
             </span>
           </div>
