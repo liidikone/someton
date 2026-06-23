@@ -3,6 +3,7 @@ import './styles/globals.css'
 import Navbar from './components/Navbar'
 import Hero from './components/Hero'
 import Palvelut from './components/Palvelut'
+import Hinnoittelu from './components/Hinnoittelu'
 import Tiimi from './components/Tiimi'
 
 export default function App() {
@@ -17,6 +18,7 @@ export default function App() {
       <main>
         <Hero />
         <Palvelut />
+        <Hinnoittelu />
         <Tiimi />
       </main>
     </>
