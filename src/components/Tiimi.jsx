@@ -1,4 +1,4 @@
-import { useRef, useState } from 'react'
+import { useState } from 'react'
 import '../styles/Tiimi.css'
 
 const teamMembers = [
@@ -8,92 +8,6 @@ const teamMembers = [
   { id: 4, tag: 'ASIAKASPÄÄLLIKKÖ', name: 'Placeholder', email: 'kasvu@placeholder.com' },
 ]
 
-const cards = [
-  { id: 1, label: 'Anniina',  img: '/sisallontuottaja_01.avif' },
-  { id: 2, label: 'Pauliina', img: '/sisallontuottaja_01.avif' },
-  { id: 3, label: 'Santeri',  img: '/sisallontuottaja_01.avif' },
-  { id: 4, label: 'Veera',    img: '/sisallontuottaja_01.avif' },
-]
-
-const CARD_W = 260
-const PEEK   = Math.round(CARD_W * 0.40)
-
-function useCardSound() {
-  const audioCtx = useRef(null)
-  function getCtx() {
-    if (!audioCtx.current) {
-      audioCtx.current = new (window.AudioContext || window.webkitAudioContext)()
-    }
-    if (audioCtx.current.state === 'suspended') audioCtx.current.resume()
-    return audioCtx.current
-  }
-  return function playCardSound() {
-    try {
-      const ctx = getCtx()
-      const now = ctx.currentTime
-      const dur = 0.09
-      const bufferSize = Math.floor(ctx.sampleRate * dur)
-      const buffer = ctx.createBuffer(1, bufferSize, ctx.sampleRate)
-      const data = buffer.getChannelData(0)
-      for (let i = 0; i < bufferSize; i++) {
-        data[i] = (Math.random() * 2 - 1) * (1 - i / bufferSize)
-      }
-      const noise = ctx.createBufferSource()
-      noise.buffer = buffer
-      const bandpass = ctx.createBiquadFilter()
-      bandpass.type = 'bandpass'
-      bandpass.Q.value = 0.6
-      bandpass.frequency.setValueAtTime(4200, now)
-      bandpass.frequency.exponentialRampToValueAtTime(1500, now + dur)
-      const noiseGain = ctx.createGain()
-      noiseGain.gain.setValueAtTime(0.1, now)
-      noiseGain.gain.exponentialRampToValueAtTime(0.001, now + dur)
-      noise.connect(bandpass)
-      bandpass.connect(noiseGain)
-      noiseGain.connect(ctx.destination)
-      noise.start(now)
-      noise.stop(now + dur)
-    } catch (_) {}
-  }
-}
-
-function StackedCards() {
-  const [activeCard, setActiveCard] = useState(null)
-  const playCardSound = useCardSound()
-  const stackWidth = CARD_W + (cards.length - 1) * PEEK
-
-  function handleEnter(id) {
-    if (id !== activeCard) { setActiveCard(id); playCardSound() }
-  }
-
-  return (
-    <div
-      className="tc-scene"
-      style={{ width: stackWidth + 'px', height: '380px' }}
-      onMouseLeave={() => setActiveCard(null)}
-    >
-      {cards.map((card, i) => {
-        const isActive = activeCard === card.id
-        const isDim    = activeCard !== null && !isActive
-        return (
-          <div
-            key={card.id}
-            className={'tc-card' + (isActive ? ' tc-card--active' : '') + (isDim ? ' tc-card--dim' : '')}
-            style={{ left: i * PEEK + 'px', zIndex: isActive ? 50 : cards.length - i }}
-            onMouseEnter={() => handleEnter(card.id)}
-          >
-            <div className="tc-card__bg" style={{ backgroundImage: `url('${card.img}')` }} />
-            <div className="tc-card__overlay" />
-            <div className="tc-card__body">
-              <span className="tc-card__label">{card.label}</span>
-            </div>
-            <div className="tc-card__accent" />
-          </div>
-        )
-      })}
-    </div>
-  )
-}
 
 function Member({ tag, name, img, phone, email }) {
   return (
@@ -124,7 +38,9 @@ export default function Tiimi() {
       <div className="tiimi-page__inner">
 
         <div className="tiimi-page__header">
-          <h2 className="tiimi-page__title">Osaajat kasvun takana</h2>
+          <h2 className="tiimi-page__title">
+            KOKO<span className="tiimi-page__title-on">ON</span>PANO
+          </h2>
         </div>
 
         <div className="tiimi-page__mission">
@@ -132,11 +48,6 @@ export default function Tiimi() {
             SOMET<span className="tiimi-page__title-on">ON</span> ei arvaile algoritmeja, me ymmärrämme niitä. Yhdistämme datan, luovuuden,
             rohkeuden ja oivallukset sisällöksi, joka erottuu, tavoittaa oikean yleisön ja muuttaa näkyvyyden kasvuksi.
           </p>
-        </div>
-
-        <div className="tiimi-page__cards-section">
-          <h3 className="tiimi-page__cards-title">SISÄLLÖNTUOTTAJAT</h3>
-          <StackedCards />
         </div>
 
         <div className="tiimi-page__grid tiimi-page__grid--all">
