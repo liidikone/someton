@@ -27,13 +27,13 @@ export default function Palvelut() {
         <div className="palvelut-page__header">
           <h2 className="palvelut-page__title">
             HUOMI<span className="palvelut-page__title-on">ON</span>
-            <span className="palvelut-page__title-accent">kohde</span>
+            <span className="palvelut-page__title-accent">keskipiste</span>
           </h2>
         </div>
 
         <div className="palvelut-page__mission">
           <p className="palvelut-page__mission-text">
-Et voi välttää digitaalista muutosta, jossa ihmiset kohtaavat sisältöjä hakukoneissa, sosiaalisessa mediassa, verkkosivuilla ja mainonnassa. Autamme sinua olemaan mukana siellä, missä asiakkaiden kiinnostus syntyy. Liidikone huolehtii, että markkinointisi, materiaalisi ja työkalusi pysyvät ajan tasalla, jotta tavoitat oikeat ihmiset oikeaan aikaan.
+            Et voi välttää digitaalista muutosta, mutta voit olla näkyvillä siellä, missä asiakkaiden kiinnostus syntyy. SOMET<span className="palvelut-page__title-on">ON</span> auttaa pitämään markkinointisi ajan tasalla ja tavoittamaan oikeat ihmiset oikeaan aikaan hakukoneissa, somessa, verkkosivuilla ja mainonnassa.
           </p>
         </div>
 
