@@ -88,8 +88,8 @@ export default function Hero() {
 
       <div className="hero__content">
         <h1 className="hero__title">
-          SOMETON<br />
-          <span className="hero__title-accent">ON←SOMETON</span>
+          SOMET<span className="hero__title-on">ON</span><br />
+          <span className="hero__title-accent">→LIIDIKONE</span>
         </h1>
         <p className="hero__lead">Muuta näyttökerrat rahaksi</p>
       </div>
