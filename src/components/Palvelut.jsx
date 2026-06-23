@@ -1,14 +1,14 @@
 import '../styles/Palvelut.css'
 
 const services = [
-  { id: 1, title: 'Lyhytvideot',            text: 'Lisäävät näkyvyyttä ja kasvattavat liidien määrää',   image: '/video.avif', bgPosition: 'center center'          },
-  { id: 2, title: 'Verkkosivut',            text: 'Rakennettu tuottamaan liidejä funnelien avulla',        image: '/www.avif',   bgPosition: 'center calc(50% - 1px)', modifier: 'ps-card--violet' },
-  { id: 3, title: 'Kehittyvät AI agentit',  text: 'Automatisoivat asiakaspalvelua ja liidien keruuta',    image: '/ai.avif',    bgPosition: 'center center'          },
+  { id: 1, title: 'Lyhytvideot',            text: 'Lisäävät näkyvyyttä ja kasvattavat liidien määrää',   image: '/video.avif', bgPosition: 'center center' },
+  { id: 2, title: 'Verkkosivut',            text: 'Rakennettu tuottamaan liidejä funnelien avulla',        image: '/www.avif',   bgPosition: 'center calc(50% - 1px)' },
+  { id: 3, title: 'Kehittyvät AI agentit',  text: 'Automatisoivat asiakaspalvelua ja liidien keruuta',    image: '/ai.avif',    bgPosition: 'center center' },
 ]
 
-function ServiceCard({ title, text, image, bgPosition, modifier }) {
+function ServiceCard({ title, text, image, bgPosition }) {
   return (
-    <div className={`ps-card${modifier ? ` ${modifier}` : ''}`}>
+    <div className="ps-card">
       <div className="ps-card__bg" style={{ backgroundImage: `url('${image}')`, backgroundPosition: bgPosition }} />
       <div className="ps-card__overlay" />
       <div className="ps-card__body">
@@ -21,11 +21,11 @@ function ServiceCard({ title, text, image, bgPosition, modifier }) {
 
 export default function Palvelut() {
   return (
-    <section className="palvelut-page">
+    <section className="palvelut-page" id="palvelut">
       <div className="palvelut-page__inner">
 
         <div className="palvelut-page__header">
-          <h1 className="palvelut-page__title">Kun asiakkaat etsivät,<br />sinä olet näkyvillä</h1>
+          <h2 className="palvelut-page__title">Kun asiakkaat etsivät,<br />sinä olet näkyvillä</h2>
         </div>
 
         <div className="palvelut-page__mission">
