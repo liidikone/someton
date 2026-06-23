@@ -218,7 +218,7 @@ function VideoPackage() {
             {hasDiscount && (
               <span className="hp-summary__price-original">{totalPerMonthBase.toFixed(0)}€</span>
             )}
-            <span className="hp-summary__price">
+            <span className="hp-summary__price hp-summary__price--plain">
               {totalPerMonth.toFixed(0)}€<span style={{ fontSize: '0.55em', fontStyle: 'normal', fontWeight: 400, marginLeft: '0.2em', opacity: 0.7 }}>/kk</span>
             </span>
           </div>
@@ -265,15 +265,10 @@ const websiteDetails = [
 function WebsitePackage() {
   const [open, setOpen] = useState(false)
   const [pages, setPages] = useState('1-5')
-  const [analytics, setAnalytics] = useState([])
+  const [maintenance, setMaintenance] = useState('vakio')
 
   const pagePrices = { '1-5': 800, '6-10': 1500, '10+': 2500 }
-  const analyticsList = ['Google Analytics + opetus', 'Microsoft Clarity + opetus']
-
-  const toggleAnalytics = (a) =>
-    setAnalytics(prev => prev.includes(a) ? prev.filter(x => x !== a) : [...prev, a])
-
-  const total = pagePrices[pages] + analytics.length * 100 + 49
+  const maintenancePrices = { vakio: 100, tasma: 249 }
 
   return (
     <div className="hp-package">
@@ -321,26 +316,39 @@ function WebsitePackage() {
         </div>
 
         <div className="hp-config-group">
-          <label className="hp-label">
-            Ylläpito <span className="hp-label-note">49€/kk</span>
-          </label>
-          <div className="hp-included-tag">
-            <span style={{ color: '#00ff88', fontWeight: 700 }}>✓</span> Sisältyy — tekninen tuki, päivitykset ja ylläpito
-          </div>
-        </div>
-
-        <div className="hp-config-group">
-          <label className="hp-label">Analytiikka <span className="hp-label-note">100€/kpl</span></label>
-          <div className="hp-pills hp-pills--wrap">
-            {analyticsList.map(a => (
-              <button
-                key={a}
-                className={`hp-pill hp-pill--sm${analytics.includes(a) ? ' hp-pill--active' : ''}`}
-                onClick={() => toggleAnalytics(a)}
-              >
-                {a}
-              </button>
-            ))}
+          <label className="hp-label">Ylläpito</label>
+          <div className="hp-toggles">
+            {/* VAKIO */}
+            <button
+              className={`hp-toggle${maintenance === 'vakio' ? ' hp-toggle--active' : ''}`}
+              onClick={() => setMaintenance('vakio')}
+            >
+              <span className="hp-toggle__check" style={maintenance === 'vakio' ? { background: '#00ff88', borderColor: '#00ff88', color: '#000000' } : {}}>
+                {maintenance === 'vakio' ? '✓' : ''}
+              </span>
+              <span className="hp-toggle__text">
+                <strong style={{ fontWeight: 700, display: 'block', fontSize: '0.85rem' }}>VAKIO</strong>
+                <span style={{ fontWeight: 300, fontSize: '0.78rem', opacity: 0.75 }}>sisältää: hosting, teknisen tuen, päivitykset ja ylläpidon</span>
+              </span>
+              <span className="hp-toggle__price">100€/kk</span>
+            </button>
+            {/* TÄSMÄ */}
+            <button
+              className={`hp-toggle${maintenance === 'tasma' ? ' hp-toggle--active' : ''}`}
+              onClick={() => setMaintenance('tasma')}
+            >
+              <span className="hp-toggle__check" style={maintenance === 'tasma' ? { background: '#00ff88', borderColor: '#00ff88', color: '#000000' } : {}}>
+                {maintenance === 'tasma' ? '✓' : ''}
+              </span>
+              <span className="hp-toggle__text">
+                <strong style={{ fontWeight: 700, display: 'block', fontSize: '0.85rem' }}>TÄSMÄ</strong>
+                <span style={{ fontWeight: 300, fontSize: '0.78rem', opacity: 0.75 }}>Sisältyy VAKIO ominaisuudet + dataan perustuva kuukausikohtainen optimointi (Google Analytics + Microsoft Clarity)</span>
+                <span style={{ display: 'block', fontWeight: 300, fontSize: '0.78rem', color: maintenance === 'tasma' ? 'rgba(255,255,255,0.8)' : '#888888', marginTop: '0.25rem' }}>
+                  Seuraamme käyttäjien toimintaa, optimoimme sivua jatkuvasti ja kasvatamme liidien määrää.
+                </span>
+              </span>
+              <span className="hp-toggle__price">249€/kk</span>
+            </button>
           </div>
         </div>
 
@@ -355,26 +363,20 @@ function WebsitePackage() {
             <span>Verkkosivut ({pages} sivua)</span>
             <span className="hp-summary__row-price">{pagePrices[pages]}€</span>
           </div>
-          {analytics.map(a => (
-            <div className="hp-summary__row" key={a}>
-              <span>{a}</span>
-              <span className="hp-summary__row-price">100€</span>
-            </div>
-          ))}
           <div className="hp-summary__row hp-summary__row--section-label" style={{marginTop:'0.5rem'}}>
             <span>Kuukausimaksu</span>
           </div>
           <div className="hp-summary__row">
-            <span>Ylläpito (tekninen tuki + päivitykset)</span>
-            <span className="hp-summary__row-price">49€/kk</span>
+            <span>Ylläpito ({maintenance === 'vakio' ? 'VAKIO' : 'TÄSMÄ'})</span>
+            <span className="hp-summary__row-price">{maintenancePrices[maintenance]}€/kk</span>
           </div>
         </div>
         <div className="hp-summary__total">
           <span>Yhteensä</span>
           <div className="hp-summary__price-wrap">
-            <span className="hp-summary__price">
-              {pagePrices[pages] + analytics.length * 100}€
-              <span style={{ fontSize: '0.55em', fontStyle: 'normal', fontWeight: 400, marginLeft: '0.2em', opacity: 0.7 }}>+ 49€/kk</span>
+            <span className="hp-summary__price hp-summary__price--plain">
+              {pagePrices[pages]}€
+              <span style={{ fontSize: '0.55em', fontStyle: 'normal', fontWeight: 400, marginLeft: '0.2em', opacity: 0.7 }}>+ {maintenancePrices[maintenance]}€/kk</span>
             </span>
           </div>
         </div>
