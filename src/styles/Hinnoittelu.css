@@ -649,3 +649,24 @@
     gap: 0.4rem;
   }
 }
+
+/* ============================================================
+   VIHREÄ AKSENTTI — hero.css #00ff88 sama väri
+   ============================================================ */
+
+/* "liidikoneesi" otsikossa */
+.hinnoittelu__title-accent {
+  color: #00ff88;
+  opacity: 1;
+}
+
+/* -5% ja -10% badget sopimuspilleissä */
+.hp-pill__badge--green {
+  background: #00ff88 !important;
+  color: #000000 !important;
+}
+
+.hp-pill--active .hp-pill__badge--green {
+  background: #00ff88 !important;
+  color: #000000 !important;
+}
