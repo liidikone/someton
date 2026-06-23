@@ -327,8 +327,8 @@ function WebsitePackage() {
                 {maintenance === 'vakio' ? '✓' : ''}
               </span>
               <span className="hp-toggle__text">
-                <strong style={{ fontWeight: 700, display: 'block', fontSize: '0.85rem' }}>VAKIO</strong>
-                <span style={{ fontWeight: 300, fontSize: '0.78rem', opacity: 0.75 }}>sisältää: hosting, teknisen tuen, päivitykset ja ylläpidon</span>
+                <strong style={{ fontWeight: 700, display: 'block', fontSize: '0.85rem' }}>VAKIO (Helppo ja vaivaton)</strong>
+                <span style={{ fontWeight: 300, fontSize: '0.78rem', opacity: 0.75 }}>sis. hosting, teknisen tuen, päivitykset ja ylläpidon</span>
               </span>
               <span className="hp-toggle__price">100€/kk</span>
             </button>
@@ -341,11 +341,9 @@ function WebsitePackage() {
                 {maintenance === 'tasma' ? '✓' : ''}
               </span>
               <span className="hp-toggle__text">
-                <strong style={{ fontWeight: 700, display: 'block', fontSize: '0.85rem' }}>TÄSMÄ</strong>
-                <span style={{ fontWeight: 300, fontSize: '0.78rem', opacity: 0.75 }}>Sisältyy VAKIO ominaisuudet + dataan perustuva kuukausikohtainen optimointi (Google Analytics + Microsoft Clarity)</span>
-                <span style={{ display: 'block', fontWeight: 300, fontSize: '0.78rem', color: maintenance === 'tasma' ? 'rgba(255,255,255,0.8)' : '#888888', marginTop: '0.25rem' }}>
-                  Seuraamme käyttäjien toimintaa, optimoimme sivua jatkuvasti ja kasvatamme liidien määrää.
-                </span>
+                <strong style={{ fontWeight: 700, display: 'block', fontSize: '0.85rem' }}>TÄSMÄ (Analyyttinen kasvu)</strong>
+                <span style={{ fontWeight: 300, fontSize: '0.78rem', opacity: 0.75 }}>sis. VAKIO ominaisuudet + dataan perustuva kuukausikohtainen optimointi</span>
+                <span style={{ display: 'block', fontWeight: 300, fontSize: '0.78rem', opacity: 0.75, marginTop: '0.1rem' }}>(Google Analytics + Microsoft Clarity)</span>
               </span>
               <span className="hp-toggle__price">249€/kk</span>
             </button>
