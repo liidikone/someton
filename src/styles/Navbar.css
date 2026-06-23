@@ -1,5 +1,5 @@
 /* ============================================
-   NAVBAR.CSS
+   NAVBAR.CSS — mustavalko-teema
    ============================================ */
 
 .navbar {
@@ -13,43 +13,9 @@
 }
 
 .navbar--menu-open {
-  background: rgba(0, 0, 0, 0.85);
+  background: rgba(0, 0, 0, 0.92);
   backdrop-filter: blur(16px);
   -webkit-backdrop-filter: blur(16px);
-}
-
-/* ============================================
-   LIGHT MODE — vaaleat sivut (esim. Tiimi)
-   ============================================ */
-.navbar--light {
-  background: #ffffff;
-  border-bottom: 1px solid #e8e8e8;
-  box-shadow: 0 1px 12px rgba(0,0,0,0.06);
-}
-
-.navbar--light .navbar__logo-text {
-  color: #000000;
-}
-
-.navbar--light .navbar__right {
-  background: rgba(0,0,0,0.04);
-  border-color: rgba(0,0,0,0.08);
-}
-
-.navbar--light .navbar__link {
-  color: #000000;
-}
-
-.navbar--light .navbar__link:hover {
-  color: rgba(0,0,0,0.5);
-}
-
-.navbar--light .navbar__hamburger span {
-  background: #000000;
-}
-
-.navbar--light.navbar--menu-open {
-  background: #ffffff;
 }
 
 /* ============================================
@@ -116,41 +82,29 @@
   white-space: nowrap;
 }
 .navbar__link:hover {
-  color: rgba(255, 255, 255, 0.6);
+  color: rgba(255, 255, 255, 0.5);
 }
 
-/* CTA button */
-.navbar__link--cta,
+/* CTA button — mustavalko */
 .navbar__cta-btn {
   display: inline-flex;
   align-items: center;
   height: 48px;
   padding-inline: 1.5rem;
   font-size: var(--text-sm);
-  font-weight: var(--font-medium);
-  letter-spacing: 0.04em;
-  text-transform: none;
-  background: #4ade80;
-  color: #000;
-  border: 1px solid #4ade80;
+  font-weight: var(--font-bold);
+  letter-spacing: 0.06em;
+  background: #00ff88;
+  color: #000000;
+  border: 1px solid #00ff88;
   border-radius: 9999px;
   cursor: pointer;
-  transition: background 150ms ease, box-shadow 150ms ease;
-  animation: navbar-cta-glow 4s ease-in-out infinite alternate;
+  transition: background 150ms ease, color 150ms ease, border-color 150ms ease;
   white-space: nowrap;
 }
-.navbar__link--cta:hover,
 .navbar__cta-btn:hover {
-  background: #6ee7a0;
-  color: #000;
-}
-@keyframes navbar-cta-glow {
-  0% {
-    box-shadow: 0 0 6px rgba(74,222,128,0.4), 0 0 14px rgba(74,222,128,0.2);
-  }
-  100% {
-    box-shadow: 0 0 16px rgba(74,222,128,0.85), 0 0 36px rgba(74,222,128,0.45), 0 0 60px rgba(74,222,128,0.2);
-  }
+  background: transparent;
+  color: #00ff88;
 }
 
 /* Hamburger */
@@ -181,7 +135,7 @@
   top: var(--nav-height);
   left: 0;
   right: 0;
-  background: rgba(0, 0, 0, 0.85);
+  background: rgba(0, 0, 0, 0.95);
   backdrop-filter: blur(16px);
   -webkit-backdrop-filter: blur(16px);
   border-top: 1px solid rgba(255,255,255,0.1);
@@ -198,18 +152,6 @@
   pointer-events: auto;
 }
 
-.navbar--light .navbar__mobile-menu {
-  background: #ffffff;
-  border-top: 1px solid #e8e8e8;
-}
-.navbar--light .navbar__mobile-link {
-  color: #000000;
-  border-bottom-color: #e8e8e8;
-}
-.navbar--light .navbar__mobile-link:hover {
-  color: rgba(0,0,0,0.5);
-}
-
 .navbar__mobile-list {
   display: flex;
   flex-direction: column;
@@ -224,7 +166,7 @@
   padding-bottom: var(--space-4, 1rem);
   transition: color var(--transition-fast, 0.15s ease);
 }
-.navbar__mobile-link:hover { color: rgba(255,255,255,0.6); }
+.navbar__mobile-link:hover { color: rgba(255,255,255,0.5); }
 .navbar__mobile-link--cta {
   margin-top: var(--space-4, 1rem);
   border-bottom: none;
@@ -237,11 +179,6 @@
   color: var(--color-white) !important;
   border-radius: var(--radius-md, 6px);
   font-size: var(--text-base, 1rem);
-}
-
-.navbar--light .navbar__mobile-link--cta {
-  border-color: rgba(0,0,0,0.3);
-  color: #000000 !important;
 }
 
 @media (max-width: 1024px) {
