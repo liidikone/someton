@@ -1,74 +1,150 @@
-import '../styles/Vaikuttajat.css'
+/* ============================================================
+   VAIKUTTAJAT — erillinen osio ennen Hinnastoa
+   ============================================================ */
 
-const influencers = [
-  { id: 1,  label: 'Anniina',  img: '/sisallontuottaja_01.avif' },
-  { id: 2,  label: 'Pauliina', img: '/sisallontuottaja_01.avif' },
-  { id: 3,  label: 'Santeri',  img: '/sisallontuottaja_01.avif' },
-  { id: 4,  label: 'Veera',    img: '/sisallontuottaja_01.avif' },
-  { id: 5,  label: null, img: null },
-  { id: 6,  label: null, img: null },
-  { id: 7,  label: null, img: null },
-  { id: 8,  label: null, img: null },
-  { id: 9,  label: null, img: null },
-  { id: 10, label: null, img: null },
-  { id: 11, label: null, img: null },
-  { id: 12, label: null, img: null },
-  { id: 13, label: null, img: null },
-  { id: 14, label: null, img: null },
-  { id: 15, label: null, img: null },
-  { id: 16, label: null, img: null },
-]
-
-function VaikuttajaCard({ label, img }) {
-  const isEmpty = !img
-
-  if (isEmpty) {
-    return (
-      <div className="vi-card vi-card--empty">
-        <div className="vi-card__inset">
-          <span className="vi-card__qmark">?</span>
-        </div>
-      </div>
-    )
-  }
-
-  return (
-    <div className="vi-card vi-card--filled">
-      <div className="vi-card__bg" style={{ backgroundImage: `url('${img}')` }} />
-      <div className="vi-card__overlay" />
-      <div className="vi-card__body">
-        <span className="vi-card__label">{label}</span>
-      </div>
-    </div>
-  )
+.vaikuttajat {
+  background: #000000;
+  padding-top: 6rem;
+  padding-bottom: 6rem;
+  border-top: 1px solid rgba(255, 255, 255, 0.1);
 }
 
-export default function Vaikuttajat() {
-  const row1 = influencers.slice(0, 8)
-  const row2 = influencers.slice(8, 16)
+.vaikuttajat__inner {
+  max-width: 1200px;
+  margin-left: auto;
+  margin-right: auto;
+  padding-left: clamp(1.5rem, 4vw, 5rem);
+  padding-right: clamp(1.5rem, 4vw, 5rem);
+  display: flex;
+  flex-direction: column;
+  gap: 2.5rem;
+}
 
-  return (
-    <section className="vaikuttajat" id="vaikuttajat">
-      <div className="vaikuttajat__inner">
+/* ── HEADER ────────────────────────────────────────────────── */
+.vaikuttajat__header {
+  display: flex;
+  flex-direction: column;
+  gap: 1.25rem;
+  max-width: 780px;
+}
 
-        <div className="vaikuttajat__header">
-          <h2 className="vaikuttajat__title">Vaikuttajat</h2>
-          <p className="vaikuttajat__lead">
-            Vaikuttajaverkostomme koostuu valituista ammattilaisista, jotka ymmärtävät digitaalisen
-            sisällön tekemisen, yleisöjen käyttäytymisen ja toimivien lyhytvideoiden rakentamisen.
-            He luovat yrityksesi näköistä, koukuttavaa sisältöä, joka herättää kiinnostusta ja
-            kasvattaa näkyvyyttä.
-          </p>
-        </div>
+.vaikuttajat__title {
+  font-family: 'Falzon', 'Oxanium', sans-serif;
+  font-style: italic;
+  font-size: clamp(2rem, 5vw, 5rem);
+  font-weight: 700;
+  line-height: 0.92;
+  letter-spacing: 0.04em;
+  color: #ffffff;
+  margin: 0;
+}
 
-        <div className="vi-grid">
-          {row1.map(c => <VaikuttajaCard key={c.id} label={c.label} img={c.img} />)}
-        </div>
-        <div className="vi-grid">
-          {row2.map(c => <VaikuttajaCard key={c.id} label={c.label} img={c.img} />)}
-        </div>
+.vaikuttajat__lead {
+  font-size: clamp(1rem, 1.6vw, 1.2rem);
+  font-weight: 300;
+  line-height: 1.65;
+  color: rgba(255, 255, 255, 0.6);
+  margin: 0;
+}
 
-      </div>
-    </section>
-  )
+/* ── GRID ──────────────────────────────────────────────────── */
+.vi-grid {
+  display: grid;
+  grid-template-columns: repeat(8, 1fr);
+  gap: 0.75rem;
+}
+
+/* ── CARD BASE ─────────────────────────────────────────────── */
+.vi-card {
+  aspect-ratio: 3 / 4;
+  border-radius: 10px;
+  overflow: hidden;
+  position: relative;
+}
+
+/* ── FILLED CARD ───────────────────────────────────────────── */
+.vi-card--filled {
+  cursor: pointer;
+}
+
+.vi-card__bg {
+  position: absolute;
+  inset: 0;
+  background-size: cover;
+  background-position: center top;
+  background-color: #222222;
+  transition: transform 0.4s ease;
+}
+
+.vi-card--filled:hover .vi-card__bg {
+  transform: scale(1.05);
+}
+
+.vi-card__overlay {
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(
+    to bottom,
+    rgba(0, 0, 0, 0.0) 40%,
+    rgba(0, 0, 0, 0.65) 100%
+  );
+  z-index: 1;
+}
+
+.vi-card__body {
+  position: absolute;
+  z-index: 2;
+  bottom: 0.6rem;
+  left: 0.6rem;
+  right: 0.6rem;
+}
+
+.vi-card__label {
+  font-size: clamp(0.65rem, 1vw, 0.9rem);
+  font-weight: 700;
+  font-style: italic;
+  text-transform: uppercase;
+  letter-spacing: 0.03em;
+  color: #ffffff;
+  text-shadow: 0 1px 4px rgba(0, 0, 0, 0.8);
+}
+
+/* ── EMPTY CARD ────────────────────────────────────────────── */
+.vi-card--empty {
+  background: #000000;
+}
+
+/* Inset — paksu harmaa sisäreunus */
+.vi-card__inset {
+  position: absolute;
+  inset: 8px;
+  border-radius: 6px;
+  border: 6px solid rgba(180, 180, 180, 0.18);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+/* Kysymysmerkki — iso, vihreä */
+.vi-card__qmark {
+  font-size: clamp(2rem, 5vw, 4rem);
+  font-weight: 900;
+  color: #00ff88;
+  line-height: 1;
+  user-select: none;
+  opacity: 0.85;
+}
+
+/* ── MOBILE ────────────────────────────────────────────────── */
+@media (max-width: 900px) {
+  .vi-grid {
+    grid-template-columns: repeat(4, 1fr);
+  }
+}
+
+@media (max-width: 500px) {
+  .vi-grid {
+    grid-template-columns: repeat(2, 1fr);
+    gap: 0.5rem;
+  }
 }
