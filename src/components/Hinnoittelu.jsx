@@ -64,7 +64,7 @@ function VideoPackage() {
 
   return (
     <div className="hp-package">
-      <div className="hp-package__desc" style={{ padding: '1.2rem 1.5rem 0', color: 'rgba(255,255,255,0.45)', fontSize: '0.78rem', lineHeight: 1.5 }}>
+      <div className="hp-package__desc" style={{ padding: '1.2rem 1.5rem 0', color: 'rgba(255,255,255,0.72)', fontSize: '0.78rem', lineHeight: 1.5 }}>
         Lyhytvideot lisäävät tunnettuutta, sitouttavat yleisöä ja ohjaavat potentiaalisia asiakkaita palveluidesi pariin.
       </div>
       <div className="hp-configurator">
@@ -278,8 +278,8 @@ function WebsitePackage() {
 
   return (
     <div className="hp-package">
-      <div className="hp-package__desc" style={{ padding: '1.2rem 1.5rem 0', color: 'rgba(255,255,255,0.45)', fontSize: '0.78rem', lineHeight: 1.5 }}>
-        Verkkosivut luovat vahvan ensivaikutelman ja muuttavat kävijät yhteydenotoiksi sekä liideiksi.
+      <div className="hp-package__desc" style={{ padding: '1.2rem 1.5rem 0', color: 'rgba(255,255,255,0.72)', fontSize: '0.78rem', lineHeight: 1.5 }}>
+        Modernit verkkosivut parantavat kävijöiden konversioastetta ja luovat vahvan ensivaikutelman brändistä.
       </div>
       <div className="hp-configurator">
 
