@@ -1,0 +1,474 @@
+/* ============================================================
+   HINNOITTELU — palvelupaketit
+   ============================================================ */
+
+.hinnoittelu {
+  background: #000000;
+  padding-top: clamp(4rem, 8vw, 8rem);
+  padding-bottom: clamp(4rem, 8vw, 8rem);
+}
+
+.hinnoittelu__inner {
+  max-width: 1200px;
+  margin-left: auto;
+  margin-right: auto;
+  padding-left: clamp(1.5rem, 4vw, 5rem);
+  padding-right: clamp(1.5rem, 4vw, 5rem);
+  display: flex;
+  flex-direction: column;
+  gap: clamp(3rem, 6vw, 5rem);
+}
+
+/* ── Header ── */
+.hinnoittelu__header {
+  display: flex;
+  flex-direction: column;
+  gap: 1rem;
+  max-width: 700px;
+}
+
+.hinnoittelu__eyebrow {
+  font-size: 0.75rem;
+  font-weight: 600;
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+  color: #888888;
+}
+
+.hinnoittelu__title {
+  font-family: 'Falzon', 'Oxanium', sans-serif;
+  font-style: italic;
+  font-size: clamp(2rem, 5vw, 4.5rem);
+  font-weight: 700;
+  line-height: 0.98;
+  letter-spacing: 0.04em;
+  color: #ffffff;
+  margin: 0;
+}
+
+.hinnoittelu__title-accent {
+  color: #ffffff;
+  opacity: 0.55;
+}
+
+.hinnoittelu__lead {
+  font-size: clamp(0.95rem, 1.5vw, 1.15rem);
+  font-weight: 300;
+  line-height: 1.6;
+  color: #888888;
+  margin: 0;
+}
+
+/* ── Grid ── */
+.hinnoittelu__grid {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 1.5rem;
+  align-items: start;
+}
+
+/* ── Package card ── */
+.hp-package {
+  background: #111111;
+  border: 1px solid #222222;
+  border-radius: 12px;
+  overflow: hidden;
+  display: flex;
+  flex-direction: column;
+}
+
+.hp-package--coming {
+  opacity: 0.6;
+  pointer-events: none;
+}
+
+.hp-package__header {
+  display: flex;
+  align-items: flex-start;
+  gap: 1rem;
+  padding: 1.5rem 1.5rem 0;
+}
+
+.hp-package__icon {
+  font-size: 1.5rem;
+  line-height: 1;
+  flex-shrink: 0;
+  margin-top: 0.1rem;
+}
+
+.hp-package__title {
+  font-family: 'Falzon', 'Oxanium', sans-serif;
+  font-style: italic;
+  font-size: clamp(1.4rem, 2vw, 1.8rem);
+  font-weight: 700;
+  letter-spacing: 0.03em;
+  color: #ffffff;
+  margin: 0 0 0.2rem;
+}
+
+.hp-package__sub {
+  font-size: 0.82rem;
+  font-weight: 300;
+  color: #666666;
+  margin: 0;
+}
+
+.hp-package__sub--muted {
+  color: #555555;
+}
+
+/* ── Configurator ── */
+.hp-configurator {
+  padding: 1.25rem 1.5rem;
+  display: flex;
+  flex-direction: column;
+  gap: 1.25rem;
+  flex: 1;
+}
+
+.hp-config-group {
+  display: flex;
+  flex-direction: column;
+  gap: 0.5rem;
+}
+
+.hp-label {
+  font-size: 0.72rem;
+  font-weight: 600;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  color: #666666;
+}
+
+.hp-label-note {
+  font-weight: 300;
+  text-transform: none;
+  letter-spacing: 0;
+  color: #555555;
+}
+
+/* ── Pills ── */
+.hp-pills {
+  display: flex;
+  gap: 0.5rem;
+}
+
+.hp-pills--wrap {
+  flex-wrap: wrap;
+}
+
+.hp-pill {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  gap: 0.15rem;
+  flex: 1;
+  padding: 0.6rem 0.75rem;
+  background: #1a1a1a;
+  border: 1px solid #2a2a2a;
+  border-radius: 8px;
+  color: #aaaaaa;
+  font-family: inherit;
+  cursor: pointer;
+  transition: all 150ms ease;
+  text-align: left;
+  position: relative;
+}
+
+.hp-pill:hover {
+  border-color: #444444;
+  color: #ffffff;
+}
+
+.hp-pill--active {
+  background: #ffffff;
+  border-color: #ffffff;
+  color: #000000;
+}
+
+.hp-pill--sm {
+  flex: 0 0 auto;
+  flex-direction: row;
+  align-items: center;
+  gap: 0.4rem;
+  padding: 0.45rem 0.75rem;
+  font-size: 0.8rem;
+}
+
+.hp-pill__count {
+  font-size: 0.85rem;
+  font-weight: 600;
+  color: inherit;
+}
+
+.hp-pill__price {
+  font-size: 0.72rem;
+  font-weight: 400;
+  color: inherit;
+  opacity: 0.65;
+}
+
+.hp-pill--active .hp-pill__price {
+  opacity: 0.6;
+}
+
+.hp-pill__badge {
+  position: absolute;
+  top: -8px;
+  right: -4px;
+  background: #ffffff;
+  color: #000000;
+  font-size: 0.6rem;
+  font-weight: 700;
+  letter-spacing: 0.06em;
+  padding: 1px 5px;
+  border-radius: 99px;
+}
+
+.hp-pill--active .hp-pill__badge {
+  background: #000000;
+  color: #ffffff;
+}
+
+/* ── Toggles ── */
+.hp-toggles {
+  display: flex;
+  flex-direction: column;
+  gap: 0.5rem;
+}
+
+.hp-toggle {
+  display: flex;
+  align-items: center;
+  gap: 0.75rem;
+  padding: 0.65rem 0.75rem;
+  background: #1a1a1a;
+  border: 1px solid #2a2a2a;
+  border-radius: 8px;
+  color: #aaaaaa;
+  font-family: inherit;
+  font-size: 0.82rem;
+  cursor: pointer;
+  transition: all 150ms ease;
+  text-align: left;
+  width: 100%;
+}
+
+.hp-toggle:hover {
+  border-color: #444444;
+  color: #ffffff;
+}
+
+.hp-toggle--active {
+  background: #1c1c1c;
+  border-color: #ffffff;
+  color: #ffffff;
+}
+
+.hp-toggle__check {
+  font-size: 0.75rem;
+  font-weight: 700;
+  width: 18px;
+  height: 18px;
+  border-radius: 4px;
+  border: 1px solid #333333;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-shrink: 0;
+  background: #111111;
+  color: #ffffff;
+}
+
+.hp-toggle--active .hp-toggle__check {
+  background: #ffffff;
+  color: #000000;
+  border-color: #ffffff;
+}
+
+.hp-toggle__text {
+  flex: 1;
+  line-height: 1.3;
+}
+
+.hp-toggle__price {
+  font-size: 0.78rem;
+  font-weight: 600;
+  color: inherit;
+  white-space: nowrap;
+  opacity: 0.7;
+}
+
+.hp-toggle--active .hp-toggle__price {
+  opacity: 1;
+}
+
+/* ── Expand button ── */
+.hp-expand-btn {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  width: 100%;
+  padding: 0.65rem 0.75rem;
+  background: #1a1a1a;
+  border: 1px solid #2a2a2a;
+  border-radius: 8px;
+  color: #aaaaaa;
+  font-family: inherit;
+  font-size: 0.82rem;
+  cursor: pointer;
+  transition: all 150ms ease;
+}
+
+.hp-expand-btn:hover {
+  border-color: #444444;
+  color: #ffffff;
+}
+
+.hp-expand-btn__arrow {
+  transition: transform 250ms ease;
+  font-size: 0.9rem;
+}
+
+.hp-expand-btn__arrow--open {
+  transform: rotate(180deg);
+}
+
+.hp-details {
+  display: flex;
+  flex-direction: column;
+  gap: 0.75rem;
+  padding: 0.75rem;
+  background: #161616;
+  border: 1px solid #222222;
+  border-radius: 8px;
+}
+
+.hp-details__group {
+  display: flex;
+  flex-direction: column;
+  gap: 0.3rem;
+}
+
+.hp-details__heading {
+  font-size: 0.65rem;
+  font-weight: 700;
+  letter-spacing: 0.12em;
+  color: #555555;
+  margin: 0;
+}
+
+.hp-details__list {
+  display: flex;
+  flex-direction: column;
+  gap: 0.2rem;
+}
+
+.hp-details__list li {
+  font-size: 0.78rem;
+  font-weight: 300;
+  color: #999999;
+  padding-left: 0.85rem;
+  position: relative;
+  line-height: 1.4;
+}
+
+.hp-details__list li::before {
+  content: '→';
+  position: absolute;
+  left: 0;
+  color: #444444;
+  font-size: 0.65rem;
+  top: 0.05em;
+}
+
+/* ── Included tag ── */
+.hp-included-tag {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.4rem;
+  padding: 0.45rem 0.75rem;
+  background: #1a1a1a;
+  border: 1px solid #2a2a2a;
+  border-radius: 8px;
+  font-size: 0.8rem;
+  font-weight: 300;
+  color: #777777;
+  width: 100%;
+}
+
+/* ── Summary ── */
+.hp-summary {
+  margin-top: auto;
+  border-top: 1px solid #222222;
+  padding: 1.25rem 1.5rem 1.5rem;
+  display: flex;
+  flex-direction: column;
+  gap: 0.75rem;
+}
+
+.hp-summary__rows {
+  display: flex;
+  flex-direction: column;
+  gap: 0.3rem;
+}
+
+.hp-summary__row {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  font-size: 0.78rem;
+  font-weight: 300;
+  color: #666666;
+}
+
+.hp-summary__row span:last-child {
+  font-weight: 500;
+  color: #aaaaaa;
+}
+
+.hp-summary__total {
+  display: flex;
+  justify-content: space-between;
+  align-items: baseline;
+  padding-top: 0.75rem;
+  border-top: 1px solid #222222;
+}
+
+.hp-summary__total span:first-child {
+  font-size: 0.78rem;
+  font-weight: 400;
+  color: #666666;
+  text-transform: uppercase;
+  letter-spacing: 0.08em;
+}
+
+.hp-summary__price {
+  font-family: 'Falzon', 'Oxanium', sans-serif;
+  font-style: italic;
+  font-size: clamp(1.6rem, 2.5vw, 2rem);
+  font-weight: 700;
+  color: #ffffff;
+  letter-spacing: 0.02em;
+}
+
+/* ── Coming soon ── */
+.hp-coming-body {
+  padding: 1.25rem 1.5rem 2rem;
+}
+
+.hp-coming-text {
+  font-size: 0.9rem;
+  font-weight: 300;
+  color: #555555;
+  font-style: italic;
+  line-height: 1.5;
+}
+
+/* ── Mobile ── */
+@media (max-width: 900px) {
+  .hinnoittelu__grid {
+    grid-template-columns: 1fr;
+    max-width: 520px;
+  }
+}
