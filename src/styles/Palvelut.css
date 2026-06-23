@@ -41,6 +41,11 @@
   margin: 0;
 }
 
+.palvelut-page__title-accent {
+  color: #000000;
+  opacity: 0.35;
+}
+
 /* ============================================================
    MISSION
    ============================================================ */
@@ -88,6 +93,7 @@
   background-position: center;
   background-repeat: no-repeat;
   opacity: 1;
+  filter: grayscale(100%);
 }
 
 .ps-card__overlay {
