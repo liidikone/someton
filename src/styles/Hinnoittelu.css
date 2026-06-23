@@ -209,7 +209,6 @@
 
 .hp-pill:hover {
   border-color: #aaaaaa;
-  color: #000000;
 }
 
 .hp-pill--active {
@@ -286,7 +285,6 @@
 
 .hp-some-icon:hover {
   border-color: #aaaaaa;
-  color: #000000;
 }
 
 .hp-some-icon--active {
@@ -327,7 +325,6 @@
 
 .hp-toggle:hover {
   border-color: #aaaaaa;
-  color: #000000;
 }
 
 .hp-toggle--active {
