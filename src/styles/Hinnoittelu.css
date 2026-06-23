@@ -92,6 +92,9 @@
 .hp-tab--active {
   color: #000000;
   border-bottom-color: #000000;
+  background: #f8f8f8;
+  border-radius: 6px 6px 0 0;
+  font-weight: 700;
 }
 
 .hp-tab--coming {
@@ -548,6 +551,56 @@
   font-weight: 700;
   color: #000000;
   letter-spacing: 0.02em;
+}
+
+.hp-summary__price-wrap {
+  display: flex;
+  align-items: baseline;
+  gap: 0.5rem;
+}
+
+.hp-summary__price-original {
+  font-size: 1rem;
+  font-weight: 400;
+  color: #aaaaaa;
+  text-decoration: line-through;
+}
+
+.hp-summary__row-price {
+  display: flex;
+  align-items: center;
+  gap: 0.4rem;
+  font-weight: 500;
+  color: #444444;
+  font-size: 0.78rem;
+}
+
+.hp-summary__strikethrough {
+  font-size: 0.72rem;
+  font-weight: 400;
+  color: #bbbbbb;
+  text-decoration: line-through;
+}
+
+.hp-summary__row--discount span {
+  color: #555555 !important;
+  font-weight: 500 !important;
+}
+
+.hp-summary__row--section-label span {
+  font-size: 0.65rem;
+  font-weight: 700;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  color: #aaaaaa;
+}
+
+.hp-summary__monthly-note {
+  font-size: 0.78rem;
+  font-weight: 400;
+  color: #999999;
+  text-align: right;
+  margin-top: -0.25rem;
 }
 
 /* -- Coming soon -- */
