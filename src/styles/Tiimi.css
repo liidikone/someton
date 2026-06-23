@@ -4,7 +4,7 @@
 
 .tiimi-page {
   background: #000000 url('/tiimi-bg.avif') center top / cover no-repeat fixed;
-  background-color: rgba(0,0,0,0.55);
+  background-color: rgba(0,0,0,0.6);
   background-blend-mode: multiply;
   padding-top: 6rem;
   padding-bottom: 6rem;
@@ -26,25 +26,9 @@
    DESKTOP layout
    ============================================================ */
 @media (min-width: 769px) {
-  .tiimi-page__inner {
-    display: grid;
-    grid-template-columns: 1.05fr 0.95fr;
-    grid-template-areas:
-      "header  header"
-      "mission mission"
-      "cards   cards"
-      "members members";
-    column-gap: clamp(2rem, 4vw, 4rem);
-    row-gap: 4rem;
-    align-items: start;
-  }
-  .tiimi-page__header        { grid-area: header; }
-  .tiimi-page__title         { white-space: nowrap; }
-  .tiimi-page__mission       { grid-area: mission; align-self: start; max-width: none; }
-  .tiimi-page__cards-section { grid-area: cards; align-self: center; justify-self: center; }
-  .tiimi-page__hr            { display: none; }
-  .tiimi-page__grid--all     { grid-area: members; grid-template-columns: repeat(4, 1fr); }
-  .tc-scene { zoom: 0.75; }
+  .tiimi-page__title { white-space: nowrap; }
+  .tiimi-page__mission { max-width: none; }
+  .tiimi-page__hr { display: none; }
 }
 
 /* ============================================================
@@ -297,20 +281,7 @@
   .tiimi-page__title {
     font-size: clamp(1.4rem, 7vw, 2.2rem);
   }
-  .tiimi-page__grid {
-    grid-template-columns: 1fr;
-  }
-  .tc-scene {
-    overflow-x: auto;
-  }
-  .tc-card {
-    width: 200px;
-    height: 300px;
-  }
-  .tc-card__body {
-    top: calc(300px * 0.33);
-  }
-  .tc-card__label {
-    font-size: 1.9rem;
+  .tiimi-page__grid--all {
+    grid-template-columns: 1fr 1fr;
   }
 }
