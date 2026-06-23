@@ -102,10 +102,7 @@ function VideoPackage() {
         </div>
 
         <div className="hp-config-group">
-          <label className="hp-label">
-            Alustat
-            <span className="hp-label-note"> 50€ avaus + 50€/kk per alusta</span>
-          </label>
+          <label className="hp-label">Alustat</label>
           <div className="hp-some-icons">
             {platformList.map(p => (
               <button
@@ -150,37 +147,57 @@ function VideoPackage() {
       <div className="hp-summary">
         <div className="hp-summary__rows">
           <div className="hp-summary__row">
-            <span>{videos} videota/kk x {months} kk</span>
-            <span>{(monthly * months).toFixed(0)}€</span>
+            <span>{videos} videota/kk × {months} kk</span>
+            <span className="hp-summary__row-price">
+              {hasDiscount && (
+                <span className="hp-summary__strikethrough">{(base * months).toFixed(0)}€</span>
+              )}
+              {(monthly * months).toFixed(0)}€
+            </span>
           </div>
           {platforms.length > 0 && (
             <>
               <div className="hp-summary__row">
                 <span>Alustat avaus ({platforms.length} kpl)</span>
-                <span>{platformOneTime}€</span>
+                <span className="hp-summary__row-price">{platformOneTime}€</span>
               </div>
               <div className="hp-summary__row">
-                <span>Alustat/kk x {months} kk</span>
-                <span>{platformMonthly * months}€</span>
+                <span>Alustat/kk × {months} kk</span>
+                <span className="hp-summary__row-price">
+                  {hasDiscount && (
+                    <span className="hp-summary__strikethrough">{platforms.length * 50 * months}€</span>
+                  )}
+                  {(platformMonthly * months)}€
+                </span>
               </div>
             </>
           )}
           {wantInfluencer && (
             <div className="hp-summary__row">
-              <span>Vaikuttaja x {months} kk</span>
-              <span>{influencerMonthly * months}€</span>
+              <span>Vaikuttaja × {months} kk</span>
+              <span className="hp-summary__row-price">
+                {hasDiscount && (
+                  <span className="hp-summary__strikethrough">{200 * months}€</span>
+                )}
+                {influencerMonthly * months}€
+              </span>
             </div>
           )}
           {wantManagement && (
             <div className="hp-summary__row">
-              <span>Tilien ylläpito x {months} kk</span>
-              <span>{managementMonthly * months}€</span>
+              <span>Tilien ylläpito × {months} kk</span>
+              <span className="hp-summary__row-price">
+                {hasDiscount && (
+                  <span className="hp-summary__strikethrough">{100 * months}€</span>
+                )}
+                {managementMonthly * months}€
+              </span>
             </div>
           )}
           {hasDiscount && (
             <div className="hp-summary__row hp-summary__row--discount">
               <span>Sopimusalennus ({Math.round(discountRate * 100)}%)</span>
-              <span>-{(baseTotal - grandTotal).toFixed(0)}€</span>
+              <span className="hp-summary__row-price">−{(baseTotal - grandTotal).toFixed(0)}€</span>
             </div>
           )}
         </div>
@@ -318,26 +335,35 @@ function WebsitePackage() {
 
       <div className="hp-summary">
         <div className="hp-summary__rows">
-          <div className="hp-summary__row">
-            <span>Verkkosivut ({pages} sivua)</span>
-            <span>{pagePrices[pages]}€</span>
+          <div className="hp-summary__row hp-summary__row--section-label">
+            <span>Kertamaksu</span>
           </div>
           <div className="hp-summary__row">
-            <span>Ylläpito</span>
-            <span>49€/kk</span>
+            <span>Verkkosivut ({pages} sivua)</span>
+            <span className="hp-summary__row-price">{pagePrices[pages]}€</span>
           </div>
           {analytics.map(a => (
             <div className="hp-summary__row" key={a}>
               <span>{a}</span>
-              <span>100€</span>
+              <span className="hp-summary__row-price">100€</span>
             </div>
           ))}
+          <div className="hp-summary__row hp-summary__row--section-label" style={{marginTop:'0.5rem'}}>
+            <span>Kuukausimaksu</span>
+          </div>
+          <div className="hp-summary__row">
+            <span>Ylläpito (tekninen tuki + päivitykset)</span>
+            <span className="hp-summary__row-price">49€/kk</span>
+          </div>
         </div>
         <div className="hp-summary__total">
-          <span>Aloitushinta sis. ylläpito</span>
+          <span>Kertamaksu yhteensä</span>
           <div className="hp-summary__price-wrap">
-            <span className="hp-summary__price">{total}€</span>
+            <span className="hp-summary__price">{pagePrices[pages] + analytics.length * 100}€</span>
           </div>
+        </div>
+        <div className="hp-summary__monthly-note">
+          + 49€/kk ylläpito
         </div>
       </div>
     </div>
