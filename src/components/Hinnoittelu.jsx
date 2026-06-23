@@ -446,7 +446,7 @@ export default function Hinnoittelu() {
 
         <div className="hinnoittelu__header">
           <h2 className="hinnoittelu__title">
-            Rakenna{' '}
+            RAKENNA
             <span className="hinnoittelu__title-accent">liidikoneesi</span>
           </h2>
           <p className="hinnoittelu__lead">
