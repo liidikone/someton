@@ -336,7 +336,7 @@ function WebsitePackage() {
                 {maintenance === 'vakio' ? '✓' : ''}
               </span>
               <span className="hp-toggle__text">
-                <strong style={{ fontWeight: 700, display: 'block', fontSize: '0.85rem' }}>VAKIO (helppo ja vaivaton 12 kuukautta)</strong>
+                <strong style={{ fontWeight: 700, display: 'block', fontSize: '0.85rem' }}>VAKIO (aina ajan tasalla 12 kuukautta)</strong>
                 <span style={{ fontWeight: 300, fontSize: '0.78rem', opacity: 0.75 }}>SOMET<span style={{ color: '#00ff88', fontWeight: 700 }}>ON</span> pitää verkkosivusi ajan tasalla ja toimintavarmana. Paketti sisältää hostingin, teknisen tuen, päivitykset ja jatkuvan ylläpidon.</span>
               </span>
               <span className="hp-toggle__price">100€/kk</span>
@@ -351,7 +351,7 @@ function WebsitePackage() {
               </span>
               <span className="hp-toggle__text">
                 <strong style={{ fontWeight: 700, display: 'block', fontSize: '0.85rem' }}>TÄSMÄ (analyyttinen kasvu 12 kuukautta)</strong>
-                <span style={{ fontWeight: 300, fontSize: '0.78rem', opacity: 0.75 }}>sis. VAKIO ominaisuudet + SOMET<span style={{ color: '#00ff88', fontWeight: 700 }}>ON</span> auttaa kasvattamaan verkkosivustosi tuloksia datan avulla. Seuranta, analyysi ja kuukausittaiset optimoinnit perustuvat todelliseen kävijäkäyttäytymiseen (Google Analytics + Microsoft Clarity).</span>
+                <span style={{ fontWeight: 300, fontSize: '0.78rem', opacity: 0.75 }}>sis. VAKIO ominaisuudet + SOMET<span style={{ color: '#00ff88', fontWeight: 700 }}>ON</span> auttaa kasvattamaan verkkosivustosi tuloksia datan avulla. Seuranta, analyysi ja kuukausittaiset optimoinnit perustuvat todelliseen kävijäkäyttäytymiseen.</span>
               </span>
               <span className="hp-toggle__price">249€/kk</span>
             </button>
