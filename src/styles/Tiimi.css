@@ -1,13 +1,12 @@
 /* ============================================================
-   TIIMI PAGE — unique prefixes to avoid collisions
+   TIIMI PAGE — mustavalko-teema, etusivun osio
    ============================================================ */
 
 .tiimi-page {
-  background: #ffffff url('/tiimi-bg.avif') center top / cover no-repeat fixed;
-  min-height: 100vh;
-  padding-top: 80px; /* nav height */
+  background: #000000 url('/tiimi-bg.avif') center top / cover no-repeat fixed;
+  padding-top: 6rem;
   padding-bottom: 6rem;
-  border-top: 1px solid rgba(255,255,255,0.15);
+  border-top: 1px solid rgba(255,255,255,0.1);
 }
 
 .tiimi-page__inner {
@@ -19,13 +18,10 @@
   display: flex;
   flex-direction: column;
   gap: 4rem;
-  padding-top: 4rem;
 }
 
 /* ============================================================
-   DESKTOP — header + mission span the full width, then
-   sellers/founders (left) and content-creator cards (right)
-   form a two-column block below.
+   DESKTOP layout
    ============================================================ */
 @media (min-width: 769px) {
   .tiimi-page__inner {
@@ -40,16 +36,13 @@
     row-gap: 4rem;
     align-items: start;
   }
-
   .tiimi-page__header   { grid-area: header; }
   .tiimi-page__title    { white-space: nowrap; }
   .tiimi-page__mission  { grid-area: mission; align-self: start; max-width: none; }
   .tiimi-page__cards-section { grid-area: cards; align-self: center; justify-self: center; transform: translateY(-1.25rem); }
   .tiimi-page__hr       { display: none; }
-
   .tiimi-page__grid--sellers  { grid-area: sellers; padding-bottom: 0.75rem; border-bottom: 1px solid rgba(255,255,255,0.15); }
   .tiimi-page__grid--founders { grid-area: founders; }
-
   .tc-scene { zoom: 0.75; }
 }
 
@@ -61,16 +54,6 @@
   flex-direction: column;
   gap: 1rem;
   max-width: 100%;
-}
-
-.tiimi-page__eyebrow {
-  font-size: 0.75rem;
-  font-weight: 700;
-  letter-spacing: 0.2em;
-  text-transform: uppercase;
-  color: #ffffff;
-  opacity: 0.35;
-  margin: 0;
 }
 
 .tiimi-page__title {
@@ -89,7 +72,7 @@
    ============================================================ */
 .tiimi-page__mission {
   max-width: 680px;
-  border-left: 2px solid rgba(255,255,255,0.4);
+  border-left: 2px solid rgba(255,255,255,0.5);
   padding-left: 1.5rem;
 }
 
@@ -138,12 +121,13 @@
   object-fit: cover;
 }
 
+/* Rooli — valkoinen aiemman vihreän sijaan */
 .tm-role {
   font-size: 0.7rem;
   font-weight: 700;
   letter-spacing: 0.18em;
   text-transform: uppercase;
-  color: #4ade80;
+  color: rgba(255,255,255,0.5);
   margin: 0.5rem 0 0;
 }
 
@@ -165,14 +149,11 @@
   font-size: 0.95rem;
   font-weight: 300;
   line-height: 1.6;
-  color: rgba(255,255,255,0.65);
+  color: rgba(255,255,255,0.55);
   text-decoration: none;
   transition: color 0.2s ease;
 }
-
-.tm-contact__link:hover {
-  color: #4ade80;
-}
+.tm-contact__link:hover { color: #ffffff; }
 
 /* ============================================================
    DIVIDER
@@ -208,7 +189,6 @@
    ============================================================ */
 .tc-scene {
   position: relative;
-  /* width + height set inline */
 }
 
 .tc-card {
@@ -219,7 +199,7 @@
   border-radius: 16px;
   overflow: hidden;
   cursor: pointer;
-  box-shadow: 0 4px 16px rgba(0,0,0,0.12), 0 0 0 1px rgba(255,255,255,0.15);
+  box-shadow: 0 4px 16px rgba(0,0,0,0.18), 0 0 0 1px rgba(255,255,255,0.12);
   transition:
     transform 0.35s cubic-bezier(0.22, 1, 0.36, 1),
     filter 0.28s ease,
@@ -227,14 +207,15 @@
   will-change: transform, filter;
 }
 
+/* Aktiivinen kortti — valkoinen reuna aiemman vihreän sijaan */
 .tc-card--active {
   transform: translateY(-22px) scale(1.04);
-  box-shadow: 0 20px 48px rgba(0,0,0,0.18), 0 0 0 2px #4ade80;
+  box-shadow: 0 20px 48px rgba(0,0,0,0.24), 0 0 0 2px #ffffff;
   filter: brightness(1.05);
 }
 
 .tc-card--dim {
-  filter: brightness(0.55) saturate(0.5);
+  filter: brightness(0.45) saturate(0.3);
 }
 
 .tc-card__bg {
@@ -242,7 +223,7 @@
   inset: 0;
   background-size: cover;
   background-position: center top;
-  background-color: #d0d0d0;
+  background-color: #333333;
   transition: transform 0.4s ease;
 }
 
@@ -263,7 +244,6 @@
   z-index: 1;
 }
 
-/* Label at ~1/3 from top */
 .tc-card__body {
   position: absolute;
   z-index: 2;
@@ -283,6 +263,7 @@
   text-shadow: 0 1px 6px rgba(0,0,0,0.8);
 }
 
+/* Aksenttipalkki — valkoinen */
 .tc-card__accent {
   position: absolute;
   bottom: 0;
@@ -290,7 +271,7 @@
   right: 0;
   height: 3px;
   z-index: 3;
-  background: linear-gradient(to right, #4ade80, rgba(74,222,128,0.2));
+  background: linear-gradient(to right, #ffffff, rgba(255,255,255,0.15));
   transform: scaleX(0);
   transform-origin: left;
   transition: transform 0.35s cubic-bezier(0.22, 1, 0.36, 1);
@@ -307,24 +288,19 @@
   .tiimi-page__title {
     font-size: clamp(1.4rem, 7vw, 2.2rem);
   }
-
   .tiimi-page__grid {
     grid-template-columns: 1fr;
   }
-
   .tc-scene {
     overflow-x: auto;
   }
-
   .tc-card {
     width: 200px;
     height: 300px;
   }
-
   .tc-card__body {
     top: calc(300px * 0.33);
   }
-
   .tc-card__label {
     font-size: 1.9rem;
   }
