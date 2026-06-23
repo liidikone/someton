@@ -38,17 +38,20 @@
 .hinnoittelu__title {
   font-family: 'Falzon', 'Oxanium', sans-serif;
   font-style: italic;
-  font-size: clamp(2rem, 5vw, 4.5rem);
+  font-size: clamp(4.62rem, 13.2vw, 11.55rem);
   font-weight: 700;
-  line-height: 0.98;
-  letter-spacing: 0.04em;
+  line-height: 0.88;
+  letter-spacing: 0.06em;
   color: #000000;
   margin: 0;
 }
 
 .hinnoittelu__title-accent {
+  display: block;
+  font-size: 0.65em;
+  margin-top: 0.05em;
   color: #000000;
-  opacity: 0.35;
+  opacity: 1;
 }
 
 .hinnoittelu__lead {
