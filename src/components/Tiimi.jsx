@@ -20,27 +20,17 @@ const PEEK   = Math.round(CARD_W * 0.40)
 
 function useCardSound() {
   const audioCtx = useRef(null)
-
   function getCtx() {
     if (!audioCtx.current) {
       audioCtx.current = new (window.AudioContext || window.webkitAudioContext)()
     }
-    // Selaimet luovat AudioContextin "suspended"-tilassa: ilman resume()-kutsua
-    // sen kello ei etene, äänet jonottuvat ja purkautuvat myöhemmin yhtenä
-    // kovana ryöppynä. Herätetään konteksti aina ennen soittoa.
-    if (audioCtx.current.state === 'suspended') {
-      audioCtx.current.resume()
-    }
+    if (audioCtx.current.state === 'suspended') audioCtx.current.resume()
     return audioCtx.current
   }
-
   return function playCardSound() {
     try {
       const ctx = getCtx()
       const now = ctx.currentTime
-
-      // Kevyt "naps→shuush": lyhyt kohinapyrähdys jonka taajuus liukuu
-      // alaspäin — napsahtava alku, pehmeä häivytys, ei syvää bassoa.
       const dur = 0.09
       const bufferSize = Math.floor(ctx.sampleRate * dur)
       const buffer = ctx.createBuffer(1, bufferSize, ctx.sampleRate)
@@ -50,17 +40,14 @@ function useCardSound() {
       }
       const noise = ctx.createBufferSource()
       noise.buffer = buffer
-
       const bandpass = ctx.createBiquadFilter()
       bandpass.type = 'bandpass'
       bandpass.Q.value = 0.6
       bandpass.frequency.setValueAtTime(4200, now)
       bandpass.frequency.exponentialRampToValueAtTime(1500, now + dur)
-
       const noiseGain = ctx.createGain()
       noiseGain.gain.setValueAtTime(0.1, now)
       noiseGain.gain.exponentialRampToValueAtTime(0.001, now + dur)
-
       noise.connect(bandpass)
       bandpass.connect(noiseGain)
       noiseGain.connect(ctx.destination)
@@ -86,8 +73,8 @@ function StackedCards() {
       onMouseLeave={() => setActiveCard(null)}
     >
       {cards.map((card, i) => {
-        const isActive   = activeCard === card.id
-        const isDim      = activeCard !== null && !isActive
+        const isActive = activeCard === card.id
+        const isDim    = activeCard !== null && !isActive
         return (
           <div
             key={card.id}
@@ -116,8 +103,8 @@ function Member({ tag, name, img, phone, email }) {
           <img src={img} alt={name} className="tm-avatar__img" />
         ) : (
           <svg width="36" height="36" viewBox="0 0 48 48" fill="none" aria-hidden="true">
-            <circle cx="24" cy="18" r="10" stroke="#cccccc" strokeWidth="2" />
-            <path d="M4 44c0-11 8.954-20 20-20s20 8.954 20 20" stroke="#cccccc" strokeWidth="2" strokeLinecap="round" />
+            <circle cx="24" cy="18" r="10" stroke="#999999" strokeWidth="2" />
+            <path d="M4 44c0-11 8.954-20 20-20s20 8.954 20 20" stroke="#999999" strokeWidth="2" strokeLinecap="round" />
           </svg>
         )}
       </div>
@@ -133,11 +120,11 @@ function Member({ tag, name, img, phone, email }) {
 
 export default function Tiimi() {
   return (
-    <section className="tiimi-page">
+    <section className="tiimi-page" id="tiimi">
       <div className="tiimi-page__inner">
 
         <div className="tiimi-page__header">
-          <h1 className="tiimi-page__title">Osaajat kasvun takana</h1>
+          <h2 className="tiimi-page__title">Osaajat kasvun takana</h2>
         </div>
 
         <div className="tiimi-page__mission">
@@ -148,7 +135,7 @@ export default function Tiimi() {
         </div>
 
         <div className="tiimi-page__cards-section">
-          <h2 className="tiimi-page__cards-title">SISÄLLÖNTUOTTAJAT</h2>
+          <h3 className="tiimi-page__cards-title">SISÄLLÖNTUOTTAJAT</h3>
           <StackedCards />
         </div>
 
