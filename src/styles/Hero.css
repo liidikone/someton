@@ -78,12 +78,15 @@
   margin-bottom: var(--space-10);
 }
 
-/* Valkoinen aksentti aiemman vihreän tilalla */
+.hero__title-on {
+  color: #00ff88;
+}
+
 .hero__title-accent {
   display: block;
   font-size: 0.65em;
   margin-top: 0.05em;
-  color: #00ff88;
+  color: var(--color-white);
   animation:
     liidikone-slide-in 0.9s cubic-bezier(0.22, 1, 0.36, 1) 0.3s both;
 }
