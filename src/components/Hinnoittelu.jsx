@@ -448,9 +448,7 @@ export default function Hinnoittelu() {
           <h2 className="hinnoittelu__title">
             LIIDIK<span className="hinnoittelu__title-on">ON</span>EESI
           </h2>
-          <p className="hinnoittelu__lead">
-            Selkeät kokonaisuudet ilman piilokuluja asiakaskunnan kasvattamiseen.
-          </p>
+
         </div>
 
         <div>
