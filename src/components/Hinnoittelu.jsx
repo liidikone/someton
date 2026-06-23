@@ -221,7 +221,7 @@ function VideoPackage() {
             {hasDiscount && (
               <span className="hp-summary__price-original">{totalPerMonthBase.toFixed(0)}€</span>
             )}
-            <span className="hp-summary__price hp-summary__price--plain">
+            <span className="hp-summary__price hp-summary__price--plain" style={hasDiscount ? { color: '#00ff88' } : {}}>
               {totalPerMonth.toFixed(0)}€<span style={{ fontSize: '0.55em', fontStyle: 'normal', fontWeight: 400, marginLeft: '0.2em', opacity: 0.7 }}>/kk</span>
             </span>
           </div>
@@ -305,7 +305,7 @@ function WebsitePackage() {
 
         <div className="hp-config-group">
           <button className="hp-expand-btn" onClick={() => setOpen(v => !v)}>
-            <span>Mitä sisältyy pakettiin?</span>
+            <span>Avaa lisätiedot tästä</span>
             <span className={`hp-expand-btn__arrow${open ? ' hp-expand-btn__arrow--open' : ''}`}>↓</span>
           </button>
           {open && (
@@ -368,10 +368,10 @@ function WebsitePackage() {
             >
               <span className="hp-toggle__check" style={wantBrand ? { background: '#00ff88', borderColor: '#00ff88', color: '#000000' } : {}}>{wantBrand ? '✓' : '+'}</span>
               <span className="hp-toggle__text">
-                <strong style={{ fontWeight: 700, display: 'block', fontSize: '0.85rem' }}>BRÄNDISUUNNITTELU</strong>
-                <span style={{ fontWeight: 300, fontSize: '0.78rem', opacity: 0.75 }}>sis. logo, värimaailma, typografia, visuaalinen tyyli sekä brändiä tukevat tekoälyllä tuotetut kuvat ja videot</span>
+                <strong style={{ fontWeight: 700, display: 'block', fontSize: '0.85rem' }}>BRÄNDIUUDISTUS</strong>
+                <span style={{ fontWeight: 300, fontSize: '0.78rem', opacity: 0.75 }}>sis. logon, värimaailman, typografian, visuaalisen tyylin, graafiset materiaalit sekä brändiä tukevat tekoälyllä tuotetut kuvat ja videot.</span>
               </span>
-              <span className="hp-toggle__price">499€</span>
+              <span className="hp-toggle__price">alk. 499€</span>
             </button>
           </div>
         </div>
@@ -389,8 +389,8 @@ function WebsitePackage() {
           </div>
           {wantBrand && (
             <div className="hp-summary__row">
-              <span>Brändisuunnittelu</span>
-              <span className="hp-summary__row-price">499€</span>
+              <span>Brändiuudistus</span>
+              <span className="hp-summary__row-price">alk. 499€</span>
             </div>
           )}
           <div className="hp-summary__row hp-summary__row--section-label" style={{marginTop:'0.5rem'}}>
@@ -405,7 +405,7 @@ function WebsitePackage() {
           <span>Yhteensä</span>
           <div className="hp-summary__price-wrap">
             <span className="hp-summary__price hp-summary__price--plain">
-              {pages === '10+' ? 'alk. ' : ''}{pagePrices[pages] + (wantBrand ? 499 : 0)}€
+              {(pages === '10+' || wantBrand) ? 'alk. ' : ''}{pagePrices[pages] + (wantBrand ? 499 : 0)}€
               <span style={{ fontSize: '0.55em', fontStyle: 'normal', fontWeight: 400, marginLeft: '0.2em', opacity: 0.7 }}>+ {maintenancePrices[maintenance]}€/kk</span>
             </span>
           </div>
