@@ -124,27 +124,23 @@ export default function Tiimi() {
       <div className="tiimi-page__inner">
 
         <div className="tiimi-page__header">
-          <h2 className="tiimi-page__title">
-            KOKO<span className="tiimi-page__title-on">ON</span>PANO
-            <span className="tiimi-page__title-accent">kasvun takana</span>
-          </h2>
+          <h2 className="tiimi-page__title">Osaajat kasvun takana</h2>
         </div>
 
         <div className="tiimi-page__mission">
           <p className="tiimi-page__mission-text">
-            Liidikone ei arvaile algoritmeja, me ymmärrämme niitä. Yhdistämme datan, luovuuden,
+            SOMET<span className="tiimi-page__title-on">ON</span> ei arvaile algoritmeja, me ymmärrämme niitä. Yhdistämme datan, luovuuden,
             rohkeuden ja oivallukset sisällöksi, joka erottuu, tavoittaa oikean yleisön ja muuttaa näkyvyyden kasvuksi.
           </p>
         </div>
 
-
-
-        <div className="tiimi-page__grid tiimi-page__grid--sellers">
-          {teamMembers.slice(2, 4).map(m => <Member key={m.id} {...m} />)}
+        <div className="tiimi-page__cards-section">
+          <h3 className="tiimi-page__cards-title">SISÄLLÖNTUOTTAJAT</h3>
+          <StackedCards />
         </div>
 
-        <div className="tiimi-page__grid tiimi-page__grid--founders">
-          {teamMembers.slice(0, 2).map(m => <Member key={m.id} {...m} />)}
+        <div className="tiimi-page__grid tiimi-page__grid--all">
+          {teamMembers.map(m => <Member key={m.id} {...m} />)}
         </div>
 
       </div>
