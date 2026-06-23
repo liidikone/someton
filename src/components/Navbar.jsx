@@ -1,10 +1,9 @@
 import { useState } from 'react'
-import { Link } from 'react-router-dom'
 import '../styles/Navbar.css'
 
 const navLinks = [
-  { href: '/tiimi', label: 'Tiimi', external: false },
-  { href: '/palvelut', label: 'Palvelut', external: false },
+  { href: '#palvelut', label: 'Palvelut' },
+  { href: '#tiimi',    label: 'Tiimi' },
 ]
 
 export default function Navbar() {
@@ -12,6 +11,17 @@ export default function Navbar() {
   const [callOpen, setCallOpen] = useState(false)
   const toggleMenu = () => setMenuOpen(prev => !prev)
   const closeMenu  = () => setMenuOpen(false)
+
+  function handleAnchor(e, href) {
+    e.preventDefault()
+    closeMenu()
+    const target = document.querySelector(href)
+    if (target) {
+      const navHeight = 80
+      const top = target.getBoundingClientRect().top + window.scrollY - navHeight
+      window.scrollTo({ top, behavior: 'smooth' })
+    }
+  }
 
   const navClass = [
     'navbar',
@@ -23,19 +33,16 @@ export default function Navbar() {
       <nav className={navClass} id="navbar">
         <div className="navbar__inner">
 
-          <Link to="/" className="navbar__logo" aria-label="Home">
+          <a href="#" className="navbar__logo" aria-label="Home" onClick={e => handleAnchor(e, '#hero')}>
             <span className="navbar__logo-text">LOGO</span>
-          </Link>
+          </a>
 
           <div className="navbar__right">
             <nav className="navbar__nav" aria-label="Päävalikko">
               <ul className="navbar__list">
-                {navLinks.map(({ href, label, external }) => (
+                {navLinks.map(({ href, label }) => (
                   <li key={href}>
-                    {external
-                      ? <a href={href} className="navbar__link" target="_blank" rel="noopener noreferrer">{label}</a>
-                      : <Link to={href} className="navbar__link">{label}</Link>
-                    }
+                    <a href={href} className="navbar__link" onClick={e => handleAnchor(e, href)}>{label}</a>
                   </li>
                 ))}
               </ul>
@@ -55,9 +62,7 @@ export default function Navbar() {
             aria-expanded={menuOpen}
             aria-controls="mobile-menu"
           >
-            <span />
-            <span />
-            <span />
+            <span /><span /><span />
           </button>
         </div>
 
@@ -68,12 +73,9 @@ export default function Navbar() {
           aria-label="Mobiilinavigaatio"
         >
           <ul className="navbar__mobile-list">
-            {navLinks.map(({ href, label, external }) => (
+            {navLinks.map(({ href, label }) => (
               <li key={href}>
-                {external
-                  ? <a href={href} className="navbar__mobile-link" target="_blank" rel="noopener noreferrer" onClick={closeMenu}>{label}</a>
-                  : <Link to={href} className="navbar__mobile-link" onClick={closeMenu}>{label}</Link>
-                }
+                <a href={href} className="navbar__mobile-link" onClick={e => handleAnchor(e, href)}>{label}</a>
               </li>
             ))}
             <li>
