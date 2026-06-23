@@ -8,6 +8,13 @@ const teamMembers = [
   { id: 4, tag: 'ASIAKASPÄÄLLIKKÖ', name: 'Placeholder', email: 'kasvu@placeholder.com' },
 ]
 
+const influencers = [
+  { id: 1, tag: 'VAIKUTTAJA', name: 'Henkilö X', email: 'vaikuttaja@someton.com' },
+  { id: 2, tag: 'VAIKUTTAJA', name: 'Henkilö X', email: 'vaikuttaja@someton.com' },
+  { id: 3, tag: 'VAIKUTTAJA', name: 'Henkilö X', email: 'vaikuttaja@someton.com' },
+  { id: 4, tag: 'VAIKUTTAJA', name: 'Henkilö X', email: 'vaikuttaja@someton.com' },
+]
+
 
 function Member({ tag, name, img, phone, email }) {
   return (
@@ -52,6 +59,10 @@ export default function Tiimi() {
 
         <div className="tiimi-page__grid tiimi-page__grid--all">
           {teamMembers.map(m => <Member key={m.id} {...m} />)}
+        </div>
+
+        <div className="tiimi-page__grid tiimi-page__grid--all">
+          {influencers.map(m => <Member key={m.id} {...m} />)}
         </div>
 
       </div>
