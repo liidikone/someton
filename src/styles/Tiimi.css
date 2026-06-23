@@ -4,6 +4,8 @@
 
 .tiimi-page {
   background: #000000 url('/tiimi-bg.avif') center top / cover no-repeat fixed;
+  background-color: rgba(0,0,0,0.55);
+  background-blend-mode: multiply;
   padding-top: 6rem;
   padding-bottom: 6rem;
   border-top: 1px solid rgba(255,255,255,0.1);
@@ -28,27 +30,30 @@
     display: grid;
     grid-template-columns: 1.05fr 0.95fr;
     grid-template-areas:
-      "header   header"
-      "mission  mission"
-      "sellers  cards"
-      "founders cards";
+      "header  header"
+      "mission mission"
+      "cards   cards"
+      "members members";
     column-gap: clamp(2rem, 4vw, 4rem);
     row-gap: 4rem;
     align-items: start;
   }
-  .tiimi-page__header   { grid-area: header; }
-  .tiimi-page__title    { white-space: nowrap; }
-  .tiimi-page__mission  { grid-area: mission; align-self: start; max-width: none; }
-  .tiimi-page__cards-section { grid-area: cards; align-self: center; justify-self: center; transform: translateY(-1.25rem); }
-  .tiimi-page__hr       { display: none; }
-  .tiimi-page__grid--sellers  { grid-area: sellers; padding-bottom: 0.75rem; border-bottom: 1px solid rgba(255,255,255,0.15); }
-  .tiimi-page__grid--founders { grid-area: founders; }
+  .tiimi-page__header        { grid-area: header; }
+  .tiimi-page__title         { white-space: nowrap; }
+  .tiimi-page__mission       { grid-area: mission; align-self: start; max-width: none; }
+  .tiimi-page__cards-section { grid-area: cards; align-self: center; justify-self: center; }
+  .tiimi-page__hr            { display: none; }
+  .tiimi-page__grid--all     { grid-area: members; grid-template-columns: repeat(4, 1fr); }
   .tc-scene { zoom: 0.75; }
 }
 
 /* ============================================================
    HEADER
    ============================================================ */
+.tiimi-page__title-on {
+  color: #00ff88;
+}
+
 .tiimi-page__header {
   display: flex;
   flex-direction: column;
@@ -59,23 +64,12 @@
 .tiimi-page__title {
   font-family: 'Falzon', 'Oxanium', sans-serif;
   font-style: italic;
-  font-size: clamp(4.62rem, 13.2vw, 11.55rem);
+  font-size: clamp(1.8rem, 5vw, 5rem);
   font-weight: 700;
-  line-height: 0.88;
-  letter-spacing: 0.06em;
+  line-height: 0.92;
+  letter-spacing: 0.04em;
   color: #ffffff;
   margin: 0;
-}
-
-.tiimi-page__title-on {
-  color: #00ff88;
-}
-
-.tiimi-page__title-accent {
-  display: block;
-  font-size: 0.65em;
-  margin-top: 0.05em;
-  color: #ffffff;
 }
 
 /* ============================================================
@@ -102,6 +96,10 @@
   display: grid;
   gap: 2rem;
   grid-template-columns: 1fr 1fr;
+}
+
+.tiimi-page__grid--all {
+  grid-template-columns: repeat(4, 1fr);
 }
 
 /* ============================================================
