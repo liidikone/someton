@@ -325,19 +325,6 @@
     font-size: clamp(5.5rem, 24vw, 9rem);
   }
 
-  .vi-stack-arrow-wrap--back {
-    left: -40px;
-  }
-
-  .vi-stack-arrow-wrap--forward {
-    right: -40px;
-  }
-
-  .vi-stack-arrow {
-    width: 32px;
-    height: 32px;
-  }
-
   .vi-card {
     width: 180px;
     height: 280px;
@@ -353,5 +340,41 @@
 
   .vi-card__label {
     font-size: 1.6rem;
+  }
+}
+
+/* ── MOBILE HINT (SELAA →) ────────────────────────────────────── */
+
+.vi-mobile-hint {
+  display: none;
+}
+
+@media (max-width: 768px) {
+  .vi-mobile-hint {
+    display: flex;
+    align-items: center;
+    gap: 0.4rem;
+    /* Align with the first card — same left padding as vi-wrapper */
+    padding-left: clamp(1.5rem, 4vw, 5rem);
+    margin-bottom: -0.5rem; /* pull slightly toward card */
+    color: #00ff88;
+    font-size: 0.78rem;
+    font-weight: 700;
+    letter-spacing: 0.12em;
+    text-transform: uppercase;
+    pointer-events: none;
+    user-select: none;
+  }
+
+  .vi-mobile-hint__text {
+    line-height: 1;
+  }
+
+  /* Dragging cursor for the wrap */
+  .vi-scene-wrap--draggable {
+    cursor: grab;
+  }
+  .vi-scene-wrap--draggable:active {
+    cursor: grabbing;
   }
 }
