@@ -136,73 +136,62 @@
 }
 
 /* ── CARD BASE ─────────────────────────────────────────────── */
-/* Ulompi kääre: hoitaa box-shadow:n JA hover/active-transformin.
-   EI overflow:hidden tässä, ettei varjo leikkaannu. */
+/* HUOM: varjo tehdään filter:drop-shadow():lla (ei box-shadow),
+   koska drop-shadow ei leikkaannu overflow:hidden:n takia.
+   Näin border-radius+overflow:hidden (kuvan pyöristys) ja
+   varjo voivat elää samalla elementillä rikkomatta toisiaan. */
 .vi-card {
   position: relative;
   flex-shrink: 0;
-  width: 230px;
-  height: 320px;
+  width: 220px;
+  height: 340px;
   border-radius: 14px;
+  overflow: hidden;
   cursor: pointer;
   background: #ffffff;
   scroll-snap-align: start;
 
-  box-shadow:
-    3px 6px 14px rgba(0, 0, 0, 0.10),
-    6px 12px 24px rgba(0, 0, 0, 0.05),
-    0 0 0 1px rgba(0, 0, 0, 0.06);
+  filter:
+    drop-shadow(3px 6px 10px rgba(0, 0, 0, 0.14))
+    drop-shadow(0 1px 0 rgba(0, 0, 0, 0.06))
+    grayscale(100%);
 
   transition:
     transform 0.32s cubic-bezier(0.22, 1, 0.36, 1),
-    box-shadow 0.3s ease;
+    filter 0.25s ease;
   will-change: transform;
-}
-
-/* Sisempi kääre: kaikki visuaalinen sisältö + overflow:hidden + filter.
-   Tämä leikkaa kuvan pyöristettyihin kulmiin, EI vaikuta ulomman varjoon. */
-.vi-card__clip {
-  position: absolute;
-  inset: 0;
-  border-radius: 14px;
-  overflow: hidden;
-  transition: filter 0.25s ease;
 }
 
 /* ── ACTIVE ────────────────────────────────────────────────── */
 .vi-card--active {
-  transform: translateY(-10px) scale(1.02);
-  box-shadow:
-    4px 10px 22px rgba(0, 0, 0, 0.14),
-    8px 16px 32px rgba(0, 0, 0, 0.07),
-    0 0 0 1px rgba(0, 0, 0, 0.08);
-}
-
-.vi-card--active .vi-card__clip {
-  filter: brightness(1.04) grayscale(0%) !important;
+  transform: translateY(-12px) scale(1.025);
+  filter:
+    drop-shadow(5px 14px 20px rgba(0, 0, 0, 0.18))
+    drop-shadow(0 1px 0 rgba(0, 0, 0, 0.08))
+    brightness(1.04)
+    grayscale(0%);
 }
 
 /* ── DIM ───────────────────────────────────────────────────── */
-.vi-card--dim .vi-card__clip {
-  filter: brightness(0.72) saturate(0.25);
-}
-
-/* ── FILLED (grayscale default) ────────────────────────────── */
-.vi-card--filled .vi-card__clip {
-  filter: grayscale(100%);
+.vi-card--dim {
+  filter:
+    drop-shadow(3px 6px 10px rgba(0, 0, 0, 0.10))
+    drop-shadow(0 1px 0 rgba(0, 0, 0, 0.06))
+    brightness(0.72) saturate(0.25)
+    grayscale(100%);
 }
 
 .vi-card__bg {
   position: absolute;
   inset: 0;
   background-size: cover;
-  background-position: center 18%;
+  background-position: center top;
   background-color: #e8e8e8;
   transition: transform 0.4s ease;
 }
 
 .vi-card--active .vi-card__bg {
-  transform: scale(1.008);
+  transform: scale(1.03);
 }
 
 .vi-card__overlay {
@@ -223,7 +212,7 @@
   z-index: 2;
   left: 1rem;
   right: 1rem;
-  top: calc(320px * 0.34);
+  top: calc(340px * 0.34);
 }
 
 .vi-card__label {
