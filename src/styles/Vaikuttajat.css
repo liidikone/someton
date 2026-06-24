@@ -370,6 +370,15 @@
     line-height: 1;
   }
 
+  /* touch-action: pan-x tells the browser this element handles horizontal
+     swipes itself, while allowing vertical page scroll to pass through.
+     This is the key fix — without it the browser either blocks our pointer
+     events or blocks vertical scroll depending on how we call preventDefault. */
+  .vi-scene-wrap--mobile {
+    touch-action: pan-x;
+    user-select: none;
+  }
+
   /* Dragging cursor for the wrap */
   .vi-scene-wrap--draggable {
     cursor: grab;
