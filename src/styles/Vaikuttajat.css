@@ -183,13 +183,13 @@
   position: absolute;
   inset: 0;
   background-size: cover;
-  background-position: center top;
+  background-position: center 12%;
   background-color: #e8e8e8;
   transition: transform 0.4s ease;
 }
 
 .vi-card--active .vi-card__bg {
-  transform: scale(1.03);
+  transform: scale(1.015);
 }
 
 .vi-card__overlay {
@@ -269,7 +269,6 @@
   /* hidden by default (mobile) */
   display: none;
   position: absolute;
-  right: 0.75rem;
   top: 50%;
   transform: translateY(-50%);
   z-index: 10;
@@ -285,9 +284,24 @@
   cursor: pointer;
   align-items: center;
   justify-content: center;
-  transition: background 0.18s ease, transform 0.18s ease, box-shadow 0.18s ease;
   user-select: none;
   -webkit-user-select: none;
+  opacity: 0;
+  pointer-events: none;
+  transition: background 0.18s ease, transform 0.18s ease, box-shadow 0.18s ease, opacity 0.22s ease;
+}
+
+.vi-arrow-btn--left {
+  left: 0.75rem;
+}
+
+.vi-arrow-btn--right {
+  right: 0.75rem;
+}
+
+.vi-arrow-btn--visible {
+  opacity: 1;
+  pointer-events: auto;
 }
 
 .vi-arrow-btn:hover {
@@ -306,23 +320,36 @@
     0 0 0 1px rgba(0,0,0,0.07);
 }
 
+/* ── FADES (vasen/oikea) ──────────────────────────────────── */
+.vi-fade {
+  position: absolute;
+  top: 0;
+  bottom: 0;
+  width: 90px;
+  pointer-events: none;
+  z-index: 5;
+  opacity: 0;
+  transition: opacity 0.22s ease;
+}
+
+.vi-fade--left {
+  left: 0;
+  background: linear-gradient(to left, transparent, #ffffff 85%);
+}
+
+.vi-fade--right {
+  right: 0;
+  background: linear-gradient(to right, transparent, #ffffff 85%);
+}
+
+.vi-fade--visible {
+  opacity: 1;
+}
+
 /* ── DESKTOP (769px+) ──────────────────────────────────────── */
 @media (min-width: 769px) {
   .vi-arrow-btn {
     display: flex;
-  }
-
-  /* On desktop: fade out right edge instead of showing half-cards */
-  .vi-scroll-area::after {
-    content: '';
-    position: absolute;
-    right: 0;
-    top: 0;
-    bottom: 0;
-    width: 120px;
-    background: linear-gradient(to right, transparent, #ffffff 85%);
-    pointer-events: none;
-    z-index: 5;
   }
 }
 
