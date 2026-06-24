@@ -100,6 +100,11 @@
   background-repeat: no-repeat;
   opacity: 1;
   filter: grayscale(100%);
+  transition: filter 0.4s ease;
+}
+
+.ps-card:hover .ps-card__bg {
+  filter: grayscale(0%);
 }
 
 .ps-card__overlay {
