@@ -56,12 +56,17 @@ export default function Tiimi() {
           </p>
         </div>
 
-        <div className="tiimi-page__grid tiimi-page__grid--all">
+        {/* Desktop: kaksi erillistä gridiä */}
+        <div className="tiimi-page__grid tiimi-page__grid--all tiimi-page__grid--hidden-mobile">
           {teamMembers.map(m => <Member key={m.id} {...m} />)}
         </div>
-
-        <div className="tiimi-page__grid tiimi-page__grid--all">
+        <div className="tiimi-page__grid tiimi-page__grid--all tiimi-page__grid--hidden-mobile">
           {influencers.map(m => <Member key={m.id} {...m} />)}
+        </div>
+
+        {/* Mobile: kaikki yhdessä gridissä */}
+        <div className="tiimi-page__grid tiimi-page__grid--all tiimi-page__grid--mobile-only">
+          {[...teamMembers, ...influencers].map((m, i) => <Member key={i} {...m} />)}
         </div>
 
       </div>
