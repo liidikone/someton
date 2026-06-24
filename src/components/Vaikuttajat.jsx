@@ -1,26 +1,19 @@
 import { useRef, useState, useEffect, useCallback } from 'react'
 import '../styles/Vaikuttajat.css'
 
-/* ── AudioContext singleton ─────────────────────────────────
-   Create + resume synchronously inside a user-gesture handler
-   so the context is RUNNING before we ever call playCardSound. */
+/* AudioContext singleton */
 let _audioCtx = null
-let _audioReady = false
-
-function initAudio() {
-  if (_audioCtx) return
-  _audioCtx = new (window.AudioContext || window.webkitAudioContext)()
-  const onState = () => {
-    if (_audioCtx.state === 'running') { _audioReady = true }
+function getAudioCtx() {
+  if (!_audioCtx) {
+    _audioCtx = new (window.AudioContext || window.webkitAudioContext)()
   }
-  _audioCtx.addEventListener('statechange', onState)
-  _audioCtx.resume().then(onState)
+  if (_audioCtx.state === 'suspended') _audioCtx.resume()
+  return _audioCtx
 }
 
 function playCardSound() {
-  if (!_audioCtx || !_audioReady) return
   try {
-    const ctx = _audioCtx
+    const ctx = getAudioCtx()
     const now = ctx.currentTime
     const dur = 0.09
     const bufferSize = Math.floor(ctx.sampleRate * dur)
@@ -66,73 +59,127 @@ const influencers = [
   { id: 16, label: null, img: null },
 ]
 
-/* card width + gap in px – must match CSS */
-const CARD_W = 220
-const CARD_GAP = 16
-
 function StackedCards() {
   const [activeCard, setActiveCard] = useState(influencers[0].id)
-  const scrollRef  = useRef(null)
-  const cardRefs   = useRef({})
-  const rafRef     = useRef(null)
+  const scrollRef = useRef(null)
+  const cardRefs = useRef({})
 
-  /* ── Drag-to-scroll ── */
-  const drag = useRef({ on: false, startX: 0, startLeft: 0 })
-
-  const onMouseDown = (e) => {
-    if (!scrollRef.current) return
-    drag.current = { on: true, startX: e.pageX, startLeft: scrollRef.current.scrollLeft }
-    scrollRef.current.style.cursor = 'grabbing'
-  }
-  const onMouseMove = (e) => {
-    if (!drag.current.on || !scrollRef.current) return
-    e.preventDefault()
-    scrollRef.current.scrollLeft = drag.current.startLeft - (e.pageX - drag.current.startX) * 1.3
-  }
-  const onMouseUp = () => {
-    drag.current.on = false
-    if (scrollRef.current) scrollRef.current.style.cursor = 'grab'
-  }
-
-  /* ── Arrow button: scroll exactly one card to the right ── */
-  const handleArrow = useCallback(() => {
-    if (!scrollRef.current) return
-    scrollRef.current.scrollBy({ left: CARD_W + CARD_GAP, behavior: 'smooth' })
-  }, [])
-
-  /* ── IntersectionObserver → active card ── */
+  /* Scroll → activate nearest-centre card via IntersectionObserver */
   useEffect(() => {
+    if (!scrollRef.current) return
     const container = scrollRef.current
-    if (!container) return
 
     const observer = new IntersectionObserver(
       (entries) => {
-        let best = null, bestRatio = 0
+        let best = null
+        let bestRatio = 0
         entries.forEach((e) => {
-          if (e.intersectionRatio > bestRatio) { bestRatio = e.intersectionRatio; best = e }
+          if (e.intersectionRatio > bestRatio) {
+            bestRatio = e.intersectionRatio
+            best = e
+          }
         })
         if (best && bestRatio > 0.5) {
           const id = Number(best.target.dataset.cardId)
           setActiveCard((prev) => {
-            if (prev !== id) { playCardSound(); return id }
+            if (prev !== id) {
+              playCardSound()
+              return id
+            }
             return prev
           })
         }
       },
-      { root: container, threshold: [0.5, 0.8], rootMargin: '0px -30% 0px -30%' }
+      {
+        root: container,
+        threshold: [0.5, 0.8],
+        rootMargin: '0px -30% 0px -30%',
+      }
     )
 
-    Object.values(cardRefs.current).forEach((el) => { if (el) observer.observe(el) })
+    Object.values(cardRefs.current).forEach((el) => {
+      if (el) observer.observe(el)
+    })
+
     return () => observer.disconnect()
   }, [])
 
-  useEffect(() => () => { if (rafRef.current) cancelAnimationFrame(rafRef.current) }, [])
+  /* ── Mouse drag-to-scroll (PC) ─────────────────────────── */
+  useEffect(() => {
+    const track = scrollRef.current
+    if (!track) return
+
+    let isDown = false
+    let startX = 0
+    let scrollLeft = 0
+    let moved = false
+
+    const onMouseDown = (e) => {
+      isDown = true
+      moved = false
+      startX = e.pageX - track.offsetLeft
+      scrollLeft = track.scrollLeft
+      track.style.cursor = 'grabbing'
+      track.style.userSelect = 'none'
+    }
+
+    const onMouseMove = (e) => {
+      if (!isDown) return
+      const x = e.pageX - track.offsetLeft
+      const walk = (x - startX) * 1.2
+      if (Math.abs(walk) > 4) moved = true
+      track.scrollLeft = scrollLeft - walk
+    }
+
+    const onMouseUp = () => {
+      isDown = false
+      track.style.cursor = 'grab'
+      track.style.userSelect = ''
+    }
+
+    const onMouseLeave = () => {
+      isDown = false
+      track.style.cursor = 'grab'
+      track.style.userSelect = ''
+    }
+
+    // Prevent click after drag
+    const onClickCapture = (e) => {
+      if (moved) {
+        e.stopPropagation()
+        moved = false
+      }
+    }
+
+    track.addEventListener('mousedown', onMouseDown)
+    track.addEventListener('mousemove', onMouseMove)
+    track.addEventListener('mouseup', onMouseUp)
+    track.addEventListener('mouseleave', onMouseLeave)
+    track.addEventListener('click', onClickCapture, true)
+
+    return () => {
+      track.removeEventListener('mousedown', onMouseDown)
+      track.removeEventListener('mousemove', onMouseMove)
+      track.removeEventListener('mouseup', onMouseUp)
+      track.removeEventListener('mouseleave', onMouseLeave)
+      track.removeEventListener('click', onClickCapture, true)
+    }
+  }, [])
+
+  /* ── Arrow button scroll ───────────────────────────────── */
+  const scrollByPage = useCallback(() => {
+    const track = scrollRef.current
+    if (!track) return
+    const cardWidth = 220 + 16 // card + gap
+    track.scrollBy({ left: cardWidth * 4, behavior: 'smooth' })
+  }, [])
+
+  const onFirstInteraction = useCallback(() => {
+    getAudioCtx()
+  }, [])
 
   return (
-    <div
-      className="vi-wrapper"
-      onPointerDown={initAudio}
-    >
+    <div className="vi-wrapper" onPointerDown={onFirstInteraction}>
       {/* Browse hint */}
       <div className="vi-browse-hint" aria-hidden="true">
         <span className="vi-browse-hint__text">Selaa</span>
@@ -141,20 +188,12 @@ function StackedCards() {
         </svg>
       </div>
 
-      {/* Outer overflow-visible shell — MUST wrap the track so shadows aren't clipped */}
-      <div className="vi-scroll-shell">
-        {/* Inner track: overflow-x scroll but padded so shadows survive */}
-        <div
-          className="vi-scroll-track"
-          ref={scrollRef}
-          onMouseDown={onMouseDown}
-          onMouseMove={onMouseMove}
-          onMouseUp={onMouseUp}
-          onMouseLeave={onMouseUp}
-        >
+      {/* Scroll area: track + arrow */}
+      <div className="vi-scroll-area">
+        <div className="vi-scroll-track" ref={scrollRef}>
           {influencers.map((card) => {
             const isActive = activeCard === card.id
-            const isDim    = !isActive
+            const isDim    = activeCard !== null && !isActive
             const isEmpty  = !card.img
 
             return (
@@ -169,7 +208,10 @@ function StackedCards() {
                   (isEmpty  ? ' vi-card--empty'  : ' vi-card--filled')
                 }
                 onClick={() => {
-                  if (activeCard !== card.id) { setActiveCard(card.id); playCardSound() }
+                  if (activeCard !== card.id) {
+                    setActiveCard(card.id)
+                    playCardSound()
+                  }
                 }}
               >
                 {isEmpty ? (
@@ -178,10 +220,7 @@ function StackedCards() {
                   </div>
                 ) : (
                   <>
-                    {/* Inner scaler: handles zoom without card clipping */}
-                    <div className="vi-card__scaler">
-                      <div className="vi-card__bg" style={{ backgroundImage: `url('${card.img}')` }} />
-                    </div>
+                    <div className="vi-card__bg" style={{ backgroundImage: `url('${card.img}')` }} />
                     <div className="vi-card__overlay" />
                     <div className="vi-card__body">
                       <span className="vi-card__label">{card.label}</span>
@@ -194,14 +233,14 @@ function StackedCards() {
           })}
         </div>
 
-        {/* Arrow — outside track, inside shell */}
+        {/* Arrow button — desktop only */}
         <button
           className="vi-arrow-btn"
-          aria-label="Scroll right"
-          onClick={handleArrow}
+          onClick={scrollByPage}
+          aria-label="Selaa lisää"
         >
           <svg width="20" height="20" viewBox="0 0 20 20" fill="none">
-            <path d="M4 10h12M11 5l6 6-6 6" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"/>
+            <path d="M6 10h8M11 6l4 4-4 4" stroke="currentColor" strokeWidth="1.8" strokeLinecap="round" strokeLinejoin="round"/>
           </svg>
         </button>
       </div>
