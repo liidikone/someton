@@ -5,19 +5,28 @@ const CARDS_PER_PAGE = 16
 const TOTAL_CARDS = 16
 const TOTAL_PAGES = Math.ceil(TOTAL_CARDS / CARDS_PER_PAGE)
 
-/* AudioContext singleton */
+/* ── AudioContext singleton ──────────────────────────────────
+   We create the context on the first real user gesture (pointerdown)
+   so it's never suspended when we actually want to play a sound.   */
 let _audioCtx = null
-function getAudioCtx() {
+let _audioReady = false
+
+function initAudioCtx() {
   if (!_audioCtx) {
     _audioCtx = new (window.AudioContext || window.webkitAudioContext)()
   }
-  if (_audioCtx.state === 'suspended') _audioCtx.resume()
+  // Resume synchronously on the gesture tick
+  if (_audioCtx.state === 'suspended') {
+    _audioCtx.resume()
+  }
+  _audioReady = _audioCtx.state === 'running'
   return _audioCtx
 }
 
 function playCardSound() {
+  if (!_audioCtx || !_audioReady) return
   try {
-    const ctx = getAudioCtx()
+    const ctx = _audioCtx
     const now = ctx.currentTime
     const dur = 0.09
     const bufferSize = Math.floor(ctx.sampleRate * dur)
@@ -63,13 +72,35 @@ const influencers = [
   { id: 16, label: null, img: null },
 ]
 
+/* ── Desktop: how many cards fit (show 4) ─────────────────── */
+const DESKTOP_VISIBLE = 4
+
 function StackedCards() {
   const [activeCard, setActiveCard] = useState(influencers[0].id)
   const scrollRef = useRef(null)
-  const cardRefs = useRef({})
+  const cardRefs  = useRef({})
 
-  /* Scroll → activate nearest-centre card via IntersectionObserver
-     Works on both mobile and desktop */
+  /* ── Arrow-button auto-scroll state ── */
+  const arrowScrollRef = useRef(null)
+  const [arrowActive, setArrowActive] = useState(false)
+
+  /* ── Drag-to-scroll state ── */
+  const dragRef = useRef({ active: false, startX: 0, startScrollLeft: 0 })
+
+  /* ── Init audio on first pointer ── */
+  const onFirstInteraction = useCallback(() => {
+    initAudioCtx()
+    // After resume() the promise resolves async, so mark ready via listener
+    if (_audioCtx && _audioCtx.state !== 'running') {
+      _audioCtx.addEventListener('statechange', () => {
+        if (_audioCtx.state === 'running') _audioReady = true
+      }, { once: true })
+    } else if (_audioCtx) {
+      _audioReady = true
+    }
+  }, [])
+
+  /* ── IntersectionObserver: active = most-visible card ── */
   useEffect(() => {
     if (!scrollRef.current) return
     const container = scrollRef.current
@@ -109,13 +140,66 @@ function StackedCards() {
     return () => observer.disconnect()
   }, [])
 
-  const onFirstInteraction = useCallback(() => {
-    getAudioCtx()
+  /* ── Drag-to-scroll (desktop) ── */
+  const onMouseDown = useCallback((e) => {
+    if (!scrollRef.current) return
+    dragRef.current = {
+      active: true,
+      startX: e.pageX - scrollRef.current.offsetLeft,
+      startScrollLeft: scrollRef.current.scrollLeft,
+    }
+    scrollRef.current.style.cursor = 'grabbing'
+    scrollRef.current.style.userSelect = 'none'
+  }, [])
+
+  const onMouseMove = useCallback((e) => {
+    if (!dragRef.current.active || !scrollRef.current) return
+    e.preventDefault()
+    const x    = e.pageX - scrollRef.current.offsetLeft
+    const walk = (x - dragRef.current.startX) * 1.4
+    scrollRef.current.scrollLeft = dragRef.current.startScrollLeft - walk
+  }, [])
+
+  const onMouseUp = useCallback(() => {
+    if (!scrollRef.current) return
+    dragRef.current.active = false
+    scrollRef.current.style.cursor = 'grab'
+    scrollRef.current.style.userSelect = ''
+  }, [])
+
+  /* ── Arrow button: hold to scroll smoothly ── */
+  const startArrowScroll = useCallback(() => {
+    setArrowActive(true)
+    const scroll = () => {
+      if (!arrowScrollRef.current) return
+      if (!scrollRef.current) return
+      const track = scrollRef.current
+      track.scrollLeft += 3
+      arrowScrollRef.current = requestAnimationFrame(scroll)
+    }
+    arrowScrollRef.current = requestAnimationFrame(scroll)
+  }, [])
+
+  const stopArrowScroll = useCallback(() => {
+    setArrowActive(false)
+    if (arrowScrollRef.current) {
+      cancelAnimationFrame(arrowScrollRef.current)
+      arrowScrollRef.current = null
+    }
+  }, [])
+
+  useEffect(() => {
+    return () => {
+      if (arrowScrollRef.current) cancelAnimationFrame(arrowScrollRef.current)
+    }
   }, [])
 
   return (
-    <div className="vi-wrapper" onPointerDown={onFirstInteraction}>
-      {/* Browse hint — visible on both mobile and desktop */}
+    <div
+      className="vi-wrapper"
+      onPointerDown={onFirstInteraction}
+    >
+      {/* Browse hint */}
       <div className="vi-browse-hint" aria-hidden="true">
         <span className="vi-browse-hint__text">Selaa</span>
         <svg width="20" height="20" viewBox="0 0 20 20" fill="none">
@@ -123,48 +207,72 @@ function StackedCards() {
         </svg>
       </div>
 
-      {/* Single horizontal scroll row */}
-      <div className="vi-scroll-track" ref={scrollRef}>
-        {influencers.map((card) => {
-          const isActive = activeCard === card.id
-          const isDim    = activeCard !== null && !isActive
-          const isEmpty  = !card.img
+      {/* Scroll row + arrow button wrapper */}
+      <div className="vi-scroll-area">
+        <div
+          className="vi-scroll-track"
+          ref={scrollRef}
+          onMouseDown={onMouseDown}
+          onMouseMove={onMouseMove}
+          onMouseUp={onMouseUp}
+          onMouseLeave={onMouseUp}
+        >
+          {influencers.map((card) => {
+            const isActive = activeCard === card.id
+            const isDim    = activeCard !== null && !isActive
+            const isEmpty  = !card.img
 
-          return (
-            <div
-              key={card.id}
-              data-card-id={card.id}
-              ref={(el) => { cardRefs.current[card.id] = el }}
-              className={
-                'vi-card' +
-                (isActive ? ' vi-card--active' : '') +
-                (isDim    ? ' vi-card--dim'    : '') +
-                (isEmpty  ? ' vi-card--empty'  : ' vi-card--filled')
-              }
-              onClick={() => {
-                if (activeCard !== card.id) {
-                  setActiveCard(card.id)
-                  playCardSound()
+            return (
+              <div
+                key={card.id}
+                data-card-id={card.id}
+                ref={(el) => { cardRefs.current[card.id] = el }}
+                className={
+                  'vi-card' +
+                  (isActive ? ' vi-card--active' : '') +
+                  (isDim    ? ' vi-card--dim'    : '') +
+                  (isEmpty  ? ' vi-card--empty'  : ' vi-card--filled')
                 }
-              }}
-            >
-              {isEmpty ? (
-                <div className="vi-card__inset">
-                  <span className="vi-card__qmark">?</span>
-                </div>
-              ) : (
-                <>
-                  <div className="vi-card__bg" style={{ backgroundImage: `url('${card.img}')` }} />
-                  <div className="vi-card__overlay" />
-                  <div className="vi-card__body">
-                    <span className="vi-card__label">{card.label}</span>
+                onClick={() => {
+                  if (activeCard !== card.id) {
+                    setActiveCard(card.id)
+                    playCardSound()
+                  }
+                }}
+              >
+                {isEmpty ? (
+                  <div className="vi-card__inset">
+                    <span className="vi-card__qmark">?</span>
                   </div>
-                  <div className="vi-card__accent" />
-                </>
-              )}
-            </div>
-          )
-        })}
+                ) : (
+                  <>
+                    <div className="vi-card__bg" style={{ backgroundImage: `url('${card.img}')` }} />
+                    <div className="vi-card__overlay" />
+                    <div className="vi-card__body">
+                      <span className="vi-card__label">{card.label}</span>
+                    </div>
+                    <div className="vi-card__accent" />
+                  </>
+                )}
+              </div>
+            )
+          })}
+        </div>
+
+        {/* Desktop arrow button */}
+        <button
+          className={`vi-arrow-btn${arrowActive ? ' vi-arrow-btn--active' : ''}`}
+          aria-label="Scroll right"
+          onMouseDown={startArrowScroll}
+          onMouseUp={stopArrowScroll}
+          onMouseLeave={stopArrowScroll}
+          onTouchStart={startArrowScroll}
+          onTouchEnd={stopArrowScroll}
+        >
+          <svg width="22" height="22" viewBox="0 0 22 22" fill="none">
+            <path d="M5 11h12M12 5l6 6-6 6" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"/>
+          </svg>
+        </button>
       </div>
     </div>
   )
