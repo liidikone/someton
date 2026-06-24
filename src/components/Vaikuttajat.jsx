@@ -1,26 +1,20 @@
 import { useRef, useState, useEffect, useCallback } from 'react'
 import '../styles/Vaikuttajat.css'
 
-const CARDS_PER_PAGE = 16
-const TOTAL_CARDS = 16
-const TOTAL_PAGES = Math.ceil(TOTAL_CARDS / CARDS_PER_PAGE)
-
-/* ── AudioContext singleton ──────────────────────────────────
-   We create the context on the first real user gesture (pointerdown)
-   so it's never suspended when we actually want to play a sound.   */
+/* ── AudioContext singleton ─────────────────────────────────
+   Create + resume synchronously inside a user-gesture handler
+   so the context is RUNNING before we ever call playCardSound. */
 let _audioCtx = null
 let _audioReady = false
 
-function initAudioCtx() {
-  if (!_audioCtx) {
-    _audioCtx = new (window.AudioContext || window.webkitAudioContext)()
+function initAudio() {
+  if (_audioCtx) return
+  _audioCtx = new (window.AudioContext || window.webkitAudioContext)()
+  const onState = () => {
+    if (_audioCtx.state === 'running') { _audioReady = true }
   }
-  // Resume synchronously on the gesture tick
-  if (_audioCtx.state === 'suspended') {
-    _audioCtx.resume()
-  }
-  _audioReady = _audioCtx.state === 'running'
-  return _audioCtx
+  _audioCtx.addEventListener('statechange', onState)
+  _audioCtx.resume().then(onState)
 }
 
 function playCardSound() {
@@ -72,132 +66,72 @@ const influencers = [
   { id: 16, label: null, img: null },
 ]
 
-/* ── Desktop: how many cards fit (show 4) ─────────────────── */
-const DESKTOP_VISIBLE = 4
+/* card width + gap in px – must match CSS */
+const CARD_W = 220
+const CARD_GAP = 16
 
 function StackedCards() {
   const [activeCard, setActiveCard] = useState(influencers[0].id)
-  const scrollRef = useRef(null)
-  const cardRefs  = useRef({})
+  const scrollRef  = useRef(null)
+  const cardRefs   = useRef({})
+  const rafRef     = useRef(null)
 
-  /* ── Arrow-button auto-scroll state ── */
-  const arrowScrollRef = useRef(null)
-  const [arrowActive, setArrowActive] = useState(false)
+  /* ── Drag-to-scroll ── */
+  const drag = useRef({ on: false, startX: 0, startLeft: 0 })
 
-  /* ── Drag-to-scroll state ── */
-  const dragRef = useRef({ active: false, startX: 0, startScrollLeft: 0 })
+  const onMouseDown = (e) => {
+    if (!scrollRef.current) return
+    drag.current = { on: true, startX: e.pageX, startLeft: scrollRef.current.scrollLeft }
+    scrollRef.current.style.cursor = 'grabbing'
+  }
+  const onMouseMove = (e) => {
+    if (!drag.current.on || !scrollRef.current) return
+    e.preventDefault()
+    scrollRef.current.scrollLeft = drag.current.startLeft - (e.pageX - drag.current.startX) * 1.3
+  }
+  const onMouseUp = () => {
+    drag.current.on = false
+    if (scrollRef.current) scrollRef.current.style.cursor = 'grab'
+  }
 
-  /* ── Init audio on first pointer ── */
-  const onFirstInteraction = useCallback(() => {
-    initAudioCtx()
-    // After resume() the promise resolves async, so mark ready via listener
-    if (_audioCtx && _audioCtx.state !== 'running') {
-      _audioCtx.addEventListener('statechange', () => {
-        if (_audioCtx.state === 'running') _audioReady = true
-      }, { once: true })
-    } else if (_audioCtx) {
-      _audioReady = true
-    }
+  /* ── Arrow button: scroll exactly one card to the right ── */
+  const handleArrow = useCallback(() => {
+    if (!scrollRef.current) return
+    scrollRef.current.scrollBy({ left: CARD_W + CARD_GAP, behavior: 'smooth' })
   }, [])
 
-  /* ── IntersectionObserver: active = most-visible card ── */
+  /* ── IntersectionObserver → active card ── */
   useEffect(() => {
-    if (!scrollRef.current) return
     const container = scrollRef.current
+    if (!container) return
 
     const observer = new IntersectionObserver(
       (entries) => {
-        let best = null
-        let bestRatio = 0
+        let best = null, bestRatio = 0
         entries.forEach((e) => {
-          if (e.intersectionRatio > bestRatio) {
-            bestRatio = e.intersectionRatio
-            best = e
-          }
+          if (e.intersectionRatio > bestRatio) { bestRatio = e.intersectionRatio; best = e }
         })
         if (best && bestRatio > 0.5) {
           const id = Number(best.target.dataset.cardId)
           setActiveCard((prev) => {
-            if (prev !== id) {
-              playCardSound()
-              return id
-            }
+            if (prev !== id) { playCardSound(); return id }
             return prev
           })
         }
       },
-      {
-        root: container,
-        threshold: [0.5, 0.8],
-        rootMargin: '0px -30% 0px -30%',
-      }
+      { root: container, threshold: [0.5, 0.8], rootMargin: '0px -30% 0px -30%' }
     )
 
-    Object.values(cardRefs.current).forEach((el) => {
-      if (el) observer.observe(el)
-    })
-
+    Object.values(cardRefs.current).forEach((el) => { if (el) observer.observe(el) })
     return () => observer.disconnect()
   }, [])
 
-  /* ── Drag-to-scroll (desktop) ── */
-  const onMouseDown = useCallback((e) => {
-    if (!scrollRef.current) return
-    dragRef.current = {
-      active: true,
-      startX: e.pageX - scrollRef.current.offsetLeft,
-      startScrollLeft: scrollRef.current.scrollLeft,
-    }
-    scrollRef.current.style.cursor = 'grabbing'
-    scrollRef.current.style.userSelect = 'none'
-  }, [])
-
-  const onMouseMove = useCallback((e) => {
-    if (!dragRef.current.active || !scrollRef.current) return
-    e.preventDefault()
-    const x    = e.pageX - scrollRef.current.offsetLeft
-    const walk = (x - dragRef.current.startX) * 1.4
-    scrollRef.current.scrollLeft = dragRef.current.startScrollLeft - walk
-  }, [])
-
-  const onMouseUp = useCallback(() => {
-    if (!scrollRef.current) return
-    dragRef.current.active = false
-    scrollRef.current.style.cursor = 'grab'
-    scrollRef.current.style.userSelect = ''
-  }, [])
-
-  /* ── Arrow button: hold to scroll smoothly ── */
-  const startArrowScroll = useCallback(() => {
-    setArrowActive(true)
-    const scroll = () => {
-      if (!arrowScrollRef.current) return
-      if (!scrollRef.current) return
-      const track = scrollRef.current
-      track.scrollLeft += 3
-      arrowScrollRef.current = requestAnimationFrame(scroll)
-    }
-    arrowScrollRef.current = requestAnimationFrame(scroll)
-  }, [])
-
-  const stopArrowScroll = useCallback(() => {
-    setArrowActive(false)
-    if (arrowScrollRef.current) {
-      cancelAnimationFrame(arrowScrollRef.current)
-      arrowScrollRef.current = null
-    }
-  }, [])
-
-  useEffect(() => {
-    return () => {
-      if (arrowScrollRef.current) cancelAnimationFrame(arrowScrollRef.current)
-    }
-  }, [])
+  useEffect(() => () => { if (rafRef.current) cancelAnimationFrame(rafRef.current) }, [])
 
   return (
     <div
       className="vi-wrapper"
-      onPointerDown={onFirstInteraction}
+      onPointerDown={initAudio}
     >
       {/* Browse hint */}
       <div className="vi-browse-hint" aria-hidden="true">
@@ -207,8 +141,9 @@ function StackedCards() {
         </svg>
       </div>
 
-      {/* Scroll row + arrow button wrapper */}
-      <div className="vi-scroll-area">
+      {/* Outer overflow-visible shell — MUST wrap the track so shadows aren't clipped */}
+      <div className="vi-scroll-shell">
+        {/* Inner track: overflow-x scroll but padded so shadows survive */}
         <div
           className="vi-scroll-track"
           ref={scrollRef}
@@ -219,7 +154,7 @@ function StackedCards() {
         >
           {influencers.map((card) => {
             const isActive = activeCard === card.id
-            const isDim    = activeCard !== null && !isActive
+            const isDim    = !isActive
             const isEmpty  = !card.img
 
             return (
@@ -234,10 +169,7 @@ function StackedCards() {
                   (isEmpty  ? ' vi-card--empty'  : ' vi-card--filled')
                 }
                 onClick={() => {
-                  if (activeCard !== card.id) {
-                    setActiveCard(card.id)
-                    playCardSound()
-                  }
+                  if (activeCard !== card.id) { setActiveCard(card.id); playCardSound() }
                 }}
               >
                 {isEmpty ? (
@@ -246,7 +178,10 @@ function StackedCards() {
                   </div>
                 ) : (
                   <>
-                    <div className="vi-card__bg" style={{ backgroundImage: `url('${card.img}')` }} />
+                    {/* Inner scaler: handles zoom without card clipping */}
+                    <div className="vi-card__scaler">
+                      <div className="vi-card__bg" style={{ backgroundImage: `url('${card.img}')` }} />
+                    </div>
                     <div className="vi-card__overlay" />
                     <div className="vi-card__body">
                       <span className="vi-card__label">{card.label}</span>
@@ -259,18 +194,14 @@ function StackedCards() {
           })}
         </div>
 
-        {/* Desktop arrow button */}
+        {/* Arrow — outside track, inside shell */}
         <button
-          className={`vi-arrow-btn${arrowActive ? ' vi-arrow-btn--active' : ''}`}
+          className="vi-arrow-btn"
           aria-label="Scroll right"
-          onMouseDown={startArrowScroll}
-          onMouseUp={stopArrowScroll}
-          onMouseLeave={stopArrowScroll}
-          onTouchStart={startArrowScroll}
-          onTouchEnd={stopArrowScroll}
+          onClick={handleArrow}
         >
-          <svg width="22" height="22" viewBox="0 0 22 22" fill="none">
-            <path d="M5 11h12M12 5l6 6-6 6" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"/>
+          <svg width="20" height="20" viewBox="0 0 20 20" fill="none">
+            <path d="M4 10h12M11 5l6 6-6 6" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"/>
           </svg>
         </button>
       </div>
