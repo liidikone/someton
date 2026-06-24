@@ -117,39 +117,52 @@ function Card({ card, isActive, isDim, style }) {
 function MobileStack() {
   const PEEK = PEEK_MOBILE
   const [activeIdx, setActiveIdx] = useState(0)
-  const drag = useRef({ active: false, startX: 0, startIdx: 0, lastIdx: 0 })
+  // offsetX: live drag offset in px (0 when not dragging)
+  const [offsetX, setOffsetX]     = useState(0)
+  const drag = useRef({ active: false, startX: 0, startIdx: 0, lastSnap: 0 })
   const wrapRef = useRef(null)
 
-  function activateTo(idx) {
+  function snapTo(idx) {
     const clamped = Math.max(0, Math.min(TOTAL_CARDS - 1, idx))
-    if (clamped !== drag.current.lastIdx) {
-      drag.current.lastIdx = clamped
-      setActiveIdx(clamped)
+    if (clamped !== drag.current.lastSnap) {
+      drag.current.lastSnap = clamped
       playCardSound()
     }
+    setActiveIdx(clamped)
   }
 
   function onPointerDown(e) {
     initAudio()
-    drag.current = { active: true, startX: e.clientX, startIdx: activeIdx, lastIdx: activeIdx }
+    drag.current = { active: true, startX: e.clientX, startIdx: activeIdx, lastSnap: activeIdx }
     wrapRef.current?.setPointerCapture(e.pointerId)
     e.preventDefault()
   }
 
   function onPointerMove(e) {
     if (!drag.current.active) return
-    const dx    = e.clientX - drag.current.startX
+    const dx = e.clientX - drag.current.startX
+    setOffsetX(dx)
+    // Snap sound mid-drag when crossing a full PEEK threshold
     const delta = -Math.round(dx / PEEK)
-    activateTo(drag.current.startIdx + delta)
+    const tentative = Math.max(0, Math.min(TOTAL_CARDS - 1, drag.current.startIdx + delta))
+    if (tentative !== drag.current.lastSnap) {
+      drag.current.lastSnap = tentative
+      playCardSound()
+      setActiveIdx(tentative)
+    }
   }
 
-  function onPointerUp() {
+  function onPointerUp(e) {
+    if (!drag.current.active) return
     drag.current.active = false
+    const dx    = e.clientX - drag.current.startX
+    const delta = -Math.round(dx / PEEK)
+    snapTo(drag.current.startIdx + delta)
+    setOffsetX(0)
   }
 
   return (
     <div className="vi-wrapper">
-      {/* SELAA hint sits above scene, aligned with the first card */}
       <div className="vi-mobile-hint" aria-hidden="true">
         <span className="vi-mobile-hint__text">SELAA</span>
         <svg width="14" height="14" viewBox="0 0 18 18" fill="none">
@@ -158,21 +171,22 @@ function MobileStack() {
       </div>
 
       <div className="vi-scene-outer">
-        {/* The drag surface fills viewport width via CSS; cards overflow right */}
         <div
           ref={wrapRef}
-          className="vi-scene-wrap vi-scene-wrap--mobile"
+          className={'vi-scene-wrap vi-scene-wrap--mobile' + (drag.current.active ? ' vi-scene-wrap--draggable' : '')}
           onPointerDown={onPointerDown}
           onPointerMove={onPointerMove}
           onPointerUp={onPointerUp}
           onPointerCancel={onPointerUp}
         >
-          {/* Scene is wide enough to hold all cards */}
+          {/* Scene translates as a whole during drag, snaps on release */}
           <div
             className="vi-scene"
             style={{
-              width:  (CARD_W_MOBILE + (TOTAL_CARDS - 1) * PEEK) + 'px',
-              height: '300px',
+              width:     (CARD_W_MOBILE + (TOTAL_CARDS - 1) * PEEK) + 'px',
+              height:    '300px',
+              transform: `translateX(${offsetX}px)`,
+              transition: drag.current.active ? 'none' : 'transform 0.32s cubic-bezier(0.22, 1, 0.36, 1)',
             }}
           >
             {influencers.map((card, i) => (
@@ -207,7 +221,9 @@ function DesktopStack() {
   const stackWidth = CARD_W_DESKTOP + (pageCards.length - 1) * PEEK
 
   function handleEnter(id) {
-    if (id !== activeCard) { setActiveCard(id); playCardSound() }
+    initAudio()
+    playCardSound()
+    if (id !== activeCard) { setActiveCard(id) }
   }
 
   function goTo(dir) {
