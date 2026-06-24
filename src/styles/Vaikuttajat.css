@@ -136,46 +136,59 @@
 }
 
 /* ── CARD BASE ─────────────────────────────────────────────── */
+/* Ulompi kääre: hoitaa box-shadow:n JA hover/active-transformin.
+   EI overflow:hidden tässä, ettei varjo leikkaannu. */
 .vi-card {
   position: relative;
   flex-shrink: 0;
-  width: 220px;
-  height: 340px;
+  width: 230px;
+  height: 320px;
   border-radius: 14px;
-  overflow: hidden;
   cursor: pointer;
   background: #ffffff;
   scroll-snap-align: start;
 
   box-shadow:
-    6px 10px 24px rgba(0, 0, 0, 0.12),
-    12px 18px 40px rgba(0, 0, 0, 0.07),
+    3px 6px 14px rgba(0, 0, 0, 0.10),
+    6px 12px 24px rgba(0, 0, 0, 0.05),
     0 0 0 1px rgba(0, 0, 0, 0.06);
 
   transition:
     transform 0.32s cubic-bezier(0.22, 1, 0.36, 1),
-    filter 0.25s ease,
     box-shadow 0.3s ease;
-  will-change: transform, filter;
+  will-change: transform;
+}
+
+/* Sisempi kääre: kaikki visuaalinen sisältö + overflow:hidden + filter.
+   Tämä leikkaa kuvan pyöristettyihin kulmiin, EI vaikuta ulomman varjoon. */
+.vi-card__clip {
+  position: absolute;
+  inset: 0;
+  border-radius: 14px;
+  overflow: hidden;
+  transition: filter 0.25s ease;
 }
 
 /* ── ACTIVE ────────────────────────────────────────────────── */
 .vi-card--active {
-  transform: translateY(-12px) scale(1.025);
+  transform: translateY(-10px) scale(1.02);
   box-shadow:
-    8px 20px 40px rgba(0, 0, 0, 0.18),
-    14px 28px 56px rgba(0, 0, 0, 0.10),
+    4px 10px 22px rgba(0, 0, 0, 0.14),
+    8px 16px 32px rgba(0, 0, 0, 0.07),
     0 0 0 1px rgba(0, 0, 0, 0.08);
+}
+
+.vi-card--active .vi-card__clip {
   filter: brightness(1.04) grayscale(0%) !important;
 }
 
 /* ── DIM ───────────────────────────────────────────────────── */
-.vi-card--dim {
+.vi-card--dim .vi-card__clip {
   filter: brightness(0.72) saturate(0.25);
 }
 
 /* ── FILLED (grayscale default) ────────────────────────────── */
-.vi-card--filled {
+.vi-card--filled .vi-card__clip {
   filter: grayscale(100%);
 }
 
@@ -183,13 +196,13 @@
   position: absolute;
   inset: 0;
   background-size: cover;
-  background-position: center 12%;
+  background-position: center 18%;
   background-color: #e8e8e8;
   transition: transform 0.4s ease;
 }
 
 .vi-card--active .vi-card__bg {
-  transform: scale(1.015);
+  transform: scale(1.008);
 }
 
 .vi-card__overlay {
@@ -210,7 +223,7 @@
   z-index: 2;
   left: 1rem;
   right: 1rem;
-  top: calc(340px * 0.34);
+  top: calc(320px * 0.34);
 }
 
 .vi-card__label {
@@ -351,6 +364,10 @@
   .vi-arrow-btn {
     display: flex;
   }
+
+  .vi-browse-hint {
+    display: none;
+  }
 }
 
 /* ── MOBILE ────────────────────────────────────────────────── */
@@ -369,7 +386,7 @@
   }
 
   .vi-card--active {
-    transform: translateY(-10px) scale(1.04);
+    transform: translateY(-8px) scale(1.02);
   }
 
   .vi-card__body {
