@@ -205,9 +205,8 @@
   .hero__lead { font-size: clamp(var(--text-xl), 5.5vw, var(--text-3xl)); }
 
   .hero__bg img {
+    object-fit: contain;
     object-position: center center;
-    transform: scale(1.25);
-    transform-origin: center center;
   }
 }
 
