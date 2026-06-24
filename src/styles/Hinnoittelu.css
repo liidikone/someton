@@ -641,9 +641,6 @@
 
 /* -- Mobile -- */
 @media (max-width: 600px) {
-  .hinnoittelu__title {
-    font-size: clamp(3.8rem, 18vw, 6rem);
-  }
   .hp-tab {
     padding: 0.6rem 0.9rem;
     font-size: 0.8rem;
