@@ -1,14 +1,11 @@
 import { useRef, useState, useEffect, useCallback } from 'react'
 import '../styles/Vaikuttajat.css'
 
-const CARD_W = 220
-const PEEK   = Math.round(CARD_W * 0.38)
 const CARDS_PER_PAGE = 8
 const TOTAL_CARDS = 16
 const TOTAL_PAGES = Math.ceil(TOTAL_CARDS / CARDS_PER_PAGE)
 
-/* AudioContext singleton at module level — created once on first interaction,
-   never inside a React render cycle, so it's always ready when sound fires. */
+/* AudioContext singleton */
 let _audioCtx = null
 function getAudioCtx() {
   if (!_audioCtx) {
@@ -66,29 +63,18 @@ const influencers = [
   { id: 16, label: null, img: null },
 ]
 
-function ArrowButton({ dir, onClick }) {
-  const isBack = dir === 'back'
-  return (
-    <button className="vi-stack-arrow" onClick={onClick} aria-label={isBack ? 'Edellinen' : 'Seuraava'}>
-      <svg width="18" height="18" viewBox="0 0 18 18" fill="none">
-        {isBack
-          ? <path d="M11 4L6 9L11 14" stroke="currentColor" strokeWidth="1.8" strokeLinecap="round" strokeLinejoin="round"/>
-          : <path d="M7 4L12 9L7 14" stroke="currentColor" strokeWidth="1.8" strokeLinecap="round" strokeLinejoin="round"/>
-        }
-      </svg>
-    </button>
-  )
-}
-
 function StackedCards() {
-  const [activeCard, setActiveCard] = useState(null)
+  const [activeCard, setActiveCard] = useState(influencers[0].id)
   const [page, setPage] = useState(0)
+  const scrollRef = useRef(null)
+  const cardRefs = useRef({})
+  const isMobile = typeof window !== 'undefined' && window.innerWidth <= 768
 
-  const pageCards  = influencers.slice(page * CARDS_PER_PAGE, (page + 1) * CARDS_PER_PAGE)
-  const stackWidth = CARD_W + (pageCards.length - 1) * PEEK
+  const pageCards = influencers.slice(page * CARDS_PER_PAGE, (page + 1) * CARDS_PER_PAGE)
 
+  /* Desktop: hover activate */
   function handleEnter(id) {
-    if (id !== activeCard) {
+    if (!isMobile && id !== activeCard) {
       setActiveCard(id)
       playCardSound()
     }
@@ -97,9 +83,51 @@ function StackedCards() {
   function goTo(dir) {
     const next = page + dir
     if (next < 0 || next >= TOTAL_PAGES) return
-    setActiveCard(null)
     setPage(next)
+    setActiveCard(null)
+    if (scrollRef.current) scrollRef.current.scrollLeft = 0
   }
+
+  /* Mobile scroll → activate centre card via IntersectionObserver */
+  useEffect(() => {
+    if (!scrollRef.current) return
+    const container = scrollRef.current
+
+    const observer = new IntersectionObserver(
+      (entries) => {
+        // find the most-intersecting entry
+        let best = null
+        let bestRatio = 0
+        entries.forEach((e) => {
+          if (e.intersectionRatio > bestRatio) {
+            bestRatio = e.intersectionRatio
+            best = e
+          }
+        })
+        if (best && bestRatio > 0.5) {
+          const id = Number(best.target.dataset.cardId)
+          setActiveCard((prev) => {
+            if (prev !== id) {
+              playCardSound()
+              return id
+            }
+            return prev
+          })
+        }
+      },
+      {
+        root: container,
+        threshold: [0.5, 0.8],
+        rootMargin: '0px -25% 0px -25%', // triggers when card is near centre
+      }
+    )
+
+    Object.values(cardRefs.current).forEach((el) => {
+      if (el) observer.observe(el)
+    })
+
+    return () => observer.disconnect()
+  }, [page])
 
   const onFirstInteraction = useCallback(() => {
     getAudioCtx()
@@ -107,65 +135,107 @@ function StackedCards() {
 
   return (
     <div className="vi-wrapper" onPointerDown={onFirstInteraction}>
-      <div className="vi-scene-outer">
-        <div
-          className="vi-scene-wrap"
-          onMouseLeave={() => setActiveCard(null)}
-        >
-          <div
-            className="vi-scene"
-            style={{ width: stackWidth + 'px', height: '360px' }}
-          >
-            <div className="vi-stack-arrow-wrap">
-            <ArrowButton
-              dir={page < TOTAL_PAGES - 1 ? 'forward' : 'back'}
-              onClick={() => page < TOTAL_PAGES - 1 ? goTo(1) : goTo(-1)}
-            />
-          </div>
-          {pageCards.map((card, i) => {
-              const isActive = activeCard === card.id
-              const isDim    = activeCard !== null && !isActive
-              const isEmpty  = !card.img
-
-              return (
-                <div
-                  key={card.id}
-                  className={
-                    'vi-card' +
-                    (isActive ? ' vi-card--active' : '') +
-                    (isDim    ? ' vi-card--dim'    : '') +
-                    (isEmpty  ? ' vi-card--empty'  : ' vi-card--filled')
-                  }
-                  style={{
-                    left: i * PEEK + 'px',
-                    zIndex: isActive ? 50 : pageCards.length - i,
-                  }}
-                  onMouseEnter={() => handleEnter(card.id)}
-                >
-                  {isEmpty ? (
-                    <div className="vi-card__inset">
-                      <span className="vi-card__qmark">?</span>
-                    </div>
-                  ) : (
-                    <>
-                      <div className="vi-card__bg" style={{ backgroundImage: `url('${card.img}')` }} />
-                      <div className="vi-card__overlay" />
-                      <div className="vi-card__body">
-                        <span className="vi-card__label">{card.label}</span>
-                      </div>
-                      <div className="vi-card__accent" />
-                    </>
-                  )}
-                </div>
-              )
-            })}
-          </div>
-        </div>
-
-
+      {/* Browse hint */}
+      <div className="vi-browse-hint" aria-hidden="true">
+        <span className="vi-browse-hint__text">Selaa</span>
+        <svg width="20" height="20" viewBox="0 0 20 20" fill="none">
+          <path d="M4 10h12M11 5l5 5-5 5" stroke="currentColor" strokeWidth="1.8" strokeLinecap="round" strokeLinejoin="round"/>
+        </svg>
       </div>
 
+      {/* Scroll track — single row, all cards */}
+      <div
+        className="vi-scroll-track"
+        ref={scrollRef}
+        onMouseLeave={() => { if (!isMobile) setActiveCard(null) }}
+      >
+        {pageCards.map((card, i) => {
+          const isActive = activeCard === card.id
+          const isDim    = activeCard !== null && !isActive
+          const isEmpty  = !card.img
 
+          return (
+            <div
+              key={card.id}
+              data-card-id={card.id}
+              ref={(el) => { cardRefs.current[card.id] = el }}
+              className={
+                'vi-card' +
+                (isActive ? ' vi-card--active' : '') +
+                (isDim    ? ' vi-card--dim'    : '') +
+                (isEmpty  ? ' vi-card--empty'  : ' vi-card--filled')
+              }
+              onMouseEnter={() => handleEnter(card.id)}
+              onClick={() => {
+                if (activeCard !== card.id) {
+                  setActiveCard(card.id)
+                  playCardSound()
+                }
+              }}
+            >
+              {isEmpty ? (
+                <div className="vi-card__inset">
+                  <span className="vi-card__qmark">?</span>
+                </div>
+              ) : (
+                <>
+                  <div className="vi-card__bg" style={{ backgroundImage: `url('${card.img}')` }} />
+                  <div className="vi-card__overlay" />
+                  <div className="vi-card__body">
+                    <span className="vi-card__label">{card.label}</span>
+                  </div>
+                  <div className="vi-card__accent" />
+                </>
+              )}
+            </div>
+          )
+        })}
+      </div>
+
+      {/* Page nav — kept for multi-page support */}
+      {TOTAL_PAGES > 1 && (
+        <div className="vi-nav">
+          <button
+            className="vi-arrow"
+            onClick={() => goTo(-1)}
+            disabled={page === 0}
+            aria-label="Edellinen sivu"
+          >
+            <svg width="16" height="16" viewBox="0 0 18 18" fill="none">
+              <path d="M11 4L6 9L11 14" stroke="currentColor" strokeWidth="1.8" strokeLinecap="round" strokeLinejoin="round"/>
+            </svg>
+          </button>
+
+          <div className="vi-track">
+            <div
+              className="vi-track__fill"
+              style={{ width: `${((page + 1) / TOTAL_PAGES) * 100}%` }}
+            />
+            {Array.from({ length: TOTAL_PAGES }).map((_, idx) => (
+              <button
+                key={idx}
+                className={`vi-pip${idx === page ? ' vi-pip--active' : ''}`}
+                style={{ left: `${(idx / (TOTAL_PAGES - 1)) * 100}%` }}
+                onClick={() => { setPage(idx); setActiveCard(null) }}
+                aria-label={`Sivu ${idx + 1}`}
+              />
+            ))}
+          </div>
+
+          <button
+            className="vi-arrow"
+            onClick={() => goTo(1)}
+            disabled={page === TOTAL_PAGES - 1}
+            aria-label="Seuraava sivu"
+          >
+            <svg width="16" height="16" viewBox="0 0 18 18" fill="none">
+              <path d="M7 4L12 9L7 14" stroke="currentColor" strokeWidth="1.8" strokeLinecap="round" strokeLinejoin="round"/>
+            </svg>
+          </button>
+
+          <span className="vi-page-label">{page + 1} / {TOTAL_PAGES}</span>
+        </div>
+      )}
     </div>
   )
 }
