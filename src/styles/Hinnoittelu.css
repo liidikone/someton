@@ -9,7 +9,7 @@
 }
 
 .hinnoittelu__inner {
-  max-width: 860px;
+  max-width: 1200px;
   margin-left: auto;
   margin-right: auto;
   padding-left: clamp(1.5rem, 4vw, 5rem);
@@ -641,6 +641,9 @@
 
 /* -- Mobile -- */
 @media (max-width: 600px) {
+  .hinnoittelu__title {
+    font-size: clamp(3.8rem, 18vw, 6rem);
+  }
   .hp-tab {
     padding: 0.6rem 0.9rem;
     font-size: 0.8rem;
