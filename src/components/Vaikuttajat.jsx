@@ -81,14 +81,16 @@ function StackedCards() {
     const card    = cardRefs.current[influencers[clamped].id]
     if (!track || !card) return
 
-    // offsetLeft is relative to vi-scroll-rail; rail sits inside track.
-    // We need the card's left edge relative to the track's scroll origin.
-    const rail        = card.parentElement
-    const railOffsetX = rail ? rail.offsetLeft : 0
-    const paddingLeft = parseFloat(getComputedStyle(track).paddingLeft) || 0
-    const targetLeft  = railOffsetX + card.offsetLeft - paddingLeft
+    const trackRect = track.getBoundingClientRect()
+    const cardRect  = card.getBoundingClientRect()
 
-    track.scrollTo({ left: targetLeft, behavior: 'smooth' })
+    // How far card's left edge is from track's left edge (accounting for current scroll)
+    const delta = cardRect.left - trackRect.left
+    // Center the card in the track
+    const center = (trackRect.width - cardRect.width) / 2
+    const target = track.scrollLeft + delta - center
+
+    track.scrollTo({ left: target, behavior: 'smooth' })
     activeIndexRef.current = clamped
   }, [])
 
@@ -218,8 +220,10 @@ function StackedCards() {
                     </div>
                   ) : (
                     <>
-                      <div className="vi-card__bg" style={{ backgroundImage: `url('${card.img}')` }} />
-                      <div className="vi-card__overlay" />
+                      <div className="vi-card__clip">
+                        <div className="vi-card__bg" style={{ backgroundImage: `url('${card.img}')` }} />
+                        <div className="vi-card__overlay" />
+                      </div>
                       <div className="vi-card__body">
                         <span className="vi-card__label">{card.label}</span>
                       </div>
