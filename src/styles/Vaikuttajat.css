@@ -19,7 +19,8 @@
   gap: 2.5rem;
 }
 
-/* ── HEADER ────────────────────────────────────────────────── */
+/* ── HEADER ─────────────────────────────────────────────────── */
+
 .vaikuttajat__header {
   display: flex;
   flex-direction: column;
@@ -59,97 +60,119 @@
   margin: 0;
 }
 
-/* ── WRAPPER ────────────────────────────────────────────────── */
+/* ── WRAPPER ─────────────────────────────────────────────────── */
+
 .vi-wrapper {
   display: flex;
   flex-direction: column;
   gap: 1rem;
   overflow: visible;
-}
-
-/* ── BROWSE HINT ───────────────────────────────────────────── */
-.vi-browse-hint {
-  display: flex;
-  align-items: center;
-  gap: 0.45rem;
-  color: rgba(0, 0, 0, 0.38);
   padding-left: clamp(1.5rem, 4vw, 5rem);
+  padding-right: clamp(1.5rem, 4vw, 5rem);
 }
 
-.vi-browse-hint__text {
-  font-size: 0.82rem;
-  font-weight: 500;
-  letter-spacing: 0.06em;
-  text-transform: uppercase;
+/* ── SCENE OUTER: clips nothing, just centres ────────────────── */
+
+.vi-scene-outer {
+  display: flex;
+  justify-content: flex-start;
+  overflow: visible;
 }
 
-/* ── SCROLL AREA ───────────────────────────────────────────── */
-.vi-scroll-area {
+/* ── SCENE WRAP: triggers reset on mouse-leave ───────────────── */
+
+.vi-scene-wrap {
+  overflow: visible;
+  /* Extra room so lifted/scaled cards never clip */
+  padding-top: 28px;
+  padding-bottom: 24px;
+}
+
+/* ── SCENE: the stacking canvas ──────────────────────────────── */
+
+.vi-scene {
   position: relative;
+  /* width & height set inline by JS */
+}
+
+/* ── ARROW WRAPS ─────────────────────────────────────────────── */
+
+.vi-stack-arrow-wrap {
+  position: absolute;
+  top: 50%;
+  transform: translateY(-50%);
+  z-index: 100;
+  /* Pulls the arrow outside the stack so it doesn't overlap cards */
+}
+
+.vi-stack-arrow-wrap--back {
+  /* Sit just to the left of the stack */
+  left: -52px;
+}
+
+.vi-stack-arrow-wrap--forward {
+  /* Sit just to the right; stack width is set in px inline on .vi-scene */
+  right: -52px;
+}
+
+/* ── ARROW BUTTON ────────────────────────────────────────────── */
+
+.vi-stack-arrow {
   display: flex;
   align-items: center;
-  /* Extra padding so active card translateY(-12px) + scale(1.08) never clips */
-  padding-top: 32px;
-  padding-bottom: 20px;
-  /* MUST be overflow:visible — overflow:hidden clips the zoom */
-  overflow: visible;
+  justify-content: center;
+  width: 40px;
+  height: 40px;
+  border-radius: 50%;
+  border: none;
+  background: #ffffff;
+  color: #111111;
+  box-shadow:
+    0 2px 12px rgba(0, 0, 0, 0.14),
+    0 0 0 1px rgba(0, 0, 0, 0.07);
+  cursor: pointer;
+  transition:
+    background 0.18s ease,
+    box-shadow 0.18s ease,
+    transform 0.18s ease;
 }
 
-/* ── SCROLL TRACK ──────────────────────────────────────────── */
-.vi-scroll-track {
-  display: flex;
-  flex-direction: row;
-  gap: 1rem;
-  overflow-x: auto;
-  /* overflow-y MUST be visible so cards can scale/lift out of the track */
-  overflow-y: visible;
-  -webkit-overflow-scrolling: touch;
-  scrollbar-width: none;
-  padding-top: 0;
-  padding-bottom: 2rem;
-  padding-left: clamp(1.5rem, 4vw, 5rem);
-  padding-right: clamp(3rem, 6vw, 5rem);
-  cursor: grab;
-  flex: 1;
+.vi-stack-arrow:hover {
+  background: #f5f5f5;
+  box-shadow:
+    0 4px 18px rgba(0, 0, 0, 0.18),
+    0 0 0 1px rgba(0, 0, 0, 0.09);
 }
 
-.vi-scroll-track:active {
-  cursor: grabbing;
+.vi-stack-arrow:active {
+  background: #00ff88;
+  color: #111111;
+  transform: scale(0.93);
+  box-shadow:
+    0 2px 8px rgba(0, 255, 136, 0.35),
+    0 0 0 1px rgba(0, 0, 0, 0.07);
 }
 
-.vi-scroll-track::-webkit-scrollbar {
-  display: none;
+.vi-stack-arrow--disabled {
+  opacity: 0.3;
+  cursor: default;
+  pointer-events: none;
 }
 
-/* ── SCROLL RAIL ───────────────────────────────────────────── */
-.vi-scroll-rail {
-  display: flex;
-  flex-direction: row;
-  gap: 1rem;
-  /* overflow:visible so card shadows/scale aren't clipped */
-  overflow: visible;
-  /* Enough vertical padding for the lift + shadow */
-  padding-top: 4px;
-  padding-bottom: 4px;
-}
+/* ── CARD ────────────────────────────────────────────────────── */
 
-/* ── CARD BASE ─────────────────────────────────────────────── */
-/* KEY FIX: use box-shadow NOT filter:drop-shadow.
-   drop-shadow lives inside the filter compositing step which
-   gets clipped by any ancestor overflow. box-shadow renders
-   outside the element and is NOT clipped by overflow:visible. */
 .vi-card {
-  position: relative;
-  flex-shrink: 0;
-  width: 170px;
-  height: 265px;
+  position: absolute;
+  width: 220px;
+  height: 340px;
   border-radius: 14px;
+  /* overflow:visible so scale/lift don't clip; bg clips via .vi-card__bg */
   overflow: visible;
   cursor: pointer;
   background: #ffffff;
 
   box-shadow:
-    0px 4px 8px rgba(0, 0, 0, 0.10),
+    0 4px 8px rgba(0, 0, 0, 0.10),
     0 1px 0 rgba(0, 0, 0, 0.05);
 
   filter: grayscale(100%);
@@ -158,29 +181,17 @@
     transform 0.32s cubic-bezier(0.22, 1, 0.36, 1),
     box-shadow 0.32s cubic-bezier(0.22, 1, 0.36, 1),
     filter 0.25s ease;
+
   will-change: transform;
 }
 
-/* ── ACTIVE ────────────────────────────────────────────────── */
-.vi-card--active {
-  transform: translateY(-12px) scale(1.08);
-  box-shadow:
-    0px 8px 16px rgba(0, 0, 0, 0.14),
-    0 1px 0 rgba(0, 0, 0, 0.06);
-  filter: brightness(1.04) grayscale(0%);
-}
-
-/* ── DIM ───────────────────────────────────────────────────── */
-.vi-card--dim {
-  box-shadow:
-    0px 3px 6px rgba(0, 0, 0, 0.07),
-    0 1px 0 rgba(0, 0, 0, 0.04);
-  filter: brightness(0.72) saturate(0.25) grayscale(100%);
-}
+/* ── CARD BG (clips to border-radius) ───────────────────────── */
 
 .vi-card__bg {
   position: absolute;
   inset: 0;
+  border-radius: 14px;
+  overflow: hidden;
   background-size: cover;
   background-position: center top;
   background-color: #e8e8e8;
@@ -191,25 +202,30 @@
   transform: scale(1.03);
 }
 
+/* ── CARD OVERLAY ────────────────────────────────────────────── */
+
 .vi-card__overlay {
   position: absolute;
   inset: 0;
+  border-radius: 14px;
   background: linear-gradient(
     to bottom,
-    rgba(0,0,0,0.02) 0%,
-    rgba(0,0,0,0.0)  20%,
-    rgba(0,0,0,0.38) 68%,
-    rgba(0,0,0,0.68) 100%
+    rgba(0, 0, 0, 0.02) 0%,
+    rgba(0, 0, 0, 0.00) 20%,
+    rgba(0, 0, 0, 0.38) 68%,
+    rgba(0, 0, 0, 0.68) 100%
   );
   z-index: 1;
 }
+
+/* ── CARD BODY ───────────────────────────────────────────────── */
 
 .vi-card__body {
   position: absolute;
   z-index: 2;
   left: 1rem;
   right: 1rem;
-  top: calc(265px * 0.34);
+  top: calc(340px * 0.34);
 }
 
 .vi-card__label {
@@ -220,8 +236,10 @@
   text-transform: uppercase;
   line-height: 1.05;
   color: #ffffff;
-  text-shadow: 0 2px 8px rgba(0,0,0,0.7);
+  text-shadow: 0 2px 8px rgba(0, 0, 0, 0.7);
 }
+
+/* ── CARD ACCENT ─────────────────────────────────────────────── */
 
 .vi-card__accent {
   position: absolute;
@@ -229,8 +247,9 @@
   left: 0;
   right: 0;
   height: 3px;
+  border-radius: 0 0 14px 14px;
   z-index: 3;
-  background: linear-gradient(to right, #00ff88, rgba(0,255,136,0.15));
+  background: linear-gradient(to right, #00ff88, rgba(0, 255, 136, 0.15));
   transform: scaleX(0);
   transform-origin: left;
   transition: transform 0.35s cubic-bezier(0.22, 1, 0.36, 1);
@@ -240,19 +259,29 @@
   transform: scaleX(1);
 }
 
-/* ── CARD CLIP (inner overflow container) ──────────────────── */
-/* The card itself is overflow:visible so transform/scale isn't clipped by parent.
-   This inner div clips bg + overlay to the rounded rect. */
-.vi-card__clip {
-  position: absolute;
-  inset: 0;
-  border-radius: 14px;
-  overflow: hidden;
-  z-index: 0;
+/* ── CARD STATES ─────────────────────────────────────────────── */
+
+.vi-card--active {
+  transform: translateY(-14px) scale(1.06);
+  box-shadow:
+    0 12px 28px rgba(0, 0, 0, 0.18),
+    0 1px 0 rgba(0, 0, 0, 0.06);
+  filter: brightness(1.04) grayscale(0%);
+  z-index: 50 !important;
 }
+
+.vi-card--dim {
+  box-shadow:
+    0 3px 6px rgba(0, 0, 0, 0.07),
+    0 1px 0 rgba(0, 0, 0, 0.04);
+  filter: brightness(0.72) saturate(0.25) grayscale(100%);
+}
+
+/* ── EMPTY CARD ──────────────────────────────────────────────── */
 
 .vi-card--empty {
   background: #f0f0f0;
+  cursor: default;
 }
 
 .vi-card__inset {
@@ -273,119 +302,37 @@
   user-select: none;
 }
 
-/* ── ARROW BUTTON ──────────────────────────────────────────── */
-.vi-arrow-btn {
-  display: none;
-  position: absolute;
-  top: 50%;
-  transform: translateY(-50%);
-  z-index: 10;
-  width: 48px;
-  height: 48px;
-  border-radius: 50%;
-  border: none;
-  background: #ffffff;
-  color: #111111;
-  box-shadow:
-    0 2px 12px rgba(0,0,0,0.14),
-    0 0 0 1px rgba(0,0,0,0.07);
-  cursor: pointer;
-  align-items: center;
-  justify-content: center;
-  user-select: none;
-  -webkit-user-select: none;
-  opacity: 0;
-  pointer-events: none;
-  transition: background 0.18s ease, transform 0.18s ease, box-shadow 0.18s ease, opacity 0.22s ease;
-}
+/* ── MOBILE ──────────────────────────────────────────────────── */
 
-.vi-arrow-btn--left {
-  left: 0.75rem;
-}
-
-.vi-arrow-btn--right {
-  right: 0.75rem;
-}
-
-.vi-arrow-btn--visible {
-  opacity: 1;
-  pointer-events: auto;
-}
-
-.vi-arrow-btn:hover {
-  background: #f5f5f5;
-  box-shadow:
-    0 4px 18px rgba(0,0,0,0.18),
-    0 0 0 1px rgba(0,0,0,0.09);
-}
-
-.vi-arrow-btn:active {
-  background: #00ff88;
-  color: #111111;
-  transform: translateY(-50%) scale(0.94);
-  box-shadow:
-    0 2px 8px rgba(0,255,136,0.35),
-    0 0 0 1px rgba(0,0,0,0.07);
-}
-
-/* ── FADES ─────────────────────────────────────────────────── */
-.vi-fade {
-  position: absolute;
-  top: 0;
-  bottom: 0;
-  width: 90px;
-  pointer-events: none;
-  z-index: 5;
-  opacity: 0;
-  transition: opacity 0.22s ease;
-}
-
-.vi-fade--left {
-  left: 0;
-  background: linear-gradient(to left, transparent, #ffffff 85%);
-}
-
-.vi-fade--right {
-  right: 0;
-  background: linear-gradient(to right, transparent, #ffffff 85%);
-}
-
-.vi-fade--visible {
-  opacity: 1;
-}
-
-/* ── DESKTOP (769px+) ──────────────────────────────────────── */
-@media (min-width: 769px) {
-  .vi-arrow-btn {
-    display: flex;
-  }
-
-  .vi-browse-hint {
-    display: none;
-  }
-}
-
-/* ── MOBILE ────────────────────────────────────────────────── */
 @media (max-width: 768px) {
   .vaikuttajat__title {
     font-size: clamp(5.5rem, 24vw, 9rem);
   }
 
-  .vi-arrow-btn {
-    display: none;
+  .vi-stack-arrow-wrap--back {
+    left: -40px;
+  }
+
+  .vi-stack-arrow-wrap--forward {
+    right: -40px;
+  }
+
+  .vi-stack-arrow {
+    width: 32px;
+    height: 32px;
   }
 
   .vi-card {
-    width: 148px;
-    height: 230px;
+    width: 180px;
+    height: 280px;
   }
 
   .vi-card--active {
-    transform: translateY(-8px) scale(1.07);
+    transform: translateY(-10px) scale(1.05);
   }
 
   .vi-card__body {
-    top: calc(230px * 0.34);
+    top: calc(280px * 0.34);
   }
 
   .vi-card__label {
