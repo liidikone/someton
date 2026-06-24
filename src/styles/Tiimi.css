@@ -29,6 +29,7 @@
   .tiimi-page__title { white-space: nowrap; }
   .tiimi-page__mission { max-width: none; }
   .tiimi-page__hr { display: none; }
+  .tiimi-page__grid--mobile-only { display: none; }
 }
 
 /* ============================================================
@@ -281,7 +282,31 @@
   .tiimi-page__title {
     font-size: clamp(5.5rem, 24vw, 9rem);
   }
+  .tiimi-page__inner {
+    gap: 2rem;
+  }
   .tiimi-page__grid--all {
     grid-template-columns: 1fr 1fr;
+    gap: 1.25rem;
+  }
+  .tiimi-page__grid--hidden-mobile {
+    display: none;
+  }
+  .tm-avatar {
+    width: 52px;
+    height: 52px;
+  }
+  .tm-role {
+    font-size: 0.6rem;
+    margin-top: 0.25rem;
+  }
+  .tm-name {
+    font-size: 0.9rem;
+  }
+  .tm-contact__link {
+    font-size: 0.75rem;
+  }
+  .tm-card {
+    gap: 0.4rem;
   }
 }
