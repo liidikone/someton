@@ -162,11 +162,11 @@ function StackedCards() {
                       <div className="vi-card__clip">
                         <div className="vi-card__bg" style={{ backgroundImage: `url('${card.img}')` }} />
                         <div className="vi-card__overlay" />
+                        <div className="vi-card__accent" />
                       </div>
                       <div className="vi-card__body">
                         <span className="vi-card__label">{card.label}</span>
                       </div>
-                      <div className="vi-card__accent" />
                     </>
                   )}
                 </div>
