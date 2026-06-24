@@ -64,7 +64,6 @@
   display: flex;
   flex-direction: column;
   gap: 1rem;
-  /* FIX: must be visible so active card zoom isn't clipped */
   overflow: visible;
 }
 
@@ -89,11 +88,11 @@
   position: relative;
   display: flex;
   align-items: center;
-  /* FIX: must be visible so active card can grow outside its container */
-  overflow: visible;
-  /* Padding creates room so the lifted card doesn't get clipped by parent */
+  /* Extra padding so active card translateY(-12px) + scale(1.08) never clips */
   padding-top: 32px;
   padding-bottom: 20px;
+  /* MUST be overflow:visible — overflow:hidden clips the zoom */
+  overflow: visible;
 }
 
 /* ── SCROLL TRACK ──────────────────────────────────────────── */
@@ -102,7 +101,7 @@
   flex-direction: row;
   gap: 1rem;
   overflow-x: auto;
-  /* FIX: visible on Y so scaled cards can grow upward out of the track */
+  /* overflow-y MUST be visible so cards can scale/lift out of the track */
   overflow-y: visible;
   -webkit-overflow-scrolling: touch;
   scrollbar-width: none;
@@ -127,9 +126,18 @@
   display: flex;
   flex-direction: row;
   gap: 1rem;
+  /* overflow:visible so card shadows/scale aren't clipped */
+  overflow: visible;
+  /* Enough vertical padding for the lift + shadow */
+  padding-top: 4px;
+  padding-bottom: 4px;
 }
 
 /* ── CARD BASE ─────────────────────────────────────────────── */
+/* KEY FIX: use box-shadow NOT filter:drop-shadow.
+   drop-shadow lives inside the filter compositing step which
+   gets clipped by any ancestor overflow. box-shadow renders
+   outside the element and is NOT clipped by overflow:visible. */
 .vi-card {
   position: relative;
   flex-shrink: 0;
@@ -139,21 +147,17 @@
   overflow: hidden;
   cursor: pointer;
   background: #ffffff;
-  /* FIX: use box-shadow instead of drop-shadow filter.
-     drop-shadow lives inside the filter pipeline which interacts badly
-     with grayscale/brightness — and more importantly, the filter is
-     applied AFTER overflow:hidden clips the scaled card.
-     box-shadow renders outside the element's box independently. */
+
   box-shadow:
     0px 4px 8px rgba(0, 0, 0, 0.10),
     0 1px 0 rgba(0, 0, 0, 0.05);
+
   filter: grayscale(100%);
-  /* FIX: transform-origin bottom-center so card grows upward naturally */
-  transform-origin: center bottom;
+
   transition:
     transform 0.32s cubic-bezier(0.22, 1, 0.36, 1),
-    filter 0.25s ease,
-    box-shadow 0.25s ease;
+    box-shadow 0.32s cubic-bezier(0.22, 1, 0.36, 1),
+    filter 0.25s ease;
   will-change: transform;
 }
 
@@ -161,10 +165,9 @@
 .vi-card--active {
   transform: translateY(-12px) scale(1.08);
   box-shadow:
-    0px 8px 24px rgba(0, 0, 0, 0.18),
+    0px 8px 16px rgba(0, 0, 0, 0.14),
     0 1px 0 rgba(0, 0, 0, 0.06);
   filter: brightness(1.04) grayscale(0%);
-  z-index: 2;
 }
 
 /* ── DIM ───────────────────────────────────────────────────── */
