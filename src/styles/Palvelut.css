@@ -146,7 +146,7 @@
    ============================================================ */
 @media (max-width: 768px) {
   .palvelut-page__title {
-    font-size: clamp(1.6rem, 7vw, 2.4rem);
+    font-size: clamp(3.85rem, 18vw, 7.7rem);
   }
   .palvelut-page__services {
     grid-template-columns: 1fr;
