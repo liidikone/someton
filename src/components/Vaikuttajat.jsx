@@ -55,43 +55,64 @@ const influencers = [
   { id: 16, label: null, img: null },
 ]
 
+const CARD_W = 170
+const CARD_GAP = 16
+
 function StackedCards() {
-  const [activeCard, setActiveCard]     = useState(influencers[0].id)
+  const [activeCard, setActiveCard]       = useState(influencers[0].id)
   const [canScrollLeft, setCanScrollLeft]   = useState(false)
   const [canScrollRight, setCanScrollRight] = useState(true)
   const scrollRef      = useRef(null)
   const cardRefs       = useRef({})
   const activeIndexRef = useRef(0)
-  // FIX #2: prevent Observer from overriding initial state before user scrolls
-  const hasScrolledRef = useRef(false)
 
-  /* Update left/right arrow visibility */
+  /* ── Scroll state ── */
   const updateScrollState = useCallback(() => {
     const el = scrollRef.current
     if (!el) return
-    // FIX #3: use same threshold value (4px) on both sides — no arbitrary 8px
-    setCanScrollLeft(el.scrollLeft > 4)
-    setCanScrollRight(el.scrollLeft < el.scrollWidth - el.clientWidth - 4)
+    setCanScrollLeft(el.scrollLeft > 8)
+    setCanScrollRight(el.scrollLeft < el.scrollWidth - el.clientWidth - 8)
   }, [])
 
-  /* IntersectionObserver — active card */
+  /* ── Scroll to card index — reliable offset calc ── */
+  const scrollToIndex = useCallback((idx) => {
+    const clamped = Math.max(0, Math.min(influencers.length - 1, idx))
+    const track   = scrollRef.current
+    const card    = cardRefs.current[influencers[clamped].id]
+    if (!track || !card) return
+
+    // offsetLeft is relative to vi-scroll-rail; rail sits inside track.
+    // We need the card's left edge relative to the track's scroll origin.
+    const rail        = card.parentElement
+    const railOffsetX = rail ? rail.offsetLeft : 0
+    const paddingLeft = parseFloat(getComputedStyle(track).paddingLeft) || 0
+    const targetLeft  = railOffsetX + card.offsetLeft - paddingLeft
+
+    track.scrollTo({ left: targetLeft, behavior: 'smooth' })
+    activeIndexRef.current = clamped
+  }, [])
+
+  const scrollRight = useCallback(() => scrollToIndex(activeIndexRef.current + 1), [scrollToIndex])
+  const scrollLeft  = useCallback(() => scrollToIndex(activeIndexRef.current - 1), [scrollToIndex])
+
+  /* ── IntersectionObserver — keep activeIndexRef in sync ── */
   useEffect(() => {
     const container = scrollRef.current
     if (!container) return
     const observer = new IntersectionObserver(
       (entries) => {
-        // FIX #2: don't override initial card until user actually scrolls
-        if (!hasScrolledRef.current) return
-
         let best = null, bestRatio = 0
         entries.forEach((e) => {
           if (e.intersectionRatio > bestRatio) { bestRatio = e.intersectionRatio; best = e }
         })
         if (best && bestRatio > 0.5) {
-          const id = Number(best.target.dataset.cardId)
+          const id  = Number(best.target.dataset.cardId)
           const idx = influencers.findIndex(c => c.id === id)
           if (idx !== -1) activeIndexRef.current = idx
-          setActiveCard((prev) => { if (prev !== id) { playCardSound(); return id } return prev })
+          setActiveCard((prev) => {
+            if (prev !== id) { playCardSound(); return id }
+            return prev
+          })
         }
       },
       { root: container, threshold: [0.5, 0.8], rootMargin: '0px -30% 0px -30%' }
@@ -100,20 +121,16 @@ function StackedCards() {
     return () => observer.disconnect()
   }, [])
 
-  /* Scroll listener for arrow state + mark that user has scrolled */
+  /* ── Scroll listener ── */
   useEffect(() => {
     const el = scrollRef.current
     if (!el) return
-    const onScroll = () => {
-      hasScrolledRef.current = true
-      updateScrollState()
-    }
-    el.addEventListener('scroll', onScroll, { passive: true })
+    el.addEventListener('scroll', updateScrollState, { passive: true })
     updateScrollState()
-    return () => el.removeEventListener('scroll', onScroll)
+    return () => el.removeEventListener('scroll', updateScrollState)
   }, [updateScrollState])
 
-  /* Mouse drag-to-scroll */
+  /* ── Mouse drag-to-scroll ── */
   useEffect(() => {
     const track = scrollRef.current
     if (!track) return
@@ -146,24 +163,6 @@ function StackedCards() {
     }
   }, [])
 
-  /* Arrow nav: scroll to specific card element */
-  const scrollToIndex = useCallback((idx) => {
-    const clampedIdx = Math.max(0, Math.min(influencers.length - 1, idx))
-    const targetCard = cardRefs.current[influencers[clampedIdx].id]
-    const track = scrollRef.current
-    if (!targetCard || !track) return
-    hasScrolledRef.current = true
-    const paddingLeft = parseFloat(getComputedStyle(track).paddingLeft) || 0
-    track.scrollTo({ left: targetCard.offsetLeft - paddingLeft, behavior: 'smooth' })
-    activeIndexRef.current = clampedIdx
-    // FIX #3: update active card immediately on arrow click, don't wait for Observer
-    const newId = influencers[clampedIdx].id
-    setActiveCard((prev) => { if (prev !== newId) { playCardSound(); return newId } return prev })
-  }, [])
-
-  const scrollRight = useCallback(() => scrollToIndex(activeIndexRef.current + 1), [scrollToIndex])
-  const scrollLeft  = useCallback(() => scrollToIndex(activeIndexRef.current - 1), [scrollToIndex])
-
   return (
     <div className="vi-wrapper" onPointerDown={() => getAudioCtx()}>
       <div className="vi-browse-hint" aria-hidden="true">
@@ -173,7 +172,6 @@ function StackedCards() {
         </svg>
       </div>
 
-      {/* Outer area: handles arrow buttons + fades */}
       <div className="vi-scroll-area">
 
         {/* LEFT ARROW */}
@@ -191,7 +189,7 @@ function StackedCards() {
         {/* LEFT FADE */}
         <div className={'vi-fade vi-fade--left' + (canScrollLeft ? ' vi-fade--visible' : '')} aria-hidden="true" />
 
-        {/* The scroll track */}
+        {/* SCROLL TRACK */}
         <div className="vi-scroll-track" ref={scrollRef}>
           <div className="vi-scroll-rail">
             {influencers.map((card) => {
@@ -211,13 +209,7 @@ function StackedCards() {
                     (isEmpty  ? ' vi-card--empty'  : ' vi-card--filled')
                   }
                   onClick={() => {
-                    if (activeCard !== card.id) {
-                      hasScrolledRef.current = true
-                      const idx = influencers.findIndex(c => c.id === card.id)
-                      if (idx !== -1) activeIndexRef.current = idx
-                      setActiveCard(card.id)
-                      playCardSound()
-                    }
+                    if (activeCard !== card.id) { setActiveCard(card.id); playCardSound() }
                   }}
                 >
                   {isEmpty ? (
