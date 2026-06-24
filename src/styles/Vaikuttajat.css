@@ -144,7 +144,7 @@
   width: 170px;
   height: 265px;
   border-radius: 14px;
-  overflow: hidden;
+  overflow: visible;
   cursor: pointer;
   background: #ffffff;
 
@@ -240,7 +240,17 @@
   transform: scaleX(1);
 }
 
-/* ── EMPTY CARD ────────────────────────────────────────────── */
+/* ── CARD CLIP (inner overflow container) ──────────────────── */
+/* The card itself is overflow:visible so transform/scale isn't clipped by parent.
+   This inner div clips bg + overlay to the rounded rect. */
+.vi-card__clip {
+  position: absolute;
+  inset: 0;
+  border-radius: 14px;
+  overflow: hidden;
+  z-index: 0;
+}
+
 .vi-card--empty {
   background: #f0f0f0;
 }
