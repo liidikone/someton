@@ -52,8 +52,7 @@ export default function Tiimi() {
 
         <div className="tiimi-page__mission">
           <p className="tiimi-page__mission-text">
-            SOMET<span className="tiimi-page__title-on">ON</span> ei arvaile algoritmeja, me ymmärrämme niitä. Yhdistämme datan, luovuuden,
-            rohkeuden ja oivallukset sisällöksi, joka erottuu, tavoittaa oikean yleisön ja muuttaa näkyvyyden kasvuksi.
+            SOMET<span className="tiimi-page__title-on">ON</span> ei arvaile algoritmeja, me ymmärrämme niitä. Hyödynnämme tekoälyä datan käsittelyssä, analysoinnissa ja jalostamisessa yhdistäen faktat luovuuteen, jotta syntyy vaikuttavaa ja erottuvaa sisältöä.
           </p>
         </div>
 
