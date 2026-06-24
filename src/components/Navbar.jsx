@@ -33,9 +33,9 @@ export default function Navbar() {
       <nav className={navClass} id="navbar">
         <div className="navbar__inner">
 
-      <a href="#" className="navbar__logo" aria-label="Home" onClick={e => handleAnchor(e, '#hero')}>
-        <img src="/logo.avif" alt="Logo" className="navbar__logo-img" />
-      </a>
+          <a href="#" className="navbar__logo" aria-label="Home" onClick={e => handleAnchor(e, '#hero')}>
+            <img src="/logo.avif" alt="Logo" className="navbar__logo-img" />
+          </a>
 
           <div className="navbar__right">
             <nav className="navbar__nav" aria-label="Päävalikko">
