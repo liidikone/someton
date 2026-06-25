@@ -38,10 +38,16 @@
   flex-shrink: 0;
 }
 .navbar__logo-img {
-  height: 32px;
+  height: 48px;
   width: auto;
   display: block;
   object-fit: contain;
+}
+
+@media (max-width: 1024px) {
+  .navbar__logo-img {
+    height: 32px;
+  }
 }
 .navbar__logo-text {
   font-size: var(--text-xl);
