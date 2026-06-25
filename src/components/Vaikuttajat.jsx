@@ -92,6 +92,9 @@ function ArrowButton({ dir, onClick, disabled }) {
 
 // ── Card renderer ──────────────────────────────────────────────────────────────
 
+// pan-y on every node — one child without it is enough to block scroll on iOS/Chrome
+const PAN_Y = { touchAction: 'pan-y', userSelect: 'none', WebkitUserSelect: 'none' }
+
 function Card({ card, isActive, isDim, style }) {
   const isEmpty = !card.img
   return (
@@ -102,21 +105,21 @@ function Card({ card, isActive, isDim, style }) {
         (isDim    ? ' vi-card--dim'    : '') +
         (isEmpty  ? ' vi-card--empty'  : ' vi-card--filled')
       }
-      style={style}
+      style={{ ...PAN_Y, ...style }}
     >
       {isEmpty ? (
-        <div className="vi-card__inset">
-          <span className="vi-card__qmark">?</span>
+        <div className="vi-card__inset" style={PAN_Y}>
+          <span className="vi-card__qmark" style={PAN_Y}>?</span>
         </div>
       ) : (
         <>
-          <div className="vi-card__clip" style={{ pointerEvents: 'none', userSelect: 'none', WebkitUserSelect: 'none' }}>
-            <div className="vi-card__bg" style={{ backgroundImage: `url('${card.img}')` }} />
-            <div className="vi-card__overlay" />
-            <div className="vi-card__accent" />
+          <div className="vi-card__clip" style={{ ...PAN_Y, pointerEvents: 'none' }}>
+            <div className="vi-card__bg" style={{ ...PAN_Y, backgroundImage: `url('${card.img}')` }} />
+            <div className="vi-card__overlay" style={PAN_Y} />
+            <div className="vi-card__accent" style={PAN_Y} />
           </div>
-          <div className="vi-card__body" style={{ pointerEvents: 'none' }}>
-            <span className="vi-card__label">{card.label}</span>
+          <div className="vi-card__body" style={{ ...PAN_Y, pointerEvents: 'none' }}>
+            <span className="vi-card__label" style={PAN_Y}>{card.label}</span>
           </div>
         </>
       )}
@@ -273,25 +276,24 @@ function MobileStack() {
   }, []) // eslint-disable-line react-hooks/exhaustive-deps
 
   return (
-    <div className="vi-wrapper">
-      <div className="vi-mobile-hint" aria-hidden="true">
-        <span className="vi-mobile-hint__text">SELAA</span>
-        <svg width="14" height="14" viewBox="0 0 18 18" fill="none">
+    <div className="vi-wrapper" style={PAN_Y}>
+      <div className="vi-mobile-hint" aria-hidden="true" style={PAN_Y}>
+        <span className="vi-mobile-hint__text" style={PAN_Y}>SELAA</span>
+        <svg width="14" height="14" viewBox="0 0 18 18" fill="none" style={PAN_Y}>
           <path d="M7 4L12 9L7 14" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"/>
         </svg>
       </div>
 
-      <div className="vi-scene-outer">
-        <div className="vi-scene-wrap vi-scene-wrap--mobile">
+      <div className="vi-scene-outer" style={PAN_Y}>
+        <div className="vi-scene-wrap vi-scene-wrap--mobile" style={PAN_Y}>
           <div
             ref={sceneRef}
             className="vi-scene"
             style={{
-              width:      (CARD_W_MOBILE + (TOTAL_CARDS - 1) * PEEK) + 'px',
-              height:     '300px',
-              transform:  'translateX(0px)',
-              // pan-y: browser owns vertical scroll at all times, no exceptions
-              touchAction: 'pan-y',
+              ...PAN_Y,
+              width:     (CARD_W_MOBILE + (TOTAL_CARDS - 1) * PEEK) + 'px',
+              height:    '300px',
+              transform: 'translateX(0px)',
             }}
           >
             {influencers.map((card, i) => (
