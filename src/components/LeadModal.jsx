@@ -1,7 +1,7 @@
 // LeadModal.jsx — Yhteydenottolomake, lähettää konfiguraatiotiedot backendiin
 // Sijoita: src/components/LeadModal.jsx (tai sama kansio kuin Hinnoittelu.jsx)
 
-import { useState } from 'react'
+import { useState, useEffect } from 'react'
 import './LeadModal.css'
 
 const API_URL = import.meta.env.VITE_LEADS_API_URL || '/api/leads'
@@ -10,6 +10,13 @@ export default function LeadModal({ isOpen, onClose, type, config, priceSummary 
   const [form, setForm] = useState({ nimi: '', yritys: '', email: '', puhelin: '', viesti: '' })
   const [status, setStatus] = useState('idle') // idle | loading | success | error
   const [errorMsg, setErrorMsg] = useState('')
+
+  // Piilota/näytä AI-widget kun modal avataan/suljetaan
+  useEffect(() => {
+    const widget = document.querySelector('[data-synabs-widget-slug]')
+    if (!widget) return
+    widget.style.display = isOpen ? 'none' : ''
+  }, [isOpen])
 
   if (!isOpen) return null
 
