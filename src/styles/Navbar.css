@@ -10,6 +10,8 @@
   z-index: var(--z-nav);
   height: var(--nav-height);
   background: transparent;
+  transform: translateZ(0);
+  -webkit-transform: translateZ(0);
 }
 
 .navbar--menu-open {
@@ -208,10 +210,6 @@
 }
 
 @media (max-width: 1024px) {
-  .navbar {
-    position: sticky;
-    top: 0;
-  }
   .navbar__right { display: none; }
   .navbar__hamburger { display: flex; }
   .navbar__mobile-menu {
