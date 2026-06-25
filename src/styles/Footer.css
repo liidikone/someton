@@ -58,6 +58,7 @@
   justify-content: space-between;
   gap: var(--space-4);
   flex-wrap: wrap;
+  position: relative;
 }
 
 .footer__copy {
@@ -70,6 +71,9 @@
 .footer__links {
   display: flex;
   gap: var(--space-6);
+  position: absolute;
+  left: 50%;
+  transform: translateX(-50%);
 }
 
 .footer__link {
