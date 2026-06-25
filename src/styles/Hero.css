@@ -311,10 +311,6 @@
   gap: 6rem;
   width: max-content;
   animation: ref-scroll 28s linear infinite;
-  will-change: transform;
-  backface-visibility: hidden;
-  -webkit-backface-visibility: hidden;
-  transform: translateZ(0);
 }
 .hero__ref-wheel:hover .hero__ref-track {
   animation-play-state: paused;
