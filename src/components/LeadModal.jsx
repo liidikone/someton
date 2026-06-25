@@ -64,7 +64,7 @@ export default function LeadModal({ isOpen, onClose, type, config, priceSummary 
           <>
             <div className="lm-header">
               <span className="lm-eyebrow">
-                {type === 'video' ? '🎬 Lyhytvideot' : '🌐 Verkkosivut'}
+                {type === 'video' ? 'Lyhytvideot' : 'Verkkosivut'}
               </span>
               <h2 className="lm-title">Pyydä tarjous</h2>
               {priceSummary && (
