@@ -40,7 +40,7 @@
 .footer__slogan {
   font-family: var(--font-sans);
   font-style: normal;
-  font-size: clamp(var(--text-xl), 2vw, var(--text-3xl));
+  font-size: clamp(1rem, 2vw, 1.4rem);
   font-weight: var(--font-light);
   color: var(--color-white);
   letter-spacing: 0em;
