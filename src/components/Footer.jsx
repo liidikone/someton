@@ -17,7 +17,7 @@ export default function Footer() {
         <div className="footer__divider" />
 
         <div className="footer__bottom">
-          <span className="footer__copy">© {year} Someton. Kaikki oikeudet pidätetään.</span>
+          <span className="footer__copy">© {year} SOMETON Oy. Kaikki oikeudet pidätetään.</span>
 
           <div className="footer__links">
             <a href="/tietosuoja" className="footer__link">Tietosuoja</a>
