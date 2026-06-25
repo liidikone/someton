@@ -22,7 +22,6 @@ function initAudio() {
   } catch (_) {}
 }
 
-// Try to init immediately (works in most browsers after any user gesture on the page)
 if (typeof window !== 'undefined') {
   const earlyInit = () => {
     initAudio()
@@ -130,54 +129,141 @@ function Card({ card, isActive, isDim, style }) {
 function MobileStack() {
   const [activeIdx, setActiveIdx] = useState(0)
   const [translateX, setTranslateX] = useState(0)
-  const drag = useRef({ active: false, startX: 0, startY: 0, startIdx: 0, lastSnap: 0, moved: false, baseX: 0 })
-  const sceneRef = useRef(null)
+  const drag = useRef({
+    active: false,
+    startX: 0,
+    startY: 0,
+    startIdx: 0,
+    lastSnap: 0,
+    moved: false,
+    baseX: 0,
+    // velocity tracking
+    prevX: 0,
+    prevTime: 0,
+    velocity: 0,
+    // direction lock
+    lockedAxis: null, // 'h' | 'v' | null
+  })
 
-  const STEP = PEEK_MOBILE
+  const PEEK = PEEK_MOBILE
 
-  function getTargetX(idx) { return -idx * PEEK_MOBILE }
+  function getTargetX(idx) { return -idx * PEEK }
 
   function snapTo(idx) {
     const clamped = Math.max(0, Math.min(TOTAL_CARDS - 1, idx))
-    if (clamped !== drag.current.lastSnap) { drag.current.lastSnap = clamped; playCardSound() }
+    if (clamped !== drag.current.lastSnap) {
+      drag.current.lastSnap = clamped
+      playCardSound()
+    }
     setActiveIdx(clamped)
     setTranslateX(getTargetX(clamped))
   }
 
   function onTouchStart(e) {
     const t = e.touches[0]
-    drag.current = { active: true, startX: t.clientX, startY: t.clientY, startIdx: activeIdx, lastSnap: activeIdx, moved: false, baseX: getTargetX(activeIdx) }
+    drag.current = {
+      active: true,
+      startX: t.clientX,
+      startY: t.clientY,
+      startIdx: activeIdx,
+      lastSnap: activeIdx,
+      moved: false,
+      baseX: getTargetX(activeIdx),
+      prevX: t.clientX,
+      prevTime: performance.now(),
+      velocity: 0,
+      lockedAxis: null,
+    }
   }
 
   function onTouchMove(e) {
-    if (!drag.current.active) return
+    const d = drag.current
+    if (!d.active) return
+
     const t = e.touches[0]
-    const dx = t.clientX - drag.current.startX
-    const dy = t.clientY - drag.current.startY
-    if (!drag.current.moved && Math.abs(dy) > Math.abs(dx)) { drag.current.active = false; return }
-    drag.current.moved = true
+    const dx = t.clientX - d.startX
+    const dy = t.clientY - d.startY
+
+    // Axis lock: decide once we have enough movement
+    if (!d.lockedAxis) {
+      if (Math.abs(dx) < 5 && Math.abs(dy) < 5) return // too early to decide
+      d.lockedAxis = Math.abs(dx) >= Math.abs(dy) ? 'h' : 'v'
+    }
+
+    // Vertical scroll — let the browser handle it, bail out
+    if (d.lockedAxis === 'v') {
+      d.active = false
+      return
+    }
+
+    // Horizontal drag — block page scroll
     e.preventDefault()
-    const raw = drag.current.baseX + dx
+    d.moved = true
+
+    // Velocity tracking (px/ms)
+    const now = performance.now()
+    const dt = now - d.prevTime
+    if (dt > 0) {
+      const rawVel = (t.clientX - d.prevX) / dt
+      // Low-pass filter to smooth jitter
+      d.velocity = d.velocity * 0.6 + rawVel * 0.4
+    }
+    d.prevX = t.clientX
+    d.prevTime = now
+
+    const raw = d.baseX + dx
     const minX = getTargetX(TOTAL_CARDS - 1)
     const maxX = 0
-    const clamped = raw < minX ? minX + (raw - minX) * 0.2 : raw > maxX ? maxX + (raw - maxX) * 0.2 : raw
+    const clamped =
+      raw < minX ? minX + (raw - minX) * 0.18 :
+      raw > maxX ? maxX + (raw - maxX) * 0.18 : raw
+
     setTranslateX(clamped)
-    const tentative = Math.max(0, Math.min(TOTAL_CARDS - 1, Math.round(-raw / STEP)))
-    if (tentative !== drag.current.lastSnap) { drag.current.lastSnap = tentative; playCardSound(); setActiveIdx(tentative) }
+
+    const tentative = Math.max(0, Math.min(TOTAL_CARDS - 1, Math.round(-clamped / PEEK)))
+    if (tentative !== d.lastSnap) {
+      d.lastSnap = tentative
+      playCardSound()
+      setActiveIdx(tentative)
+    }
   }
 
   function onTouchEnd(e) {
-    if (!drag.current.active) return
-    drag.current.active = false
-    if (!drag.current.moved) return
-    const dx = e.changedTouches[0].clientX - drag.current.startX
-    let next = drag.current.startIdx
-    if (dx < -40) next = drag.current.startIdx + Math.max(1, Math.round(-dx / STEP))
-    else if (dx > 40) next = drag.current.startIdx - Math.max(1, Math.round(dx / STEP))
+    const d = drag.current
+    if (!d.active) return
+    d.active = false
+    if (!d.moved) return
+
+    const dx = e.changedTouches[0].clientX - d.startX
+
+    // Momentum: project forward ~120 ms of travel at current velocity
+    const momentumDx = d.velocity * 120
+    const totalDx = dx + momentumDx
+
+    // How many cards to jump: at minimum 1 if swipe exceeded threshold
+    let next = d.startIdx
+    if (totalDx < -30) {
+      next = d.startIdx + Math.max(1, Math.round(-totalDx / PEEK))
+    } else if (totalDx > 30) {
+      next = d.startIdx - Math.max(1, Math.round(totalDx / PEEK))
+    }
+
     snapTo(next)
   }
 
-  const PEEK = PEEK_MOBILE
+  // We need passive:false on touchmove so preventDefault works,
+  // but only when axis is locked to horizontal.
+  // React synthetic events can't opt out of passive, so attach via ref.
+  const sceneRef = useRef(null)
+
+  useEffect(() => {
+    const el = sceneRef.current
+    if (!el) return
+    const opts = { passive: false }
+    el.addEventListener('touchmove', onTouchMove, opts)
+    return () => el.removeEventListener('touchmove', onTouchMove, opts)
+  // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [activeIdx]) // re-bind when activeIdx changes so closure is fresh
 
   return (
     <div className="vi-wrapper">
@@ -197,12 +283,12 @@ function MobileStack() {
               width:     (CARD_W_MOBILE + (TOTAL_CARDS - 1) * PEEK) + 'px',
               height:    '300px',
               transform: `translateX(${translateX}px)`,
-              transition: drag.current.active ? 'none' : 'transform 0.35s cubic-bezier(0.22, 1, 0.36, 1)',
+              transition: drag.current.active ? 'none' : 'transform 0.28s cubic-bezier(0.18, 1, 0.32, 1)',
               touchAction: 'pan-y',
             }}
             onTouchStart={onTouchStart}
-            onTouchMove={onTouchMove}
             onTouchEnd={onTouchEnd}
+            // onTouchMove intentionally NOT here — handled via addEventListener above
           >
             {influencers.map((card, i) => (
               <Card
@@ -264,24 +350,19 @@ function DesktopStack() {
               <ArrowButton dir="forward" onClick={() => goTo(1)} disabled={page >= TOTAL_PAGES - 1} />
             </div>
             {pageCards.map((card, i) => (
-              <Card
+              <div
                 key={card.id}
-                card={card}
-                isActive={activeCard === card.id}
-                isDim={activeCard !== null && activeCard !== card.id}
+                onMouseEnter={() => handleEnter(card.id)}
                 style={{
-                  left:   i * PEEK + 'px',
+                  position: 'absolute',
+                  left: i * PEEK + 'px',
                   zIndex: activeCard === card.id ? 50 : pageCards.length - i,
-                  // desktop sizes come from CSS
                 }}
-                // pass onMouseEnter via wrapper div since Card doesn't take it
-              />
-            )).map((el, i) => (
-              <div key={pageCards[i].id} onMouseEnter={() => handleEnter(pageCards[i].id)} style={{ position: 'absolute', left: i * PEEK + 'px', zIndex: activeCard === pageCards[i].id ? 50 : pageCards.length - i }}>
+              >
                 <Card
-                  card={pageCards[i]}
-                  isActive={activeCard === pageCards[i].id}
-                  isDim={activeCard !== null && activeCard !== pageCards[i].id}
+                  card={card}
+                  isActive={activeCard === card.id}
+                  isDim={activeCard !== null && activeCard !== card.id}
                   style={{ position: 'static' }}
                 />
               </div>
