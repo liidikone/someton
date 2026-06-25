@@ -1,5 +1,6 @@
 import { useState } from 'react'
 import '../styles/Hinnoittelu.css'
+import LeadModal from './LeadModal'
 
 /* ── PLATFORM ICONS ──────────────────────────────────────── */
 const PlatformIcons = {
@@ -62,7 +63,34 @@ function VideoPackage() {
 
   const hasDiscount = discountRate > 0
 
+  const [modalOpen, setModalOpen] = useState(false)
+
+  const videoConfig = {
+    videos,
+    months,
+    platforms,
+    wantInfluencer,
+    wantManagement,
+    totalPerMonth,
+    totalPerMonthBase,
+    discountRate,
+    platformOneTime,
+  }
+
+  const priceSummary =
+    hasDiscount
+      ? `${videos} videota/kk • ${months} kk sopimus • ${totalPerMonth.toFixed(0)}€/kk (ale ${Math.round(discountRate * 100)}%)`
+      : `${videos} videota/kk • ${months} kk sopimus • ${totalPerMonth.toFixed(0)}€/kk`
+
   return (
+    <>
+    <LeadModal
+      isOpen={modalOpen}
+      onClose={() => setModalOpen(false)}
+      type="video"
+      config={videoConfig}
+      priceSummary={priceSummary}
+    />
     <div className="hp-package">
       <div className="hp-package__desc" style={{ padding: '1.2rem 1.5rem 0', color: '#333', fontSize: '0.78rem', lineHeight: 1.5 }}>
         Lyhytvideot lisäävät tunnettuutta, sitouttavat yleisöä ja ohjaavat potentiaalisia asiakkaita palveluidesi pariin.
@@ -226,8 +254,12 @@ function VideoPackage() {
             </span>
           </div>
         </div>
+        <button className="hp-cta" onClick={() => setModalOpen(true)}>
+          Pyydä tarjous →
+        </button>
       </div>
     </div>
+    </>
   )
 }
 
@@ -272,11 +304,35 @@ function WebsitePackage() {
   const [pages, setPages] = useState('1-5')
   const [maintenance, setMaintenance] = useState('vakio')
   const [wantBrand, setWantBrand] = useState(false)
+  const [modalOpen, setModalOpen] = useState(false)
 
   const pagePrices = { '1-5': 1000, '6-10': 2000, '10+': 4000 }
   const maintenancePrices = { vakio: 100, tasma: 249 }
 
+  const pagePrice = pagePrices[pages]
+  const maintenancePrice = maintenancePrices[maintenance]
+  const totalOneTime = pagePrice + (wantBrand ? 499 : 0)
+
+  const websiteConfig = {
+    pages,
+    maintenance,
+    wantBrand,
+    pagePrice,
+    maintenancePrice,
+    totalOneTime,
+  }
+
+  const priceSummary = `${pages} sivua • ${maintenance === 'vakio' ? 'VAKIO' : 'TÄSMÄ'}-ylläpito • ${wantBrand ? 'alk. ' : ''}${totalOneTime}€ + ${maintenancePrice}€/kk`
+
   return (
+    <>
+    <LeadModal
+      isOpen={modalOpen}
+      onClose={() => setModalOpen(false)}
+      type="website"
+      config={websiteConfig}
+      priceSummary={priceSummary}
+    />
     <div className="hp-package">
       <div className="hp-package__desc" style={{ padding: '1.2rem 1.5rem 0', color: '#333', fontSize: '0.78rem', lineHeight: 1.5 }}>
         Modernit verkkosivut parantavat kävijöiden konversioastetta ja luovat vahvan ensivaikutelman brändistä.
@@ -409,8 +465,12 @@ function WebsitePackage() {
             </span>
           </div>
         </div>
+        <button className="hp-cta" onClick={() => setModalOpen(true)}>
+          Pyydä tarjous →
+        </button>
       </div>
     </div>
+    </>
   )
 }
 
