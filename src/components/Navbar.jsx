@@ -1,5 +1,4 @@
-import { useState } from 'react'
-import { createPortal } from 'react-dom'
+import { useState, useEffect, useRef } from 'react'
 import '../styles/Navbar.css'
 
 const navLinks = [
@@ -12,6 +11,43 @@ export default function Navbar() {
   const [callOpen, setCallOpen] = useState(false)
   const toggleMenu = () => setMenuOpen(prev => !prev)
   const closeMenu  = () => setMenuOpen(false)
+  const navRef = useRef(null)
+
+  useEffect(() => {
+    const navbar = navRef.current
+    if (!navbar) return
+    const placeholder = document.createElement('div')
+    placeholder.style.height = navbar.offsetHeight + 'px'
+    placeholder.style.display = 'none'
+
+    function onScroll() {
+      if (window.innerWidth > 1024) {
+        placeholder.style.display = 'none'
+        navbar.style.cssText = ''
+        return
+      }
+      if (window.scrollY > 0) {
+        if (!placeholder.parentNode) navbar.parentNode.insertBefore(placeholder, navbar)
+        placeholder.style.display = 'block'
+        navbar.style.position = 'fixed'
+        navbar.style.top = '0'
+        navbar.style.left = '0'
+        navbar.style.right = '0'
+        navbar.style.zIndex = '9999'
+      } else {
+        placeholder.style.display = 'none'
+        navbar.style.cssText = ''
+      }
+    }
+
+    window.addEventListener('scroll', onScroll, { passive: true })
+    window.addEventListener('resize', onScroll, { passive: true })
+    return () => {
+      window.removeEventListener('scroll', onScroll)
+      window.removeEventListener('resize', onScroll)
+      placeholder.remove()
+    }
+  }, [])
 
   function handleAnchor(e, href) {
     e.preventDefault()
@@ -29,9 +65,9 @@ export default function Navbar() {
     menuOpen ? 'navbar--menu-open' : '',
   ].filter(Boolean).join(' ')
 
-  const navbar = (
+  return (
     <>
-      <nav className={navClass} id="navbar">
+      <nav className={navClass} id="navbar" ref={navRef}>
         <div className="navbar__inner">
 
           <a href="#" className="navbar__logo" aria-label="Home" onClick={e => handleAnchor(e, '#hero')}>
@@ -99,6 +135,4 @@ export default function Navbar() {
       )}
     </>
   )
-
-  return createPortal(navbar, document.body)
 }
