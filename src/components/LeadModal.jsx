@@ -80,7 +80,7 @@ export default function LeadModal({ isOpen, onClose, type, config, priceSummary 
                     id="lm-nimi"
                     className="lm-input"
                     type="text"
-                    placeholder="Matti Meikäläinen"
+                    placeholder="Sinun Nimesi"
                     value={form.nimi}
                     onChange={set('nimi')}
                     required
@@ -108,7 +108,7 @@ export default function LeadModal({ isOpen, onClose, type, config, priceSummary 
                     id="lm-email"
                     className="lm-input"
                     type="email"
-                    placeholder="matti@yritys.fi"
+                    placeholder="sinä@yritys.fi"
                     value={form.email}
                     onChange={set('email')}
                     required
