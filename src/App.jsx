@@ -8,6 +8,7 @@ import Hinnoittelu from './components/Hinnoittelu'
 import Tiimi from './components/Tiimi'
 import Footer from './components/Footer'
 import Tietosuoja from './components/Tietosuoja'
+import CookieBanner from './components/CookieBanner'
 
 const path = window.location.pathname
 
@@ -17,7 +18,12 @@ export default function App() {
   }, [])
 
   if (path === '/tietosuoja') {
-    return <Tietosuoja />
+    return (
+      <>
+        <Tietosuoja />
+        <CookieBanner />
+      </>
+    )
   }
 
   return (
@@ -31,6 +37,7 @@ export default function App() {
         <Tiimi />
       </main>
       <Footer />
+      <CookieBanner />
     </>
   )
 }
