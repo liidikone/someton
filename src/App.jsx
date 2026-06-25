@@ -7,7 +7,7 @@ import Vaikuttajat from './components/Vaikuttajat'
 import Hinnoittelu from './components/Hinnoittelu'
 import Tiimi from './components/Tiimi'
 import Footer from './components/Footer'
-import Tietosuoja from './pages/Tietosuoja'
+import Tietosuoja from './components/Tietosuoja'
 
 const path = window.location.pathname
 
