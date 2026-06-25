@@ -6,6 +6,7 @@ import Palvelut from './components/Palvelut'
 import Vaikuttajat from './components/Vaikuttajat'
 import Hinnoittelu from './components/Hinnoittelu'
 import Tiimi from './components/Tiimi'
+import Footer from './components/Footer'
 
 export default function App() {
   // Remove bg-light — always dark hero background
@@ -22,6 +23,7 @@ export default function App() {
         <Vaikuttajat />
         <Hinnoittelu />
         <Tiimi />
+        <Footer />
       </main>
     </>
   )
