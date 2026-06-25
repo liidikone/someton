@@ -103,8 +103,10 @@
   transition: filter 0.4s ease;
 }
 
-.ps-card:hover .ps-card__bg {
-  filter: grayscale(0%);
+@media (min-width: 769px) {
+  .ps-card:hover .ps-card__bg {
+    filter: grayscale(0%);
+  }
 }
 
 .ps-card__overlay {
@@ -155,5 +157,14 @@
   }
   .palvelut-page__services {
     grid-template-columns: 1fr;
+  }
+
+  /* Värit tulevat vain kun kortti on ruudun keskellä */
+  .ps-card .ps-card__bg {
+    filter: grayscale(100%);
+    transition: filter 0.5s ease;
+  }
+  .ps-card--color .ps-card__bg {
+    filter: grayscale(0%);
   }
 }
