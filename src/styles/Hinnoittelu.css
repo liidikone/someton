@@ -621,8 +621,9 @@
   align-items: center;
   justify-content: center;
   gap: 0.5rem;
-  width: 100%;
-  padding: 0.85rem 1.5rem;
+  width: auto;
+  max-width: 280px;
+  padding: 0.85rem 2rem;
   background: #000000;
   color: #ffffff;
   font-family: inherit;
@@ -637,6 +638,13 @@
 
 .hp-cta:hover {
   opacity: 0.8;
+}
+
+@media (max-width: 600px) {
+  .hp-cta {
+    width: 100%;
+    max-width: 100%;
+  }
 }
 
 /* -- Mobile -- */
