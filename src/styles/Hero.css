@@ -169,7 +169,8 @@
     label-cloud 11s ease-in-out 2.6s infinite alternate;
   transition: opacity 0.3s ease, transform 0.3s ease;
 }
-.hero__chat-label.is-hidden {
+.hero__chat-label.is-hidden,
+body.lead-modal-open .hero__chat-label {
   opacity: 0;
   transform: scale(0.8);
   pointer-events: none;
