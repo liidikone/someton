@@ -7,12 +7,18 @@ import Vaikuttajat from './components/Vaikuttajat'
 import Hinnoittelu from './components/Hinnoittelu'
 import Tiimi from './components/Tiimi'
 import Footer from './components/Footer'
+import Tietosuoja from './pages/Tietosuoja'
+
+const path = window.location.pathname
 
 export default function App() {
-  // Remove bg-light — always dark hero background
   useEffect(() => {
     document.documentElement.classList.remove('bg-light')
   }, [])
+
+  if (path === '/tietosuoja') {
+    return <Tietosuoja />
+  }
 
   return (
     <>
@@ -23,8 +29,8 @@ export default function App() {
         <Vaikuttajat />
         <Hinnoittelu />
         <Tiimi />
-        <Footer />
       </main>
+      <Footer />
     </>
   )
 }
