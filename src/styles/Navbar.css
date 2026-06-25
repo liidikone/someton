@@ -10,8 +10,6 @@
   z-index: var(--z-nav);
   height: var(--nav-height);
   background: transparent;
-  transform: translateZ(0);
-  -webkit-transform: translateZ(0);
 }
 
 .navbar--menu-open {
