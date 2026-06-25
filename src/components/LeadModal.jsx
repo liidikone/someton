@@ -153,7 +153,7 @@ export default function LeadModal({ isOpen, onClose, type, config, priceSummary 
                 {status === 'loading' ? (
                   <span className="lm-spinner" />
                 ) : (
-                  'Lähetä yhteydenotto →'
+                  'Lähetä yhteydenotto'
                 )}
               </button>
 
