@@ -208,9 +208,14 @@
 }
 
 @media (max-width: 1024px) {
+  .navbar {
+    position: static;
+  }
   .navbar__right { display: none; }
   .navbar__hamburger { display: flex; }
   .navbar__mobile-menu {
+    position: relative;
+    top: 0;
     padding-bottom: calc(var(--space-12, 3rem) + env(safe-area-inset-bottom, 0px));
   }
   .navbar__mobile-link {
