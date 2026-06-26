@@ -241,9 +241,11 @@
 
   .cb-bar__actions {
     width: 100%;
+    display: flex;
+    gap: 12px;
   }
 
-  .cb-btn--accept {
+  .cb-bar__actions .cb-btn {
     flex: 1;
     justify-content: center;
   }
@@ -253,12 +255,14 @@
   }
 
   .cb-panel__footer {
-    flex-direction: column-reverse;
-    align-items: stretch;
+    flex-direction: row;
+    align-items: center;
+    justify-content: flex-end;
+    gap: 12px;
   }
 
   .cb-panel__footer .cb-btn {
-    width: 100%;
+    flex: 1;
     justify-content: center;
   }
 }
