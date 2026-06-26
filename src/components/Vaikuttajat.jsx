@@ -11,35 +11,36 @@ const TOTAL_PAGES    = Math.ceil(TOTAL_CARDS / CARDS_PER_PAGE)
 
 // ── Audio ─────────────────────────────────────────────────────────────────────
 
-let _audioCtx    = null
-let _audioReady  = false
-let _resumePromise = null
+let _audioCtx   = null
+let _audioReady = false
 
 function initAudio() {
   if (_audioReady) return
   try {
-    _audioCtx   = new (window.AudioContext || window.webkitAudioContext)()
+    _audioCtx  = new (window.AudioContext || window.webkitAudioContext)()
     _audioReady = true
   } catch (_) {}
 }
 
-// Call this inside a user-gesture handler (pointerdown/click/keydown)
-// so the browser allows resume(). Returns a promise that resolves when running.
-function warmAudio() {
-  initAudio()
-  if (!_audioCtx) return Promise.resolve()
-  if (_audioCtx.state === 'running') return Promise.resolve()
-  if (_resumePromise) return _resumePromise
-  _resumePromise = _audioCtx.resume().catch(() => {}).finally(() => { _resumePromise = null })
-  return _resumePromise
+if (typeof window !== 'undefined') {
+  const earlyInit = () => {
+    initAudio()
+    window.removeEventListener('pointerover', earlyInit, true)
+    window.removeEventListener('pointerdown', earlyInit, true)
+    window.removeEventListener('touchstart', earlyInit, true)
+  }
+  window.addEventListener('pointerover', earlyInit, { capture: true, once: true })
+  window.addEventListener('pointerdown', earlyInit, { capture: true, once: true })
+  window.addEventListener('touchstart', earlyInit, { capture: true, once: true })
 }
 
 async function playCardSound() {
-  if (!_audioCtx) return
+  if (!_audioReady || !_audioCtx) return
   try {
-    const ctx  = _audioCtx
-    const now  = ctx.currentTime
-    const dur  = 0.09
+    if (_audioCtx.state === 'suspended') await _audioCtx.resume()
+    const ctx = _audioCtx
+    const now = ctx.currentTime
+    const dur = 0.09
     const size = Math.floor(ctx.sampleRate * dur)
     const buf  = ctx.createBuffer(1, size, ctx.sampleRate)
     const data = buf.getChannelData(0)
@@ -91,7 +92,6 @@ function ArrowButton({ dir, onClick, disabled }) {
 
 // ── Card renderer ──────────────────────────────────────────────────────────────
 
-// pan-y on every node — one child without it is enough to block scroll on iOS/Chrome
 const PAN_Y = { touchAction: 'pan-y', userSelect: 'none', WebkitUserSelect: 'none' }
 
 function Card({ card, isActive, isDim, style }) {
@@ -127,18 +127,12 @@ function Card({ card, isActive, isDim, style }) {
 }
 
 // ── Mobile drag stack ──────────────────────────────────────────────────────────
-//
-// Strategy: NEVER call preventDefault(). Use touch-action:pan-y everywhere so
-// the browser always owns vertical scroll. We track horizontal delta purely in
-// JS and move the strip ourselves — the browser scrolls the page in parallel
-// when the gesture is vertical. No conflict possible.
 
 function MobileStack() {
   const [activeIdx, setActiveIdx] = useState(0)
   const activeIdxRef = useRef(0)
   const sceneRef     = useRef(null)
 
-  // All mutable drag state lives in a single ref — no stale closures.
   const d = useRef({
     tracking: false,
     startX:   0,
@@ -147,7 +141,7 @@ function MobileStack() {
     baseX:    0,
     lastX:    0,
     lastTime: 0,
-    velocity: 0,   // px/ms, low-pass filtered
+    velocity: 0,
     lastSnap: 0,
   })
 
@@ -157,7 +151,6 @@ function MobileStack() {
     return -idx * PEEK
   }
 
-  // Apply transform directly — no React setState during drag
   function applyX(x) {
     if (sceneRef.current) sceneRef.current.style.transform = `translateX(${x}px)`
   }
@@ -194,7 +187,6 @@ function MobileStack() {
         velocity: 0,
         lastSnap: idx,
       }
-      // Kill transition during drag
       if (sceneRef.current) sceneRef.current.style.transition = 'none'
     }
 
@@ -206,17 +198,12 @@ function MobileStack() {
       const dx  = t.clientX - s.startX
       const dy  = t.clientY - s.startY
 
-      // If the gesture is clearly more vertical than horizontal, stop tracking
-      // so we don't accidentally move the strip while user is scrolling.
-      // We do NOT call preventDefault — the browser scrolls freely.
       if (Math.abs(dy) > Math.abs(dx) + 4) {
         s.tracking = false
-        // Snap back to current index cleanly
         snapTo(activeIdxRef.current)
         return
       }
 
-      // Velocity (px/ms) with low-pass filter
       const now = performance.now()
       const dt  = now - s.lastTime
       if (dt > 0) {
@@ -226,7 +213,6 @@ function MobileStack() {
       s.lastX    = t.clientX
       s.lastTime = now
 
-      // Move the strip — rubber-band at edges
       const raw   = s.baseX + dx
       const minX  = getTargetX(TOTAL_CARDS - 1)
       const maxX  = 0
@@ -236,7 +222,6 @@ function MobileStack() {
 
       applyX(clamped)
 
-      // Tick active card as user drags
       const tentative = Math.max(0, Math.min(TOTAL_CARDS - 1, Math.round(-clamped / PEEK)))
       if (tentative !== s.lastSnap) {
         s.lastSnap = tentative
@@ -252,7 +237,7 @@ function MobileStack() {
       s.tracking = false
 
       const dx         = e.changedTouches[0].clientX - s.startX
-      const momentumDx = s.velocity * 100          // project ~100ms forward
+      const momentumDx = s.velocity * 100
       const totalDx    = dx + momentumDx
 
       let next = s.startIdx
@@ -262,7 +247,6 @@ function MobileStack() {
       snapTo(next)
     }
 
-    // All passive — we never call preventDefault
     el.addEventListener('touchstart', onTouchStart, { passive: true })
     el.addEventListener('touchmove',  onTouchMove,  { passive: true })
     el.addEventListener('touchend',   onTouchEnd,   { passive: true })
@@ -327,16 +311,10 @@ function DesktopStack() {
   const pageCards  = influencers.slice(page * CARDS_PER_PAGE, (page + 1) * CARDS_PER_PAGE)
   const stackWidth = CARD_W_DESKTOP + (pageCards.length - 1) * PEEK
 
-  async function handleEnter(id) {
-    if (id !== activeCard) {
-      setActiveCard(id)
-    }
-    await warmAudio()
+  function handleEnter(id) {
+    initAudio()
     playCardSound()
-  }
-
-  function handlePointerDown() {
-    warmAudio()
+    if (id !== activeCard) { setActiveCard(id) }
   }
 
   function goTo(dir) {
@@ -347,7 +325,7 @@ function DesktopStack() {
   }
 
   return (
-    <div className="vi-wrapper" onPointerDown={handlePointerDown}>
+    <div className="vi-wrapper" onPointerDown={initAudio}>
       <div className="vi-scene-outer">
         <div
           className="vi-scene-wrap"
