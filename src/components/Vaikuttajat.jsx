@@ -65,7 +65,6 @@ async function playCardSound() {
     noise.start(now); noise.stop(now + dur)
   } catch (_) {}
 }
-}
 
 // ── Data ──────────────────────────────────────────────────────────────────────
 
