@@ -690,6 +690,6 @@
 }
 
 .hp-tab--flash {
-  animation: tab-flash 0.9s ease-out forwards;
+  animation: tab-flash 1.6s ease-out forwards;
   border-radius: 6px;
 }
