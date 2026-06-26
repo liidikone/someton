@@ -75,8 +75,15 @@ export default function CookieBanner() {
       applyConsent(stored)
     } else {
       setVisible(true)
+      document.body.classList.add('cookie-banner-open')
     }
   }, [])
+
+  useEffect(() => {
+    if (!visible) {
+      document.body.classList.remove('cookie-banner-open')
+    }
+  }, [visible])
 
   if (!visible) return null
 
