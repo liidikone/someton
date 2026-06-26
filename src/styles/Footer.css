@@ -116,4 +116,8 @@
     align-items: flex-start;
     gap: var(--space-4);
   }
+  .footer__links {
+    position: static;
+    transform: none;
+  }
 }
