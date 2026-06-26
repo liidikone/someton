@@ -11,43 +11,35 @@ const TOTAL_PAGES    = Math.ceil(TOTAL_CARDS / CARDS_PER_PAGE)
 
 // ── Audio ─────────────────────────────────────────────────────────────────────
 
-let _audioCtx   = null
-let _audioReady = false
+let _audioCtx    = null
+let _audioReady  = false
+let _resumePromise = null
 
 function initAudio() {
   if (_audioReady) return
   try {
-    _audioCtx  = new (window.AudioContext || window.webkitAudioContext)()
+    _audioCtx   = new (window.AudioContext || window.webkitAudioContext)()
     _audioReady = true
   } catch (_) {}
 }
 
-async function ensureAudioReady() {
+// Call this inside a user-gesture handler (pointerdown/click/keydown)
+// so the browser allows resume(). Returns a promise that resolves when running.
+function warmAudio() {
   initAudio()
-  if (_audioCtx && _audioCtx.state === 'suspended') {
-    try { await _audioCtx.resume() } catch (_) {}
-  }
-}
-
-if (typeof window !== 'undefined') {
-  const earlyInit = () => {
-    initAudio()
-    window.removeEventListener('pointerover', earlyInit, true)
-    window.removeEventListener('pointerdown', earlyInit, true)
-    window.removeEventListener('touchstart', earlyInit, true)
-  }
-  window.addEventListener('pointerover', earlyInit, { capture: true, once: true })
-  window.addEventListener('pointerdown', earlyInit, { capture: true, once: true })
-  window.addEventListener('touchstart', earlyInit, { capture: true, once: true })
+  if (!_audioCtx) return Promise.resolve()
+  if (_audioCtx.state === 'running') return Promise.resolve()
+  if (_resumePromise) return _resumePromise
+  _resumePromise = _audioCtx.resume().catch(() => {}).finally(() => { _resumePromise = null })
+  return _resumePromise
 }
 
 async function playCardSound() {
-  await ensureAudioReady()
-  if (!_audioCtx) return
+  if (!_audioCtx || _audioCtx.state !== 'running') return
   try {
-    const ctx = _audioCtx
-    const now = ctx.currentTime
-    const dur = 0.09
+    const ctx  = _audioCtx
+    const now  = ctx.currentTime
+    const dur  = 0.09
     const size = Math.floor(ctx.sampleRate * dur)
     const buf  = ctx.createBuffer(1, size, ctx.sampleRate)
     const data = buf.getChannelData(0)
@@ -336,9 +328,14 @@ function DesktopStack() {
   const stackWidth = CARD_W_DESKTOP + (pageCards.length - 1) * PEEK
 
   function handleEnter(id) {
-    initAudio()
-    playCardSound()
-    if (id !== activeCard) { setActiveCard(id) }
+    if (id !== activeCard) {
+      setActiveCard(id)
+      playCardSound()
+    }
+  }
+
+  function handlePointerDown() {
+    warmAudio()
   }
 
   function goTo(dir) {
@@ -349,7 +346,7 @@ function DesktopStack() {
   }
 
   return (
-    <div className="vi-wrapper" onPointerDown={initAudio} onPointerEnter={ensureAudioReady}>
+    <div className="vi-wrapper" onPointerDown={handlePointerDown}>
       <div className="vi-scene-outer">
         <div
           className="vi-scene-wrap"
