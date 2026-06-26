@@ -11,34 +11,19 @@ const TOTAL_PAGES    = Math.ceil(TOTAL_CARDS / CARDS_PER_PAGE)
 
 // ── Audio ─────────────────────────────────────────────────────────────────────
 
-let _audioCtx   = null
-let _audioReady = false
+let _audioCtx = null
 
-function initAudio() {
-  if (_audioReady) return
-  try {
-    _audioCtx  = new (window.AudioContext || window.webkitAudioContext)()
-    _audioReady = true
-  } catch (_) {}
-}
-
-if (typeof window !== 'undefined') {
-  const earlyInit = () => {
-    initAudio()
-    window.removeEventListener('pointerover', earlyInit, true)
-    window.removeEventListener('pointerdown', earlyInit, true)
-    window.removeEventListener('touchstart', earlyInit, true)
+function getAudioCtx() {
+  if (!_audioCtx) {
+    _audioCtx = new (window.AudioContext || window.webkitAudioContext)()
   }
-  window.addEventListener('pointerover', earlyInit, { capture: true, once: true })
-  window.addEventListener('pointerdown', earlyInit, { capture: true, once: true })
-  window.addEventListener('touchstart', earlyInit, { capture: true, once: true })
+  if (_audioCtx.state === 'suspended') _audioCtx.resume()
+  return _audioCtx
 }
 
-async function playCardSound() {
-  if (!_audioReady || !_audioCtx) return
+function playCardSound() {
   try {
-    if (_audioCtx.state === 'suspended') await _audioCtx.resume()
-    const ctx = _audioCtx
+    const ctx = getAudioCtx()
     const now = ctx.currentTime
     const dur = 0.09
     const size = Math.floor(ctx.sampleRate * dur)
@@ -312,9 +297,8 @@ function DesktopStack() {
   const stackWidth = CARD_W_DESKTOP + (pageCards.length - 1) * PEEK
 
   function handleEnter(id) {
-    initAudio()
-    playCardSound()
     if (id !== activeCard) { setActiveCard(id) }
+    playCardSound()
   }
 
   function goTo(dir) {
@@ -325,7 +309,7 @@ function DesktopStack() {
   }
 
   return (
-    <div className="vi-wrapper" onPointerDown={initAudio}>
+    <div className="vi-wrapper" onPointerDown={() => getAudioCtx()}>
       <div className="vi-scene-outer">
         <div
           className="vi-scene-wrap"
