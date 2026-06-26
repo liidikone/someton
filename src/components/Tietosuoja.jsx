@@ -9,7 +9,7 @@ export default function Tietosuoja() {
       <main className="tietosuoja">
         <div className="tietosuoja__inner">
           <h1 className="tietosuoja__title">Tietosuojaseloste</h1>
-          <p className="tietosuoja__updated">Päivitetty: kesäkuu 2025</p>
+          <p className="tietosuoja__updated">Päivitetty: kesäkuu 2026</p>
 
           <section className="tietosuoja__section">
             <h2>Rekisterinpitäjä</h2>
