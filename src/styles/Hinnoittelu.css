@@ -680,3 +680,16 @@
   background: #00ff88 !important;
   color: #000000 !important;
 }
+
+/* ── AI tab flash animation ─────────────────────────────── */
+@keyframes tab-flash {
+  0%   { box-shadow: 0 0 0 0px rgba(0,255,136,0.8); outline: 2px solid transparent; }
+  20%  { box-shadow: 0 0 0 3px rgba(0,255,136,0.7); outline: 2px solid #00ff88; color: #00cc66; }
+  60%  { box-shadow: 0 0 0 5px rgba(0,255,136,0.2); outline: 2px solid #00ff88; color: #00cc66; }
+  100% { box-shadow: 0 0 0 0px rgba(0,255,136,0);   outline: 2px solid transparent; color: #cccccc; }
+}
+
+.hp-tab--flash {
+  animation: tab-flash 0.9s ease-out forwards;
+  border-radius: 6px;
+}
