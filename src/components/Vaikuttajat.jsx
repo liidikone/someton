@@ -35,7 +35,7 @@ function warmAudio() {
 }
 
 async function playCardSound() {
-  if (!_audioCtx || _audioCtx.state !== 'running') return
+  if (!_audioCtx) return
   try {
     const ctx  = _audioCtx
     const now  = ctx.currentTime
@@ -327,11 +327,12 @@ function DesktopStack() {
   const pageCards  = influencers.slice(page * CARDS_PER_PAGE, (page + 1) * CARDS_PER_PAGE)
   const stackWidth = CARD_W_DESKTOP + (pageCards.length - 1) * PEEK
 
-  function handleEnter(id) {
+  async function handleEnter(id) {
     if (id !== activeCard) {
       setActiveCard(id)
-      playCardSound()
     }
+    await warmAudio()
+    playCardSound()
   }
 
   function handlePointerDown() {
