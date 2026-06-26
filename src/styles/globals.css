@@ -3,7 +3,7 @@
   font-family: 'Falzon';
   font-style: italic;
   font-weight: 400;
-  font-display: swap;
+  font-display: block;
   src: url('/fonts/FalzonSemiItalic.otf') format('opentype');
 }
 
