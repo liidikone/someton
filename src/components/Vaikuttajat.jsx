@@ -22,6 +22,13 @@ function initAudio() {
   } catch (_) {}
 }
 
+async function ensureAudioReady() {
+  initAudio()
+  if (_audioCtx && _audioCtx.state === 'suspended') {
+    try { await _audioCtx.resume() } catch (_) {}
+  }
+}
+
 if (typeof window !== 'undefined') {
   const earlyInit = () => {
     initAudio()
@@ -34,10 +41,10 @@ if (typeof window !== 'undefined') {
   window.addEventListener('touchstart', earlyInit, { capture: true, once: true })
 }
 
-function playCardSound() {
-  if (!_audioReady || !_audioCtx) return
+async function playCardSound() {
+  await ensureAudioReady()
+  if (!_audioCtx) return
   try {
-    if (_audioCtx.state === 'suspended') _audioCtx.resume()
     const ctx = _audioCtx
     const now = ctx.currentTime
     const dur = 0.09
@@ -57,6 +64,7 @@ function playCardSound() {
     noise.connect(bp); bp.connect(gain); gain.connect(ctx.destination)
     noise.start(now); noise.stop(now + dur)
   } catch (_) {}
+}
 }
 
 // ── Data ──────────────────────────────────────────────────────────────────────
@@ -342,7 +350,7 @@ function DesktopStack() {
   }
 
   return (
-    <div className="vi-wrapper" onPointerDown={initAudio}>
+    <div className="vi-wrapper" onPointerDown={initAudio} onPointerEnter={ensureAudioReady}>
       <div className="vi-scene-outer">
         <div
           className="vi-scene-wrap"
