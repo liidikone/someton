@@ -78,6 +78,8 @@
   max-width: 770px;
   line-height: var(--leading-relaxed);
   margin-bottom: var(--space-10);
+  width: 100vw;
+  margin-left: calc(-1 * var(--gutter));
   text-align: center;
 }
 
@@ -107,6 +109,47 @@
 }
 
 /* ============================================================
+   POWERED GROUP
+   ============================================================ */
+.hero__powered-group {
+  position: absolute;
+  bottom: var(--space-6);
+  right: var(--gutter);
+  z-index: 2;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 0.55rem;
+  animation: powered-slide-in 0.9s cubic-bezier(0.22, 1, 0.36, 1) 0.5s both;
+}
+
+.hero__powered-logo {
+  display: block;
+  width: 352px;
+  height: auto;
+  object-fit: contain;
+  transform: translateY(40px);
+  opacity: 0;
+  transition:
+    transform 0.55s cubic-bezier(0.22, 1, 0.36, 1),
+    opacity 0.45s ease;
+}
+.hero__powered-logo.is-open {
+  transform: translateY(0px);
+  opacity: 1;
+  animation: logo-float 9s ease-in-out 0.6s infinite alternate;
+}
+
+@keyframes powered-slide-in {
+  from { opacity: 0; transform: translateX(140px); filter: blur(4px); }
+  to   { opacity: 1; transform: translateX(0); filter: blur(0); }
+}
+@keyframes logo-float {
+  0%   { transform: translateY(0px); }
+  100% { transform: translateY(-8px); }
+}
+
+/* ============================================================
    CHAT LABEL
    ============================================================ */
 .hero__chat-label {
@@ -131,6 +174,7 @@
     label-cloud 11s ease-in-out 2.6s infinite alternate;
   transition: opacity 0.3s ease, transform 0.3s ease;
 }
+.hero__chat-label.is-hidden,
 body.lead-modal-open .hero__chat-label {
   opacity: 0;
   transform: scale(0.8);
@@ -171,7 +215,7 @@ body.lead-modal-open .hero__chat-label {
 @media (max-width: 768px) {
   .hero__title { font-size: clamp(5.5rem, 24vw, 9rem); }
   .hero__content { padding-inline: var(--space-6); }
-  .hero__lead { font-size: clamp(var(--text-xl), 5.5vw, var(--text-3xl)); text-align: right; }
+  .hero__lead { font-size: clamp(var(--text-xl), 5.5vw, var(--text-3xl)); }
 }
 
 /* ============================================================
