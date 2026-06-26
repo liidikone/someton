@@ -1,0 +1,4 @@
+User-agent: *
+Allow: /
+
+Sitemap: https://someton.net/sitemap.xml
