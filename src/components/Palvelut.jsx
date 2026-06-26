@@ -2,12 +2,18 @@ import { useEffect, useRef, useState } from 'react'
 import '../styles/Palvelut.css'
 
 const services = [
-  { id: 1, title: 'Lyhytvideot',            text: 'Lisäävät näkyvyyttä ja kasvattavat liidien määrää',   image: '/video.avif', bgPosition: 'center center' },
-  { id: 2, title: 'Verkkosivut',            text: 'Rakennettu tuottamaan liidejä funnelien avulla',        image: '/www.avif',   bgPosition: 'center calc(50% - 1px)' },
-  { id: 3, title: 'Kehittyvät AI agentit',  text: 'Automatisoivat asiakaspalvelua ja liidien keruuta',    image: '/ai.avif',    bgPosition: 'center center' },
+  { id: 1, title: 'Lyhytvideot',            text: 'Lisäävät näkyvyyttä ja kasvattavat liidien määrää',   image: '/video.avif', bgPosition: 'center center',           tab: 'video' },
+  { id: 2, title: 'Verkkosivut',            text: 'Rakennettu tuottamaan liidejä funnelien avulla',        image: '/www.avif',   bgPosition: 'center calc(50% - 1px)', tab: 'web'   },
+  { id: 3, title: 'Kehittyvät AI agentit',  text: 'Automatisoivat asiakaspalvelua ja liidien keruuta',    image: '/ai.avif',    bgPosition: 'center center',           tab: 'ai'    },
 ]
 
-function ServiceCard({ title, text, image, bgPosition }) {
+function navigateToHinnoittelu(tab) {
+  window.dispatchEvent(new CustomEvent('someton:selectTab', { detail: { tab } }))
+  const el = document.getElementById('hinnoittelu')
+  if (el) el.scrollIntoView({ behavior: 'smooth', block: 'start' })
+}
+
+function ServiceCard({ title, text, image, bgPosition, tab }) {
   const ref = useRef(null)
   const [active, setActive] = useState(false)
 
@@ -24,7 +30,12 @@ function ServiceCard({ title, text, image, bgPosition }) {
   }, [])
 
   return (
-    <div className={`ps-card${active ? ' ps-card--color' : ''}`} ref={ref}>
+    <div
+      className={`ps-card${active ? ' ps-card--color' : ''}`}
+      ref={ref}
+      onClick={() => navigateToHinnoittelu(tab)}
+      style={{ cursor: 'pointer' }}
+    >
       <div className="ps-card__bg" style={{ backgroundImage: `url('${image}')`, backgroundPosition: bgPosition }} />
       <div className="ps-card__overlay" />
       <div className="ps-card__body">
