@@ -192,31 +192,7 @@ body.lead-modal-open .hero__chat-label {
    RED LINES
    ============================================================ */
 .hero__line {
-  position: absolute;
-  height: 3px;
-  background: #e8000d;
-  z-index: 3;
-  top: 484px;
-}
-.hero__line--left {
-  left: 0;
-  width: calc(100% - 770px - 55px - 12px);
-  transform-origin: left center;
-  animation: red-line-slide 0.7s cubic-bezier(0.22, 1, 0.36, 1) 0.6s both;
-  overflow: visible;
-  clip-path: none;
-}
-.hero__line--right {
-  position: fixed;
-  top: 484px;
-  left: calc(100vw - 55px + 12px);
-  width: 100vw;
-  transform-origin: left center;
-  animation: red-line-slide 0.7s cubic-bezier(0.22, 1, 0.36, 1) 0.6s both;
-}
-@keyframes red-line-slide {
-  from { transform: scaleX(0); opacity: 0; }
-  to   { transform: scaleX(1); opacity: 1; }
+  display: none;
 }
 
 /* ============================================================
@@ -250,10 +226,8 @@ body.lead-modal-open .hero__chat-label {
     width: 100%;
   }
   .hero__line--right {
-    position: absolute;
     top: auto;
     bottom: calc(var(--space-6) + 70px + 10px);
-    left: auto;
     right: -60%;
     width: 100%;
   }
