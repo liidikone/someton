@@ -24,34 +24,38 @@
   display: block;
 }
 
-.hero__bg-fade {
+.hero__bg::after {
+  display: none;
+}
+
+.hero::before,
+.hero::after {
+  content: '';
   position: absolute;
   top: 0;
   bottom: 0;
-  width: 120px;
-  z-index: 1;
+  width: 140px;
+  z-index: 10;
   pointer-events: none;
 }
-.hero__bg-fade--left {
+.hero::before {
   left: 0;
   background: linear-gradient(to right,
-    #000000 0%,
-    rgba(0,0,0,0.92) 15%,
-    rgba(0,0,0,0.7)  35%,
-    rgba(0,0,0,0.35) 60%,
-    rgba(0,0,0,0.08) 82%,
-    rgba(0,0,0,0)    100%
+    #000 0%,
+    rgba(0,0,0,0.9) 20%,
+    rgba(0,0,0,0.65) 45%,
+    rgba(0,0,0,0.25) 72%,
+    rgba(0,0,0,0) 100%
   );
 }
-.hero__bg-fade--right {
+.hero::after {
   right: 0;
   background: linear-gradient(to left,
-    #000000 0%,
-    rgba(0,0,0,0.94) 12%,
-    rgba(0,0,0,0.72) 32%,
-    rgba(0,0,0,0.38) 58%,
-    rgba(0,0,0,0.1)  80%,
-    rgba(0,0,0,0)    100%
+    #000 0%,
+    rgba(0,0,0,0.9) 20%,
+    rgba(0,0,0,0.65) 45%,
+    rgba(0,0,0,0.25) 72%,
+    rgba(0,0,0,0) 100%
   );
 }
 
