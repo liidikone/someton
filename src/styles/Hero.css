@@ -64,7 +64,9 @@
   text-align: right;
 }
 
-.hero__title-on {
+.hero__lead--mobile { display: none; }
+
+
   color: #00ff88;
 }
 
@@ -203,10 +205,18 @@ body.lead-modal-open .hero__chat-label {
 @media (max-width: 768px) {
   .hero__title { font-size: clamp(5.5rem, 24vw, 9rem); }
   .hero__content { padding-inline: var(--space-6); padding-top: calc(var(--nav-height) + var(--space-10)); }
-  .hero__lead {
+  .hero__lead--pc { display: none; }
+  .hero__lead--mobile {
+    display: block;
+    position: absolute;
+    top: calc(var(--nav-height) + var(--space-4));
+    left: var(--space-6);
+    font-family: var(--font-sans);
     font-size: clamp(var(--text-base), 4vw, var(--text-xl));
-    text-align: right;
-    margin-bottom: 0;
+    font-weight: var(--font-light);
+    color: var(--color-white);
+    margin: 0;
+    z-index: 2;
   }
 }
 
