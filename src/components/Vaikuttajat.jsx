@@ -65,11 +65,12 @@ function playCardSound() {
 // ── Data ──────────────────────────────────────────────────────────────────────
 
 const influencers = [
-  { id: 1,  label: 'Anniina',  img: '/sisallontuottaja_01.avif' },
-  { id: 2,  label: 'Pauliina', img: '/sisallontuottaja_01.avif' },
-  { id: 3,  label: 'Santeri',  img: '/sisallontuottaja_01.avif' },
-  { id: 4,  label: 'Veera',    img: '/sisallontuottaja_01.avif' },
-  ...Array.from({ length: 12 }, (_, i) => ({ id: i + 5, label: null, img: null })),
+  { id: 1,  label: 'Pauliina', img: '/vaikuttaja_pauliina.avif' },
+  { id: 2,  label: 'Anniina',  img: '/vaikuttaja_anniina.avif' },
+  { id: 3,  label: 'Santeri',  img: '/vaikuttaja_santeri.avif' },
+  { id: 4,  label: 'Veera',    img: '/vaikuttaja_veera.avif' },
+  { id: 5,  label: 'Riku',     img: '/vaikuttaja_riku.avif' },
+  ...Array.from({ length: 11 }, (_, i) => ({ id: i + 6, label: null, img: null })),
 ]
 
 // ── Arrow button ───────────────────────────────────────────────────────────────
