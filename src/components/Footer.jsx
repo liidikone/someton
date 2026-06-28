@@ -24,7 +24,7 @@ export default function Footer() {
           </div>
 
           <a
-            href="https://www.tiktok.com/@someton"
+            href="https://www.tiktok.com/@sometonhq"
             target="_blank"
             rel="noopener noreferrer"
             className="footer__tiktok"
