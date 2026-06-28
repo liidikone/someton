@@ -82,19 +82,22 @@
   grid-template-columns: 1fr 1fr;
 }
 
-/* Mobiili: 2-col (Founders 2-col, Riku yksin vasemmalla) */
-/* Desktop: 3-col (Founders + Riku samalla rivillä) */
+.tiimi-page__grid--all {
+  grid-template-columns: repeat(4, 1fr);
+}
+
+/* Tiimi (Founders + Asiakaspäällikkö):
+   mobiili 2-col, desktop 3-col */
 .tiimi-page__grid--team {
   grid-template-columns: 1fr 1fr;
 }
-
 @media (min-width: 769px) {
   .tiimi-page__grid--team {
     grid-template-columns: repeat(3, 1fr);
   }
 }
 
-/* Vaikuttajat: aina 2-col, omalla rivillään */
+/* Vaikuttajat: aina 2-col */
 .tiimi-page__grid--influencers {
   grid-template-columns: 1fr 1fr;
 }
@@ -213,7 +216,6 @@
   will-change: transform, filter;
 }
 
-/* Aktiivinen kortti — valkoinen reuna aiemman vihreän sijaan */
 .tc-card--active {
   transform: translateY(-22px) scale(1.04);
   box-shadow: 0 20px 48px rgba(0,0,0,0.24), 0 0 0 2px #ffffff;
@@ -269,7 +271,6 @@
   text-shadow: 0 1px 6px rgba(0,0,0,0.8);
 }
 
-/* Aksenttipalkki — valkoinen */
 .tc-card__accent {
   position: absolute;
   bottom: 0;
