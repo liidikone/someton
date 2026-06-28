@@ -235,6 +235,8 @@ body.lead-modal-open .hero__chat-label {
     position: absolute;
     height: 2px;
     background: #e74c3c;
+    transform-origin: left center;
+    animation: red-line-slide 0.7s cubic-bezier(0.22, 1, 0.36, 1) 0.6s both;
   }
   .hero__line--left {
     top: auto;
