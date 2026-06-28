@@ -192,38 +192,17 @@ body.lead-modal-open .hero__chat-label {
    RED LINES
    ============================================================ */
 .hero__line {
-  position: absolute;
-  height: 3px;
-  background: #e8000d;
-  z-index: 3;
-  top: 484px;
+  display: none;
 }
 .hero__line--left {
-  left: 0;
-  width: calc(100% - 770px - 55px - 12px);
-  transform-origin: left center;
-  animation: red-line-slide 0.7s cubic-bezier(0.22, 1, 0.36, 1) 0.6s both;
+  display: none;
 }
 .hero__line--right {
-  left: calc(100% - 55px + 12px);
-  width: 100vw;
-  transform-origin: left center;
-  animation: red-line-slide 0.7s cubic-bezier(0.22, 1, 0.36, 1) 0.6s both;
+  display: none;
 }
 @keyframes red-line-slide {
   from { transform: scaleX(0); opacity: 0; }
   to   { transform: scaleX(1); opacity: 1; }
-}
-
-/* Viivat näkyvät vain mobiilissa (≤768px). Animaatio ja sijoittelu
-   yllä pysyvät täysin koskemattomina - tämä piilottaa elementin
-   kokonaan PC-leveydellä, ei muuta mitään muuta. */
-@media (min-width: 769px) {
-  .hero__line,
-  .hero__line--left,
-  .hero__line--right {
-    display: none;
-  }
 }
 
 /* ============================================================
@@ -249,7 +228,29 @@ body.lead-modal-open .hero__chat-label {
     margin: 0;
     z-index: 2;
   }
-  /* hero__line periytyy nyt suoraan perussäännöstä, identtinen PC:n kanssa */
+  /* viivat referenssipalkin päälle, 40% vasemmalta näkyviin */
+  .hero__line--left,
+  .hero__line--right {
+    display: block;
+    position: absolute;
+    height: 2px;
+    background: #e8000d;
+    animation: red-line-slide 0.7s cubic-bezier(0.22, 1, 0.36, 1) 0.6s both;
+  }
+  .hero__line--left {
+    top: auto;
+    bottom: calc(var(--space-6) + 70px + 10px);
+    left: -60%;
+    width: 100%;
+    transform-origin: left center;
+  }
+  .hero__line--right {
+    top: auto;
+    bottom: calc(var(--space-6) + 70px + 10px);
+    right: -60%;
+    width: 100%;
+    transform-origin: right center;
+  }
 }
 
 /* ============================================================
