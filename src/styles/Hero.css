@@ -189,6 +189,31 @@ body.lead-modal-open .hero__chat-label {
 }
 
 /* ============================================================
+   RED LINE
+   ============================================================ */
+.hero__red-line {
+  position: absolute;
+  left: 0;
+  bottom: calc(var(--space-20) + 230px);
+  z-index: 3;
+  height: 3px;
+  width: calc(55% + 20px);
+  background: #e8000d;
+  transform-origin: left center;
+  animation: red-line-slide 0.7s cubic-bezier(0.22, 1, 0.36, 1) 0.6s both;
+}
+@keyframes red-line-slide {
+  from {
+    transform: scaleX(0);
+    opacity: 0;
+  }
+  to {
+    transform: scaleX(1);
+    opacity: 1;
+  }
+}
+
+/* ============================================================
    MOBILE
    ============================================================ */
 @media (max-width: 768px) {
@@ -210,6 +235,11 @@ body.lead-modal-open .hero__chat-label {
     color: var(--color-white);
     margin: 0;
     z-index: 2;
+  }
+  .hero__red-line {
+    width: 50%;
+    bottom: auto;
+    top: calc(var(--nav-height) + var(--space-16) + 75px);
   }
 }
 
