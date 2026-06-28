@@ -5,9 +5,7 @@ const CARD_W_DESKTOP = 220
 const CARD_W_MOBILE  = 180
 const PEEK_DESKTOP   = Math.round(CARD_W_DESKTOP * 0.38)
 const PEEK_MOBILE    = Math.round(CARD_W_MOBILE  * 0.38)
-const TOTAL_CARDS    = 16
 const CARDS_PER_PAGE = 8
-const TOTAL_PAGES    = Math.ceil(TOTAL_CARDS / CARDS_PER_PAGE)
 
 // ── Audio ─────────────────────────────────────────────────────────────────────
 
@@ -65,13 +63,15 @@ function playCardSound() {
 // ── Data ──────────────────────────────────────────────────────────────────────
 
 const influencers = [
-  { id: 1,  label: 'Pauliina', img: '/vaikuttaja_pauliina.avif' },
-  { id: 2,  label: 'Anniina',  img: '/vaikuttaja_anniina.avif' },
-  { id: 3,  label: 'Santeri',  img: '/vaikuttaja_santeri.avif' },
-  { id: 4,  label: 'Veera',    img: '/vaikuttaja_veera.avif' },
-  { id: 5,  label: 'Riku',     img: '/vaikuttaja_riku.avif' },
-  ...Array.from({ length: 11 }, (_, i) => ({ id: i + 6, label: null, img: null })),
+  { id: 1, label: 'Pauliina', img: '/vaikuttaja_pauliina.avif' },
+  { id: 2, label: 'Anniina',  img: '/vaikuttaja_anniina.avif' },
+  { id: 3, label: 'Santeri',  img: '/vaikuttaja_santeri.avif' },
+  { id: 4, label: 'Veera',    img: '/vaikuttaja_veera.avif' },
+  { id: 5, label: 'Riku',     img: '/vaikuttaja_riku.avif' },
 ]
+
+const TOTAL_CARDS = influencers.length
+const TOTAL_PAGES = Math.ceil(TOTAL_CARDS / CARDS_PER_PAGE)
 
 // ── Arrow button ───────────────────────────────────────────────────────────────
 
