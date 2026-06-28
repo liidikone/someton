@@ -62,9 +62,10 @@
   line-height: var(--leading-relaxed);
   margin-bottom: var(--space-10);
   text-align: center;
-  background: #000;
-  width: fit-content;
-  padding: 0.1em 0.35em;
+  position: absolute;
+  left: 50%;
+  transform: translateX(-50%);
+  white-space: nowrap;
 }
 
 .hero__title-on {
