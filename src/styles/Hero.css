@@ -194,6 +194,16 @@ body.lead-modal-open .hero__chat-label {
 .hero__line {
   display: none;
 }
+.hero__line--left {
+  display: none;
+}
+.hero__line--right {
+  display: none;
+}
+@keyframes red-line-slide {
+  from { transform: scaleX(0); opacity: 0; }
+  to   { transform: scaleX(1); opacity: 1; }
+}
 
 /* ============================================================
    MOBILE
