@@ -24,8 +24,6 @@
   display: none;
 }
 
-
-
 .hero__content {
   position: relative;
   z-index: 1;
@@ -66,7 +64,7 @@
 
 .hero__lead--mobile { display: none; }
 
-
+.hero__title-on {
   color: #00ff88;
 }
 
@@ -172,8 +170,6 @@ body.lead-modal-open .hero__chat-label {
     text-align: right;
     white-space: nowrap;
   }
-
-  /* Kun evästebanneri on auki: siirrä chat-label ja widget sen yläpuolelle */
   body.cookie-banner-open .hero__chat-label {
     opacity: 0;
     pointer-events: none;
@@ -200,11 +196,8 @@ body.lead-modal-open .hero__chat-label {
     background-size: cover;
     background-position: calc(50% + 250px) center;
   }
-}
-
-@media (max-width: 768px) {
   .hero__title { font-size: clamp(5.5rem, 24vw, 9rem); }
-  .hero__content { padding-inline: var(--space-6); padding-top: calc(var(--nav-height) + var(--space-10)); }
+  .hero__content { padding-inline: var(--space-6); }
   .hero__lead--pc { display: none; }
   .hero__lead--mobile {
     display: block;
