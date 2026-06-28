@@ -14,23 +14,24 @@
   position: absolute;
   inset: 0;
   z-index: 0;
+  background-color: #000;
   background-image: url('/hero-bg.avif');
-  background-size: cover;
+  background-size: contain;
   background-repeat: no-repeat;
-  background-position: center top;
+  background-position: center;
 }
 .hero__bg img {
   display: none;
 }
 
-/* Vasen + oikea musta fade yhdessä pseudo-elementissä */
+/* Vasen + oikea musta — peittää contain-kuvan tyhjät reunat */
 .hero__bg::before {
   content: '';
   position: absolute;
   inset: 0;
   background:
-    linear-gradient(to right, #000000 0%, transparent 18%),
-    linear-gradient(to left,  #000000 0%, transparent 18%);
+    linear-gradient(to right, #000000 0%, #000000 6%, transparent 22%),
+    linear-gradient(to left,  #000000 0%, #000000 6%, transparent 22%);
   z-index: 1;
   pointer-events: none;
 }
