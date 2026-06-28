@@ -2,17 +2,17 @@ import { useState } from 'react'
 import '../styles/Tiimi.css'
 
 const teamMembers = [
-  { id: 1, tag: 'FOUNDER',          name: 'Santeri Koskinen', img: '/santeri.avif', phone: '+358 50 123 1234', email: 'santeri@palceholder.com' },
-  { id: 2, tag: 'CO-FOUNDER',       name: 'Jani Karkulahti',  img: '/jani.avif',    phone: '+358 40 123 1234', email: 'jani@placeholder.com' },
-  { id: 3, tag: 'ASIAKASPÄÄLLIKKÖ', name: 'Placeholder', email: 'kasvu@placeholder.com' },
-  { id: 4, tag: 'ASIAKASPÄÄLLIKKÖ', name: 'Placeholder', email: 'kasvu@placeholder.com' },
+  { id: 1, tag: 'FOUNDER',          name: 'Santeri Koskinen', img: '/santeri.avif', phone: '+358 50 409 1209', email: 'on@someton.net' },
+  { id: 2, tag: 'CO-FOUNDER',       name: 'Jani Karkulahti',  img: '/jani.avif',    phone: '+358 40 578 7376', email: 'on@someton.net' },
+  { id: 3, tag: 'ASIAKASPÄÄLLIKKÖ', name: 'Riku Peltomaa',    img: '/riku.avif',    email: 'on@someton.net' },
+  // { id: 4, tag: 'ASIAKASPÄÄLLIKKÖ', name: 'Placeholder', email: 'kasvu@placeholder.com' },
 ]
 
 const influencers = [
-  { id: 1, tag: 'VAIKUTTAJA', name: 'Henkilö X', email: 'vaikuttaja@someton.com' },
-  { id: 2, tag: 'VAIKUTTAJA', name: 'Henkilö X', email: 'vaikuttaja@someton.com' },
-  { id: 3, tag: 'VAIKUTTAJA', name: 'Henkilö X', email: 'vaikuttaja@someton.com' },
-  { id: 4, tag: 'VAIKUTTAJA', name: 'Henkilö X', email: 'vaikuttaja@someton.com' },
+  { id: 1, tag: 'VAIKUTTAJA', name: 'Anniina Mäkelä',  img: '/anniina.avif',  email: 'on@someton.net' },
+  { id: 2, tag: 'VAIKUTTAJA', name: 'Pauliina Mäkelä', img: '/pauliina.avif', email: 'on@someton.net' },
+  // { id: 3, tag: 'VAIKUTTAJA', name: 'Henkilö X', email: 'vaikuttaja@someton.com' },
+  // { id: 4, tag: 'VAIKUTTAJA', name: 'Henkilö X', email: 'vaikuttaja@someton.com' },
 ]
 
 
