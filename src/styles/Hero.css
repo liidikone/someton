@@ -15,36 +15,34 @@
   inset: 0;
   z-index: 0;
   background-image: url('/hero-bg.avif');
-  background-size: contain;
+  background-size: cover;
   background-repeat: no-repeat;
-  background-position: center;
+  background-position: center top;
 }
 .hero__bg img {
   display: none;
 }
 
-/* Vasen musta fade */
+/* Vasen + oikea musta fade yhdessä pseudo-elementissä */
 .hero__bg::before {
   content: '';
   position: absolute;
   inset: 0;
-  background: linear-gradient(to right,
-    #000000 0%,
-    transparent 22%
-  );
+  background:
+    linear-gradient(to right, #000000 0%, transparent 18%),
+    linear-gradient(to left,  #000000 0%, transparent 18%);
   z-index: 1;
   pointer-events: none;
 }
 
-/* Oikea musta fade */
+/* Ylä + ala fade */
 .hero__bg::after {
   content: '';
   position: absolute;
   inset: 0;
-  background: linear-gradient(to left,
-    #000000 0%,
-    transparent 22%
-  );
+  background:
+    linear-gradient(to bottom, #000000 0%, transparent 12%),
+    linear-gradient(to top,    #000000 0%, transparent 18%);
   z-index: 1;
   pointer-events: none;
 }
