@@ -79,10 +79,11 @@
 .tiimi-page__grid {
   display: grid;
   gap: 2rem;
+  grid-template-columns: 1fr 1fr;
 }
 
-/* Mobiili: team-grid on 2-col (Santeri | Jani, sitten Riku | tyhjä) */
-/* Desktop: team-grid on 3-col (Santeri | Jani | Riku) */
+/* Mobiili: 2-col (Founders 2-col, Riku yksin vasemmalla) */
+/* Desktop: 3-col (Founders + Riku samalla rivillä) */
 .tiimi-page__grid--team {
   grid-template-columns: 1fr 1fr;
 }
@@ -93,19 +94,10 @@
   }
 }
 
-/* Mobiili: vaikuttajat 2-col */
-/* Desktop: vaikuttajat 2-col (omalla rivillään) */
+/* Vaikuttajat: aina 2-col, omalla rivillään */
 .tiimi-page__grid--influencers {
   grid-template-columns: 1fr 1fr;
 }
-
-/* Jos tulevaisuudessa lisätään 4 vaikuttajaa, desktop voi olla 4-col:
-@media (min-width: 769px) {
-  .tiimi-page__grid--influencers {
-    grid-template-columns: repeat(4, 1fr);
-  }
-}
-*/
 
 /* ============================================================
    MEMBER CARD
@@ -304,6 +296,10 @@
   }
   .tiimi-page__inner {
     gap: 2rem;
+  }
+  .tiimi-page__grid--all {
+    grid-template-columns: 1fr 1fr;
+    gap: 1.25rem;
   }
   .tiimi-page__grid--hidden-mobile {
     display: none;
