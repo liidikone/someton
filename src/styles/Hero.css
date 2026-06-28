@@ -64,7 +64,10 @@
   text-align: right;
 }
 
-.hero__title-on {
+.hero__lead--mobile { display: none; }
+.hero__lead--desktop { display: block; }
+
+
   color: #00ff88;
 }
 
