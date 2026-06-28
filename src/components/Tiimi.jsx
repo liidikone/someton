@@ -11,7 +11,7 @@ const teamMembers = [
 const influencers = [
   { id: 1, tag: 'VAIKUTTAJA', name: 'Anniina Mäkelä',  img: '/anniina.avif',  email: 'on@someton.net' },
   { id: 2, tag: 'VAIKUTTAJA', name: 'Pauliina Mäkelä', img: '/pauliina.avif', email: 'on@someton.net' },
-  // { id: 3, tag: 'VAIKUTTAJA', name: 'Henkilö X', email: 'vaikuttaja@someton.com' },
+  { id: 3, tag: 'VAIKUTTAJA', name: 'Veera Turunen',   img: '/veera.avif',    email: 'on@someton.net' },
   // { id: 4, tag: 'VAIKUTTAJA', name: 'Henkilö X', email: 'vaikuttaja@someton.com' },
 ]
 
