@@ -64,9 +64,6 @@
   text-align: right;
 }
 
-.hero__lead--mobile { display: none; }
-.hero__lead--desktop { display: block; }
-
 
   color: #00ff88;
 }
@@ -208,10 +205,7 @@ body.lead-modal-open .hero__chat-label {
   .hero__content { padding-inline: var(--space-6); padding-top: calc(var(--nav-height) + var(--space-10)); }
   .hero__lead {
     font-size: clamp(var(--text-base), 4vw, var(--text-xl));
-    text-align: left;
-    position: absolute;
-    top: calc(var(--nav-height) + var(--space-4));
-    left: var(--space-6);
+    text-align: right;
     margin-bottom: 0;
   }
 }
