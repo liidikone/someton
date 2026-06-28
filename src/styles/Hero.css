@@ -229,6 +229,13 @@ body.lead-modal-open .hero__chat-label {
     z-index: 2;
   }
   /* viivat referenssipalkin päälle, 40% vasemmalta näkyviin */
+  .hero__line--left,
+  .hero__line--right {
+    display: block;
+    position: absolute;
+    height: 2px;
+    background: #e74c3c;
+  }
   .hero__line--left {
     top: auto;
     bottom: calc(var(--space-6) + 70px + 10px);
