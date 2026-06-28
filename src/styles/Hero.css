@@ -58,12 +58,12 @@
   font-size: clamp(var(--text-2xl), 3.85vw, var(--text-5xl));
   font-weight: var(--font-light);
   color: var(--color-white);
-  max-width: 770px;
   line-height: var(--leading-relaxed);
   margin-bottom: var(--space-10);
-  text-align: center;
+  text-align: right;
+  display: inline-block;
   background: #000;
-  padding: 0.15em 0.4em;
+  padding: 0.1em 0.35em;
 }
 
 .hero__title-on {
