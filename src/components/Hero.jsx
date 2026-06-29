@@ -72,7 +72,7 @@ export default function Hero() {
     '/referenssit/flyers_500px.avif',
     '/referenssit/ilona_tampere_500px.avif',
     '/referenssit/renkaatalle_500px.avif',
-    '/referenssit/suomen_terassilasitus_500px.avif',
+    '/referenssit/terassitehdas_500px.avif',
     '/referenssit/synabs_500px.avif',
   ]
 
