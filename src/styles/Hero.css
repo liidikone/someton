@@ -95,6 +95,7 @@
   height: 2px;
   background: #e8000d;
   transform-origin: left center;
+  z-index: -1;
   animation: red-line-slide 0.7s cubic-bezier(0.22, 1, 0.36, 1) 0.6s both;
 }
 
