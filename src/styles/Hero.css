@@ -72,18 +72,29 @@
   position: absolute;
   left: 0;
   right: 0;
-  bottom: calc(var(--space-8) + 110px);
+  bottom: calc(var(--space-8) + 125px);
   z-index: 1;
   width: auto;
   max-width: none;
   margin: 0;
   text-align: center;
   white-space: nowrap;
-  text-decoration: underline;
-  text-decoration-color: #e8000d;
-  text-underline-offset: 10px;
-  text-decoration-thickness: 2px;
   pointer-events: none;
+}
+.hero__lead-text {
+  position: relative;
+  display: inline-block;
+}
+.hero__lead-text::after {
+  content: '';
+  position: absolute;
+  left: 0;
+  right: 0;
+  bottom: -10px;
+  height: 2px;
+  background: #e8000d;
+  transform-origin: left center;
+  animation: red-line-slide 0.7s cubic-bezier(0.22, 1, 0.36, 1) 0.6s both;
 }
 
 .hero__title-on {
