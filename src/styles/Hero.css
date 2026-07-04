@@ -34,6 +34,7 @@
   padding-top: calc(var(--nav-height) + var(--space-16));
   margin-left: auto;
   margin-right: 0;
+  margin-bottom: 90px;
   text-align: right;
 }
 
@@ -71,7 +72,7 @@
   position: absolute;
   left: 0;
   right: 0;
-  bottom: calc(var(--space-8) + 210px);
+  bottom: calc(var(--space-8) + 110px);
   z-index: 1;
   width: auto;
   max-width: none;
