@@ -94,7 +94,7 @@ export default function Hero() {
         </h1>
       </div>
 
-      <p className="hero__lead hero__lead--pc"><span className="hero__lead-text">Muuta näyttökerrat rahaksi</span></p>
+      <p className="hero__lead hero__lead--pc">Muuta näyttökerrat rahaksi</p>
       <p className="hero__lead hero__lead--mobile">Muuta näyttökerrat rahaksi</p>
 
       <div className="hero__line hero__line--left" aria-hidden="true" />
