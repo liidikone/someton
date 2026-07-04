@@ -156,15 +156,15 @@ html {
   background: var(--hero-bg);
 }
 
-/* Desktop-only 115% zoom. Mobile (<=768px) stays 100% untouched. */
+/* Desktop-only 125% zoom. Mobile (<=768px) stays 100% untouched. */
 @media (min-width: 769px) {
   html {
-    zoom: 1.15;
+    zoom: 1.25;
   }
 
   /* Hero must stay untouched by the zoom above — cancel it out locally. */
   .hero {
-    zoom: 0.869565; /* 1 / 1.15 */
+    zoom: 0.8; /* 1 / 1.25 */
   }
 }
 
