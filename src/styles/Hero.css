@@ -84,13 +84,14 @@
 .hero__lead-text {
   position: relative;
   display: inline-block;
+  line-height: 1;
 }
 .hero__lead-text::after {
   content: '';
   position: absolute;
   left: 0;
   right: 0;
-  bottom: -10px;
+  bottom: -8px;
   height: 2px;
   background: #e8000d;
   transform-origin: left center;
