@@ -156,15 +156,20 @@ html {
   background: var(--hero-bg);
 }
 
-/* Desktop-only 125% zoom. Mobile (<=768px) stays 100% untouched. */
+/* Desktop-only 145% zoom. Mobile (<=768px) stays 100% untouched. */
 @media (min-width: 769px) {
   html {
-    zoom: 1.25;
+    zoom: 1.45;
   }
 
   /* Hero must stay untouched by the zoom above — cancel it out locally. */
   .hero {
-    zoom: 0.8; /* 1 / 1.25 */
+    zoom: 0.689655; /* 1 / 1.45 */
+  }
+
+  /* AI agent (Synabs) widget button/panel must stay untouched too. */
+  [data-synabs-widget-slug] {
+    zoom: 0.689655; /* 1 / 1.45 */
   }
 }
 
