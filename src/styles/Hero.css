@@ -64,6 +64,20 @@
 
 .hero__lead--mobile { display: none; }
 
+.hero__lead--pc {
+  position: relative;
+  left: 50%;
+  transform: translateX(-50%);
+  width: 100vw;
+  max-width: 100vw;
+  text-align: center;
+  white-space: nowrap;
+  text-decoration: underline;
+  text-decoration-color: #e8000d;
+  text-decoration-thickness: 2px;
+  text-underline-offset: 0.18em;
+}
+
 .hero__title-on {
   color: #00ff88;
 }
