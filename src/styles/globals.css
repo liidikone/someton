@@ -171,6 +171,11 @@ html {
   [data-synabs-widget-slug] {
     zoom: 0.689655; /* 1 / 1.45 */
   }
+
+  /* Navbar gets its own 1.15x zoom instead of following the global 1.45x. */
+  .navbar {
+    zoom: 0.793103; /* 1.15 / 1.45 */
+  }
 }
 
 body {
