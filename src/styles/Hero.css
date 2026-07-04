@@ -65,11 +65,9 @@
 .hero__lead--mobile { display: none; }
 
 .hero__lead--pc {
-  position: relative;
-  left: 50%;
-  transform: translateX(-50%);
   width: 100vw;
   max-width: 100vw;
+  margin-left: calc(100% - 100vw); /* compensates hero__content being flush-right, not centered */
   text-align: center;
   white-space: nowrap;
   text-decoration: underline;
