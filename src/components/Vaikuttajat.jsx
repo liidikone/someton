@@ -65,7 +65,6 @@ function playCardSound() {
 const influencers = [
   { id: 1, label: 'Pauliina', img: '/vaikuttaja_pauliina.avif' },
   { id: 2, label: 'Anniina',  img: '/vaikuttaja_anniina.avif' },
-  { id: 3, label: 'Santeri',  img: '/vaikuttaja_santeri.avif' },
   { id: 4, label: 'Veera',    img: '/vaikuttaja_veera.avif' },
   { id: 5, label: 'Riku',     img: '/vaikuttaja_riku.avif' },
 ]
