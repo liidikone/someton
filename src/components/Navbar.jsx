@@ -91,7 +91,7 @@ export default function Navbar() {
         <div className="hero__call-overlay" onClick={() => setCallOpen(false)}>
           <div className="hero__call-box" onClick={e => e.stopPropagation()}>
             <p className="hero__call-label">Soita meille</p>
-            <a href="tel:0504091209" className="hero__call-number">050 409 1209</a>
+            <a href="tel:0405787376" className="hero__call-number">040 578 7376</a>
             <button className="hero__call-close" onClick={() => setCallOpen(false)}>✕</button>
           </div>
         </div>
