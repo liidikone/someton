@@ -85,7 +85,6 @@ export default function Hero() {
         <video
           className="hero__bg-video"
           src="/hero_video.mp4"
-          poster="/hero-bg.png"
           autoPlay
           muted
           loop
