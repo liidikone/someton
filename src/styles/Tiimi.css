@@ -122,11 +122,6 @@
   gap: 0.75rem;
 }
 
-.tm-card--spacer {
-  visibility: hidden;
-  pointer-events: none;
-}
-
 .tm-avatar {
   width: 80px;
   height: 80px;
