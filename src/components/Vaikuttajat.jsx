@@ -63,10 +63,13 @@ function playCardSound() {
 // ── Data ──────────────────────────────────────────────────────────────────────
 
 const influencers = [
-  { id: 1, label: 'Pauliina', img: '/vaikuttaja_pauliina.avif' },
-  { id: 2, label: 'Anniina',  img: '/vaikuttaja_anniina.avif' },
-  { id: 4, label: 'Veera',    img: '/vaikuttaja_veera.avif' },
-  { id: 5, label: 'Riku',     img: '/vaikuttaja_riku.avif' },
+  { id: 1, label: 'Meeri',    img: '/vaikuttaja_meeri.avif' },
+  { id: 2, label: 'Pauliina', img: '/vaikuttaja_pauliina.avif' },
+  { id: 3, label: 'Anniina',  img: '/vaikuttaja_anniina.avif' },
+  { id: 4, label: 'Santeri',  img: '/vaikuttaja_santeri.avif' },
+  { id: 5, label: 'Veera',    img: '/vaikuttaja_veera.avif' },
+  { id: 6, label: 'Aada',     img: '/vaikuttaja_aada.avif' },
+  { id: 6, label: 'Riku',     img: '/vaikuttaja_riku.avif' },
 ]
 
 const TOTAL_CARDS = influencers.length
