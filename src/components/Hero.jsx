@@ -2,7 +2,7 @@
 import { useEffect, useRef, useState } from 'react'
 import '../styles/Hero.css'
 
-const BG_VIDEO_LOOP_SECONDS = 30
+const BG_VIDEO_LOOP_SECONDS = 31
 
 export default function Hero() {
   const [chatOpen, setChatOpen] = useState(false)
