@@ -218,7 +218,7 @@ body.lead-modal-open .hero__chat-label {
    ============================================================ */
 @media (max-width: 768px) {
   .hero__bg-video {
-    object-position: calc(50% + 245px) center;
+    object-position: calc(50% + 195px) center;
   }
   .hero__title { font-size: clamp(5.5rem, 24vw, 9rem); }
   .hero__content { padding-inline: var(--space-6); }
