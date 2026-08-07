@@ -15,13 +15,7 @@
   inset: 0;
   z-index: 0;
   background-color: #000;
-  background-image: url('/hero-bg.png');
-  background-size: contain;
-  background-repeat: no-repeat;
-  background-position: center calc(50% + 25px);
-}
-.hero__bg img {
-  display: none;
+  overflow: hidden;
 }
 .hero__bg-video {
   position: absolute;
@@ -31,10 +25,6 @@
   object-fit: cover;
   object-position: center;
   z-index: 0;
-}
-/* kun video on ladattu ja pyörii, piilotetaan staattinen taustakuva sen alta */
-.hero__bg.has-video {
-  background-image: none;
 }
 
 .hero__content {
@@ -257,9 +247,8 @@ body.lead-modal-open .hero__chat-label {
    MOBILE
    ============================================================ */
 @media (max-width: 768px) {
-  .hero__bg {
-    background-size: cover;
-    background-position: calc(50% + 245px) center;
+  .hero__bg-video {
+    object-position: calc(50% + 245px) center;
   }
   .hero__title { font-size: clamp(5.5rem, 24vw, 9rem); }
   .hero__content { padding-inline: var(--space-6); }
