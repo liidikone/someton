@@ -1,9 +1,25 @@
 "use client"
-import { useEffect, useState } from 'react'
+import { useEffect, useRef, useState } from 'react'
 import '../styles/Hero.css'
+
+const BG_VIDEO_LOOP_SECONDS = 24
 
 export default function Hero() {
   const [chatOpen, setChatOpen] = useState(false)
+  const bgVideoRef = useRef(null)
+
+  useEffect(() => {
+    const video = bgVideoRef.current
+    if (!video) return
+    function handleTimeUpdate() {
+      if (video.currentTime >= BG_VIDEO_LOOP_SECONDS) {
+        video.currentTime = 0
+        video.play().catch(() => {})
+      }
+    }
+    video.addEventListener('timeupdate', handleTimeUpdate)
+    return () => video.removeEventListener('timeupdate', handleTimeUpdate)
+  }, [])
 
   useEffect(() => {
     function loadSynabsWidget() {
@@ -81,10 +97,11 @@ export default function Hero() {
 
   return (
     <section className="hero" id="hero">
-      <div className="hero__bg has-video" aria-hidden="true">
+      <div className="hero__bg" aria-hidden="true">
         <video
+          ref={bgVideoRef}
           className="hero__bg-video"
-          src="public/hero_video.mp4"
+          src="/hero_video.mp4"
           autoPlay
           muted
           loop
