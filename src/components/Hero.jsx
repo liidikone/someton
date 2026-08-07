@@ -122,9 +122,6 @@ export default function Hero() {
       <p className="hero__lead hero__lead--pc"><span className="hero__lead-text">Muuta näyttökerrat rahaksi</span></p>
       <p className="hero__lead hero__lead--mobile">Muuta näyttökerrat rahaksi</p>
 
-      <div className="hero__line hero__line--left" aria-hidden="true" />
-      <div className="hero__line hero__line--right" aria-hidden="true" />
-
       <div className="hero__ref-wheel" aria-hidden="true">
         <div className="hero__ref-track">
           {trackLogos.map((src, i) => (
