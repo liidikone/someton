@@ -81,8 +81,17 @@ export default function Hero() {
 
   return (
     <section className="hero" id="hero">
-      <div className="hero__bg" aria-hidden="true">
-        <img src="/hero-bg.png" alt="" loading="eager" fetchPriority="high" />
+      <div className="hero__bg has-video" aria-hidden="true">
+        <video
+          className="hero__bg-video"
+          src="/hero_video.mp4"
+          poster="/hero-bg.png"
+          autoPlay
+          muted
+          loop
+          playsInline
+          preload="auto"
+        />
         <div className="hero__bg-fade hero__bg-fade--left" />
         <div className="hero__bg-fade hero__bg-fade--right" />
       </div>
