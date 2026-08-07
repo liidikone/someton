@@ -4,8 +4,8 @@ import '../styles/Tiimi.css'
 const teamMembers = [
   { id: 1, tag: 'FOUNDER',          name: 'Santeri Koskinen', img: '/santeri.avif', phone: '+358 50 409 1209', email: 'on@someton.net' },
   { id: 2, tag: 'CO-FOUNDER',       name: 'Jani Karkulahti',  img: '/jani.avif',    phone: '+358 40 578 7376', email: 'on@someton.net' },
-  { id: 3, tag: 'ASIAKASPÄÄLLIKKÖ', name: 'Riku Peltomaa',    img: '/riku.avif',    email: 'on@someton.net' },
-  { id: 4, tag: 'ASIAKASPÄÄLLIKKÖ', name: 'Jenni Peltomaa',   img: '/jenni.avif',   email: 'jenni@someton.net' },
+  { id: 3, tag: 'ASIAKKUUSPÄÄLLIKKÖ', name: 'Jenni Peltomaa',   img: '/jenni.avif',   email: 'jenni@someton.net' },
+  { id: 4, tag: 'ASIAKKUUSPÄÄLLIKKÖ', name: 'Riku Peltomaa',    img: '/riku.avif',    email: 'on@someton.net' },
 ]
 
 const influencers = [
