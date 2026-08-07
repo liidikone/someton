@@ -69,7 +69,7 @@ const influencers = [
   { id: 4, label: 'Santeri',  img: '/vaikuttaja_santeri.avif' },
   { id: 5, label: 'Veera',    img: '/vaikuttaja_veera.avif' },
   { id: 6, label: 'Aada',     img: '/vaikuttaja_aada.avif' },
-  { id: 6, label: 'Riku',     img: '/vaikuttaja_riku.avif' },
+  { id: 7, label: 'Riku',     img: '/vaikuttaja_riku.avif' },
 ]
 
 const TOTAL_CARDS = influencers.length
