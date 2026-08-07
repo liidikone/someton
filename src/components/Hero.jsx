@@ -101,7 +101,7 @@ export default function Hero() {
         <video
           ref={bgVideoRef}
           className="hero__bg-video"
-          src="/hero_video"
+          src="/hero_video.mp4"
           autoPlay
           muted
           loop
