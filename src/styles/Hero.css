@@ -23,6 +23,19 @@
 .hero__bg img {
   display: none;
 }
+.hero__bg-video {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  object-position: center;
+  z-index: 0;
+}
+/* kun video on ladattu ja pyörii, piilotetaan staattinen taustakuva sen alta */
+.hero__bg.has-video {
+  background-image: none;
+}
 
 .hero__content {
   position: relative;
